@@ -1,16 +1,24 @@
-## Hi there 👋
+# Riccardo Buzzolan — Portfolio personale
 
-<!--
-**riccardobuzzolan/riccardobuzzolan** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+Sito statico pubblicato con GitHub Pages.
 
-Here are some ideas to get you started:
+## Configurazione GitHub Pages
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+- Source: `Deploy from a branch`
+- Branch: `main`
+- Folder: `/(root)`
+
+## File principali
+
+- `index.html`: interfaccia e metadati SEO
+- `assets/css/style.css`: stile completo
+- `assets/js/main.js`: interazioni
+- `assets/images/`: immagini
+- `assets/icons/`: favicon e icone
+- `sitemap.xml`: URL indicizzabili
+- `robots.txt`: regole per i crawler
+- `site.webmanifest`: manifest del sito
+- `404.html`: pagina di errore
+
+Il tag di verifica Google Search Console deve restare dentro
+`<head>` nel file `index.html`.
