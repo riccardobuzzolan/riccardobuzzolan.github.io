@@ -1,24 +1,14 @@
-# Riccardo Buzzolan — Portfolio personale
+# RB Workspace
 
-Sito statico pubblicato con GitHub Pages.
+Portfolio statico di Riccardo Buzzolan. HTML, CSS e JavaScript nativi; nessuna compilazione necessaria. GitHub Pages: branch main, cartella radice.
 
-## Configurazione GitHub Pages
+## Struttura
 
-- Source: `Deploy from a branch`
-- Branch: `main`
-- Folder: `/(root)`
+- index.html: contenuti e SEO
+- assets/css/style.css: stili responsive e temi
+- assets/js/main.js: finestre, ricerca, contatti e Canvas
+- 404.html, robots.txt, sitemap.xml, site.webmanifest: navigazione e distribuzione
 
-## File principali
+Per provarlo: `python -m http.server 8000`, quindi aprire http://localhost:8000.
 
-- `index.html`: interfaccia e metadati SEO
-- `assets/css/style.css`: stile completo
-- `assets/js/main.js`: interazioni
-- `assets/images/`: immagini
-- `assets/icons/`: favicon e icone
-- `sitemap.xml`: URL indicizzabili
-- `robots.txt`: regole per i crawler
-- `site.webmanifest`: manifest del sito
-- `404.html`: pagina di errore
-
-Il tag di verifica Google Search Console deve restare dentro
-`<head>` nel file `index.html`.
+Gli embed Figma, Substack e Notion si caricano su richiesta. Le richieste di lezione aprono WhatsApp o email, senza backend e senza invio automatico.

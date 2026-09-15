@@ -1,12 +1,12 @@
 {
-  "name": "Riccardo Buzzolan | Portfolio personale",
-  "short_name": "RB Portfolio",
+  "name": "Riccardo Buzzolan | RB Workspace",
+  "short_name": "RB Workspace",
   "description": "Progetti digitali, articoli, tesi e ricerca applicata.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#0b1020",
-  "theme_color": "#0b1020",
+  "background_color": "#eae9e2",
+  "theme_color": "#242923",
   "lang": "it-IT",
   "icons": [
     {
