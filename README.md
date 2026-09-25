@@ -11,4 +11,4 @@ Portfolio statico di Riccardo Buzzolan. HTML, CSS e JavaScript nativi; nessuna c
 
 Per provarlo: `python -m http.server 8000`, quindi aprire http://localhost:8000.
 
-Gli embed Figma, Substack e Notion si caricano su richiesta. Le richieste di lezione aprono WhatsApp o email, senza backend e senza invio automatico.
+Gli embed Figma, Substack e Notion si caricano su richiesta. Le richieste di lezione aprono il programma email, senza backend e senza invio automatico.

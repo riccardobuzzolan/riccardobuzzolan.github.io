@@ -1,0 +1,19 @@
+{
+  "name": "rb-workspace",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint assets/js/main.js",
+    "check:links": "linkinator index.html --recurse --skip '^(mailto:|https://www.linkedin.com)'",
+    "test": "npm run format:check && npm run lint"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "eslint": "^9.36.0",
+    "globals": "^16.4.0",
+    "linkinator": "^7.5.0",
+    "prettier": "^3.6.2"
+  }
+}
