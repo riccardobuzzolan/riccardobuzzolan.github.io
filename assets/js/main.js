@@ -237,27 +237,11 @@
     );
   });
   mobile.addEventListener("change", closeMenu);
-  const theme = $("#theme-toggle");
-  function applyTheme(dark) {
-    document.documentElement.dataset.theme = dark ? "dark" : "light";
-    const label = dark ? "Attiva tema chiaro" : "Attiva tema scuro";
-    theme.setAttribute("aria-label", label);
-    theme.title = label;
-    theme.setAttribute("aria-pressed", String(dark));
-    document.dispatchEvent(new Event("workspace-theme"));
-  }
-  let saved = null;
+  document.documentElement.dataset.theme = "light";
   try {
-    saved = localStorage.getItem("rb-workspace-theme");
+    localStorage.removeItem("rb-workspace-theme");
   } catch {}
-  applyTheme(saved === "dark");
-  theme.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme !== "dark";
-    applyTheme(dark);
-    try {
-      localStorage.setItem("rb-workspace-theme", dark ? "dark" : "light");
-    } catch {}
-  });
+  document.dispatchEvent(new Event("workspace-theme"));
   const searchDialog = $("#search-dialog"),
     search = $("#global-search");
   const normalize = (s) =>
