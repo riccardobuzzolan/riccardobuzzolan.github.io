@@ -14,20 +14,6 @@
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
 }
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #1b201c;
-  --paper: #252b25;
-  --white: #2c322b;
-  --ink: #eeeee4;
-  --muted: #b4bbaf;
-  --line: #4d554b;
-  --accent: #ffad79;
-  --soft: #46392d;
-  --bar: #141914;
-  --bar-text: #eeeee4;
-  --shadow: 0 18px 50px #0005;
-}
 * {
   box-sizing: border-box;
 }
