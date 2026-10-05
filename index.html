@@ -155,6 +155,144 @@ a:focus-visible,button:focus-visible{outline:3px solid rgba(232,115,42,.4);outli
   .hero-video{display:block}
 }
 </style>
+
+<style id="modern-v6">
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap');
+:root{
+  --paper:#f5f4f0;
+  --white:#ffffff;
+  --ink:#11110f;
+  --muted:#68655f;
+  --line:#d7d3cb;
+  --orange:#e8732a;
+  --orange-dark:#b74f14;
+  --max:1240px;
+  --display:"Inter Tight",Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+body{background:var(--paper);font-family:var(--display);letter-spacing:-.008em}
+.nav{height:72px;background:var(--paper);border-bottom:1px solid var(--line);padding-inline:clamp(20px,3.6vw,56px)}
+.brand{font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:-.025em}
+.nav-links{gap:30px}
+.nav-links a{font-size:12px;font-weight:500;letter-spacing:.01em;color:#2d2c29;position:relative;border:0;padding:4px 0}
+.nav-links a:not(.nav-contact)::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:currentColor;transition:right .25s var(--ease)}
+.nav-links a:not(.nav-contact):hover::after{right:0}
+.nav-contact{padding:9px 13px!important;border:1px solid #1a1917!important;transition:background .2s,color .2s}
+.nav-contact:hover{background:#1a1917;color:#fff}
+
+.hero{height:100svh;min-height:720px;display:grid;grid-template-columns:minmax(380px,42%) minmax(0,58%);background:var(--paper);overflow:hidden;padding-top:72px}
+.hero-video{position:relative;inset:auto;grid-column:2;grid-row:1;width:100%;height:calc(100svh - 72px);min-height:648px;object-fit:cover;object-position:center center;filter:saturate(.92) contrast(1.03) brightness(.98);background:#1d2421}
+.hero-copy{position:relative;left:auto;bottom:auto;grid-column:1;grid-row:1;align-self:stretch;width:auto;max-width:none;padding:clamp(44px,6.5vw,96px) clamp(28px,4.4vw,72px) clamp(40px,5vw,72px);background:transparent;border:0;display:flex;flex-direction:column;justify-content:flex-end}
+.hero-copy::before{content:"Riccardo Buzzolan";display:block;margin-bottom:auto;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#77736d}
+.hero h1{font-family:var(--display);font-size:clamp(58px,6.7vw,108px);font-weight:500;line-height:.86;letter-spacing:-.07em;max-width:8.4ch;text-wrap:balance}
+.hero p{margin-top:28px;max-width:44ch;font-size:clamp(15px,1.25vw,18px);line-height:1.58;color:#57544f;letter-spacing:-.01em}
+.hero-actions{margin-top:30px;gap:26px}
+.hero-actions a{font-size:13px;font-weight:600;text-decoration:none;position:relative;padding-bottom:5px}
+.hero-actions a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;transform-origin:left;transition:transform .22s var(--ease)}
+.hero-actions a:first-child{color:#2e2c28}.hero-actions a:last-child{color:var(--orange-dark)}
+.hero-actions a:hover::after{transform:scaleX(.55)}
+.scroll-cue{right:24px;bottom:26px;font-size:10px;font-weight:600;letter-spacing:.12em;text-shadow:0 1px 8px rgba(0,0,0,.55)}
+
+.section{border-top:1px solid var(--line);background:var(--paper)}
+.inner{width:min(100%,var(--max));padding:clamp(96px,11vw,154px) clamp(20px,4vw,48px)}
+.section-head{grid-template-columns:minmax(260px,.78fr) minmax(0,1.22fr);gap:clamp(48px,8vw,120px);margin-bottom:64px}
+.section-head h2,.materie-copy h2,.contact h2{font-family:var(--display);font-weight:500;letter-spacing:-.062em}
+.section-head h2{font-size:clamp(50px,6vw,84px);line-height:.9}
+.section-head p{max-width:600px;margin-top:4px;font-size:16px;line-height:1.7;color:var(--muted)}
+
+.materie{min-height:880px;background:#fff}
+.materie .inner{min-height:880px;align-items:center}
+.materie-copy{width:min(650px,51vw);padding-bottom:0}
+.materie-copy h2{font-size:clamp(54px,6.2vw,88px);line-height:.89;max-width:9.5ch;margin-bottom:42px}
+#portraitCanvas{right:-4vw;bottom:-70px;width:min(68vw,930px);height:min(92vh,900px)}
+.subject-lines{border-top:1px solid #1b1b19}
+.subject-line{grid-template-columns:minmax(180px,.65fr) minmax(0,1.35fr);gap:36px;padding:18px 0;transition:padding-left .25s var(--ease)}
+.subject-line:hover{padding-left:8px}
+.subject-line strong{font-size:15px;font-weight:600;letter-spacing:-.02em}
+.subject-line span{font-size:14px;line-height:1.55;color:#66625d}
+
+#metodo{background:#11110f;color:#f3f1eb}
+#metodo .inner{display:grid;grid-template-columns:minmax(270px,.72fr) minmax(0,1.28fr);gap:clamp(52px,8vw,120px)}
+#metodo .section-head{display:block;position:sticky;top:118px;align-self:start;margin:0}
+#metodo .section-head h2{color:#f5f2eb;max-width:7ch}
+#metodo .section-head p{margin-top:26px;color:#aaa59d;max-width:37ch}
+#metodo .method-list{border-top:1px solid #5a5751}
+.method-row{grid-template-columns:64px minmax(200px,.75fr) minmax(0,1.25fr);gap:28px;padding:34px 0;border-bottom:1px solid #383632;transition:transform .25s var(--ease)}
+.method-row:hover{transform:translateX(7px)}
+.method-num{font-family:var(--display);font-size:12px;font-weight:600;letter-spacing:.12em;color:#e8732a;padding-top:4px}
+.method-row h3{font-size:22px;font-weight:500;letter-spacing:-.035em;color:#f4f1ea}
+.method-row p{color:#aaa59d;line-height:1.65}
+
+#tariffe{background:#efede7}
+#tariffe .inner{padding-top:clamp(90px,10vw,140px)}
+.pricing-table{border-top:1px solid #1c1b18}
+.price-row{grid-template-columns:minmax(170px,.65fr) minmax(170px,.48fr) minmax(0,1.45fr);gap:40px;padding:27px 0;border-bottom:1px solid #cbc7bf;transition:padding-left .24s var(--ease)}
+.price-row:hover{padding-left:10px}
+.price-row strong{font-size:15px;font-weight:600}
+.price{font-family:var(--display);font-size:clamp(38px,4vw,54px);font-weight:500;letter-spacing:-.06em;line-height:.9;color:#151412}
+.price-row span:last-child{font-size:14px;line-height:1.55}
+.price-note{margin-top:34px;padding-top:0}
+.price-note p{font-size:14px;line-height:1.6;max-width:650px}
+.cta-link{padding:0 0 5px;border-bottom:1px solid var(--orange);font-size:13px}
+
+#formazione{background:#fff}
+.education-list{border-top:1px solid #1b1b19}
+.edu-row{grid-template-columns:130px minmax(0,1fr) 70px;gap:34px;padding:28px 0;border-bottom:1px solid #ddd9d2;transition:padding-left .22s var(--ease)}
+.edu-row:hover{padding-left:8px}
+.edu-year{font-size:11px;font-weight:600;letter-spacing:.08em;color:#8a867f;padding-top:6px}
+.edu-row h3{font-size:21px;font-weight:500;letter-spacing:-.035em}
+.edu-row p{font-size:14px;line-height:1.6;color:#68645f}
+.edu-row a{font-size:12px;font-weight:600;text-decoration:none;border-bottom:1px solid #aaa59d;justify-self:end}
+
+.contact{background:#e8732a;color:#17130f;border-top:0}
+.contact .inner{padding-top:clamp(96px,12vw,160px);padding-bottom:clamp(96px,12vw,160px)}
+.contact-grid{grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:clamp(50px,8vw,110px)}
+.contact h2{font-size:clamp(62px,8vw,114px);line-height:.84;max-width:8ch;color:#17130f}
+.contact p{max-width:600px;color:#4c2714;font-size:15px;line-height:1.65}
+.contact-links{gap:18px}
+.contact-links a{font-size:17px;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(23,19,15,.45);padding-bottom:5px;color:#17130f!important}
+.footer{background:#11110f;color:#8d8982;border-top:0}
+.footer .inner{padding-top:28px;padding-bottom:28px;font-size:11px;letter-spacing:.02em}
+
+.reveal{transform:translateY(26px);filter:blur(3px);transition:opacity .8s var(--ease),transform .8s var(--ease),filter .8s var(--ease)}
+.reveal.visible{filter:blur(0)}
+
+@media(max-width:900px){
+  .nav{height:64px;padding-inline:18px}.nav-links{gap:12px}.nav-contact{padding:7px 10px!important}
+  .hero{height:auto;min-height:100svh;display:flex;flex-direction:column;padding-top:64px;background:var(--paper)}
+  .hero-video{order:1;width:100%;height:54svh;min-height:350px;grid-column:auto;grid-row:auto;object-position:center top}
+  .hero-copy{order:2;display:block;padding:42px 20px 64px}
+  .hero-copy::before{margin-bottom:34px}
+  .hero h1{font-size:clamp(52px,12vw,78px);max-width:9ch}
+  .hero p{max-width:38ch}
+  .scroll-cue{display:none}
+  .section-head{grid-template-columns:1fr;gap:18px}
+  .materie{min-height:820px}.materie .inner{min-height:820px;align-items:flex-start;padding-top:60px}.materie-copy{width:100%;padding-top:310px}.materie-copy h2{max-width:11ch}
+  #portraitCanvas{width:112vw;height:62vh;right:-26vw;bottom:-30px;opacity:.34}
+  #metodo .inner{display:block}.section#metodo .section-head{position:static;margin-bottom:58px}.section#metodo .section-head h2{max-width:9ch}
+  .method-row{grid-template-columns:48px 1fr}.method-row p{grid-column:2}
+  .price-row{grid-template-columns:1fr auto;gap:8px 20px}.price-row span:last-child{grid-column:1/-1}
+  .edu-row{grid-template-columns:90px 1fr}.edu-row>a{grid-column:2;justify-self:start}
+  .contact-grid{grid-template-columns:1fr;gap:50px}.contact h2{max-width:9ch}
+}
+@media(max-width:620px){
+  .nav-links a:not(.nav-contact){display:none}
+  .hero-video{height:46svh;min-height:300px}
+  .hero-copy{padding:34px 18px 56px}.hero-copy::before{margin-bottom:28px}
+  .hero h1{font-size:clamp(46px,14vw,64px)}
+  .hero-actions{gap:18px;align-items:flex-start;flex-direction:column}
+  .inner{padding-inline:18px;padding-top:76px;padding-bottom:88px}
+  .section-head h2{font-size:clamp(44px,13vw,62px)}
+  .materie{min-height:760px}.materie .inner{min-height:760px;padding-top:42px}.materie-copy{padding-top:245px}.materie-copy h2{font-size:clamp(46px,13vw,64px)}
+  #portraitCanvas{width:140vw;height:56vh;right:-60vw;bottom:-20px;opacity:.25}
+  .subject-line{grid-template-columns:1fr;gap:5px;padding:16px 0}.subject-line:hover,.price-row:hover,.edu-row:hover{padding-left:0}
+  .method-row{padding:26px 0}.method-row:hover{transform:none}
+  .price-row{padding:22px 0}.price{font-size:40px}.price-note{margin-top:26px}
+  .edu-row{grid-template-columns:1fr;gap:7px;padding:24px 0}.edu-row>a{grid-column:1}
+  .contact h2{font-size:clamp(52px,15vw,78px)}
+}
+@media(prefers-reduced-motion:reduce){.subject-line,.method-row,.price-row,.edu-row{transition:none!important}.reveal{filter:none!important}}
+</style>
+
 </head>
 <body>
 <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -172,11 +310,11 @@ a:focus-visible,button:focus-visible{outline:3px solid rgba(232,115,42,.4);outli
   <section class="hero" id="top" aria-labelledby="hero-title">
     <video class="hero-video" src="https://thinkingods.com/demos/kingfisher-hero/hero.mp4" muted playsinline autoplay loop preload="auto" aria-label="Martin pescatore in volo che atterra su un ramo"></video>
     <div class="hero-copy">
-      <h1 id="hero-title">Ripetizioni individuali a Schio e online.</h1>
+      <h1 id="hero-title">Ripetizioni individuali a Schio e online</h1>
       <p>Economia aziendale, diritto, storia e geografia. Lavoriamo sull’argomento che crea difficoltà, con spiegazioni, schemi, esercizi e domande di prova.</p>
       <div class="hero-actions">
-        <a href="#tariffe">Tariffe e durata</a>
-        <a href="https://wa.me/393480396556?text=Ciao%20Riccardo%2C%20vorrei%20informazioni%20sulle%20ripetizioni." target="_blank" rel="noreferrer">Chiedi disponibilità ↗</a>
+        <a href="#tariffe">Vedi le tariffe</a>
+        <a href="https://wa.me/393480396556?text=Ciao%20Riccardo%2C%20vorrei%20informazioni%20sulle%20ripetizioni." target="_blank" rel="noreferrer">Scrivimi su WhatsApp ↗</a>
       </div>
     </div>
     <div class="scroll-cue" aria-hidden="true">Scorri ↓</div>
@@ -200,7 +338,7 @@ a:focus-visible,button:focus-visible{outline:3px solid rgba(232,115,42,.4);outli
   <section class="section" id="metodo" aria-labelledby="metodo-title">
     <div class="inner">
       <div class="section-head reveal">
-        <h2 id="metodo-title">Capire prima di memorizzare.</h2>
+        <h2 id="metodo-title">Capire prima di memorizzare</h2>
         <p>Il metodo cambia in base alla materia, ma la sequenza resta semplice: isolare il punto difficile, ricostruirlo e verificare che tu riesca a usarlo senza seguire un esempio già fatto.</p>
       </div>
       <div class="method-list reveal">
@@ -214,7 +352,7 @@ a:focus-visible,button:focus-visible{outline:3px solid rgba(232,115,42,.4);outli
   <section class="section" id="tariffe" aria-labelledby="tariffe-title">
     <div class="inner">
       <div class="section-head reveal">
-        <h2 id="tariffe-title">Tariffe.</h2>
+        <h2 id="tariffe-title">Tariffe</h2>
         <p>Lezioni individuali, in presenza a Schio oppure online. Prima di fissare la lezione definiamo materia, livello, argomento e obiettivo.</p>
       </div>
       <div class="pricing-table reveal" aria-label="Tariffe ripetizioni">
@@ -225,7 +363,7 @@ a:focus-visible,button:focus-visible{outline:3px solid rgba(232,115,42,.4);outli
       </div>
       <div class="price-note reveal">
         <p>È disponibile una breve chiamata conoscitiva gratuita di 10 minuti per capire cosa devi preparare e scegliere la durata adatta.</p>
-        <a class="cta-link" href="https://wa.me/393480396556?text=Ciao%20Riccardo%2C%20vorrei%20informazioni%20sulle%20ripetizioni." target="_blank" rel="noreferrer">Chiedi disponibilità ↗</a>
+        <a class="cta-link" href="https://wa.me/393480396556?text=Ciao%20Riccardo%2C%20vorrei%20informazioni%20sulle%20ripetizioni." target="_blank" rel="noreferrer">Scrivimi su WhatsApp ↗</a>
       </div>
     </div>
   </section>
@@ -233,7 +371,7 @@ a:focus-visible,button:focus-visible{outline:3px solid rgba(232,115,42,.4);outli
   <section class="section" id="formazione" aria-labelledby="formazione-title">
     <div class="inner">
       <div class="section-head reveal">
-        <h2 id="formazione-title">Formazione.</h2>
+        <h2 id="formazione-title">Formazione</h2>
         <p>Il percorso di studi parte da Amministrazione, Finanza e Marketing e prosegue con Economia Aziendale e Management e Strategia d’Impresa all’Università di Verona.</p>
       </div>
       <div class="education-list reveal">
