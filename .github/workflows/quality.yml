@@ -11,11 +11,21 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
-      - run: npm test
-      - run: npm run check:links
+      - name: Install dependencies
+        id: install
+        run: npm ci
+      - name: Check formatting
+        run: npm run format:check
+      - name: Lint JavaScript
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run lint
+      - name: Check local links and JSON-LD
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run check:links
