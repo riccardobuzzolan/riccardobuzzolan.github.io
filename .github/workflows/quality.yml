@@ -26,8 +26,6 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
-      - name: Show requested HTML formatting
-        run: npx prettier index.html | diff -u index.html - || true
       - name: Check formatting
         run: npm run format:check
       - name: Lint JavaScript
