@@ -2061,6 +2061,35 @@
       content="https://riccardobuzzolan.github.io/social-preview.png"
     />
     <link rel="manifest" href="/site.webmanifest" />
+      <style>
+      /* Memory Atlas preview: render iframe only near viewport. */
+      .atlas-showcase-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin: 0 0 14px;
+        font-size: 13px;
+      }
+      .atlas-showcase-actions a {
+        color: #10171c;
+        font-weight: 650;
+        text-underline-offset: 4px;
+      }
+      .atlas-showcase-actions span { color: #667378; font-size: 12px; }
+      .atlas-showcase-frame { border: 1px solid #dfe5e2; background: #f6f8f7; }
+      .atlas-showcase-frame iframe {
+        display: block;
+        width: 100%;
+        height: min(720px, 78svh);
+        min-height: 390px;
+        border: 0;
+      }
+      @media (max-width: 650px) {
+        .atlas-showcase-frame iframe { height: 72svh; min-height: 430px; }
+      }
+    </style>
   </head>
   <body>
     <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -2192,6 +2221,22 @@
                 aiuto.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section atlas-showcase" id="memory-atlas" aria-labelledby="atlas-title">
+        <div class="inner">
+          <div class="section-head reveal">
+            <h2 id="atlas-title">Memory Atlas. Geografia, in pratica.</h2>
+            <p>Allenati sulle capitali di Stati Uniti, Europa e Sud America con una mappa interattiva e ripassi personalizzati.</p>
+          </div>
+          <div class="atlas-showcase-actions">
+            <a href="https://usa-memory-atlas.vercel.app/" target="_blank" rel="noopener noreferrer">Apri Memory Atlas a schermo intero ↗</a>
+            <span>Progetto interattivo gratuito</span>
+          </div>
+          <div class="atlas-showcase-frame">
+            <iframe src="https://usa-memory-atlas.vercel.app/" title="Memory Atlas — studia le capitali sulla mappa" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen"></iframe>
           </div>
         </div>
       </section>
