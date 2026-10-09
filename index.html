@@ -2095,7 +2095,17 @@
         background: #f6f8f7;
       }
       .atlas-showcase-frame iframe[hidden] { display: none !important; }
-      .atlas-embed-consent { padding: 24px; line-height: 1.5; }
+      .atlas-embed-consent { padding: 0; line-height: 1.5; }
+      .atlas-embed-consent img {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        object-fit: contain;
+        background: #f8faf9;
+      }
+      .atlas-embed-intro { padding: 18px 24px 24px; background: #fff; }
+      .atlas-embed-intro p { margin: 0; font-size: 14px; color: #3e4e51; max-width: 75ch; }
       .atlas-embed-consent button { margin-top: 12px; padding: 12px 16px; border: 1px solid currentColor; background: transparent; }
       .atlas-embed-consent button:focus-visible { outline: 3px solid #079dc0; outline-offset: 3px; }
       .atlas-showcase-frame iframe {
@@ -2273,9 +2283,19 @@
           </div>
           <div class="atlas-showcase-frame">
             <div class="atlas-embed-consent">
-              <p>La mappa viene caricata da un sito esterno. Se scegli di aprirla,
-                il browser invia richieste tecniche a Memory Atlas e al servizio delle mappe.</p>
-              <button id="loadAtlasPreview" type="button">Carica anteprima Memory Atlas</button>
+              <img
+                src="/assets/images/memory-atlas-preview.svg"
+                alt="Anteprima illustrativa della mappa delle capitali degli Stati Uniti in Memory Atlas"
+                width="1200"
+                height="675"
+                loading="lazy"
+              />
+              <div class="atlas-embed-intro">
+                <p>Questa è una rappresentazione statica basata sulla mappa del progetto.
+                  Per usare la mappa interattiva, carica la demo: il browser si collegherà a
+                  Memory Atlas e al fornitore delle mappe.</p>
+                <button id="loadAtlasPreview" type="button">Avvia la demo interattiva</button>
+              </div>
             </div>
             <iframe
               id="atlasPreview"
