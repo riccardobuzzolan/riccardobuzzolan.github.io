@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-label="Riccardo Buzzolan">
+  <style>
+    @keyframes page{0%,84%,100%{transform:rotate(0)}92%{transform:rotate(-9deg)}}
+    @keyframes ink{0%,82%,100%{opacity:1}90%{opacity:.6}}
+    .page{transform-origin:40px 43px;animation:page 5.4s ease-in-out infinite}
+    .mark{animation:ink 5.4s ease-in-out infinite}
+    @media (prefers-reduced-motion:reduce){.page,.mark{animation:none}}
+  </style>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#fff"/>
+  <path d="M13 54V12h17c11 0 15 4.6 15 12 0 7-5 11-14 11H13m20 0 13 19" fill="none" stroke="#132839" stroke-width="6" stroke-linecap="square" stroke-linejoin="round"/>
+  <path d="M37 12h8c9 0 13 5 13 12 0 6-3 10-9 12 7 1 10 4.5 10 10 0 6-4 10-13 10h-5" fill="none" stroke="#132839" stroke-width="5" stroke-linejoin="round"/>
+  <g class="page"><path d="M40 40 54 35 54 41 40 46Z" fill="#16a9d6"/><path d="M40 47 54 42v5L40 52Z" fill="#64c7e5"/></g>
+</svg>
