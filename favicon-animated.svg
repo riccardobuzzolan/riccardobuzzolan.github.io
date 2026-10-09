@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-label="Riccardo Buzzolan">
   <style>
-    @keyframes page{0%,84%,100%{transform:rotate(0)}92%{transform:rotate(-9deg)}}
-    @keyframes ink{0%,82%,100%{opacity:1}90%{opacity:.6}}
-    .page{transform-origin:40px 43px;animation:page 5.4s ease-in-out infinite}
-    .mark{animation:ink 5.4s ease-in-out infinite}
+    @keyframes page{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(7deg)}}
+    @keyframes ink{0%,100%{opacity:1}50%{opacity:.75}}
+    .page{transform-origin:40px 43px;animation:page 2.8s ease-in-out infinite}
+    .mark{animation:ink 2.8s ease-in-out infinite}
     @media (prefers-reduced-motion:reduce){.page,.mark{animation:none}}
   </style>
   <rect x="2" y="2" width="60" height="60" rx="14" fill="#fff"/>
