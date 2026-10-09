@@ -654,14 +654,6 @@
       }
     }
   }
-  const atlasPreviewButton = document.getElementById("loadAtlasPreview");
-  atlasPreviewButton?.addEventListener("click", () => {
-    const frame = document.getElementById("atlasPreview");
-    if (!frame?.dataset.src) return;
-    frame.src = frame.dataset.src;
-    frame.hidden = false;
-    atlasPreviewButton.parentElement.hidden = true;
-  });
   const portrait = document.getElementById("stackFaceCanvas");
   if (portrait) new ParticleView(portrait, "portrait");
   const pc = document.getElementById("pcParticleCanvas");
