@@ -7,6 +7,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality:
     runs-on: ubuntu-latest
@@ -24,8 +28,8 @@ jobs:
       - name: Install dependencies
         id: install
         run: npm ci --no-audit --no-fund
-      - name: Audit production dependencies
-        run: npm audit --omit=dev --audit-level=high
+      - name: Audit all dependencies
+        run: npm audit --audit-level=high
       - name: Check formatting
         run: npm run format:check
       - name: Lint JavaScript
@@ -34,3 +38,5 @@ jobs:
       - name: Check local links and JSON-LD
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npm run check:links
+      - name: Verify animation and media behavior
+        run: npm test

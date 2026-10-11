@@ -3,7 +3,7 @@ import globals from "globals";
 
 export default [
   {
-    files: ["assets/js/**/*.js"],
+    files: ["assets/js/**/*.js", "favicon-motion.js"],
     languageOptions: { globals: globals.browser },
     rules: {
       ...js.configs.recommended.rules,
