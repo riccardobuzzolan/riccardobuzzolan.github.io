@@ -5,9 +5,10 @@
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "eslint assets/js/main.js",
+    "lint": "eslint assets/js/main.js favicon-motion.js",
     "check:links": "node scripts/check-links.mjs",
-    "test": "npm run format:check && npm run lint"
+    "test": "node --test tests/*.test.mjs",
+    "check": "npm run format:check && npm run lint && npm run check:links && npm test"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
