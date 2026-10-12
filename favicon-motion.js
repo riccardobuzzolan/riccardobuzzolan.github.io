@@ -9,7 +9,7 @@
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const mode = link.dataset.faviconMode || 'float';
   const frames = [];
-  const count = 16;
+  const count = 24;
   let cursor = 0;
   let interval = null;
   let running = false;
