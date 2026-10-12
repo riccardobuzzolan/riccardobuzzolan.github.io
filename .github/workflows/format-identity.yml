@@ -1,0 +1,27 @@
+name: Format identity markup
+on:
+  push:
+    branches: [format-light-identity]
+permissions:
+  contents: write
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: '22'
+      - run: npm ci --no-audit --no-fund
+      - run: npx prettier --write index.html
+      - name: Commit normalized HTML to feature branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if ! git diff --cached --quiet; then
+            git commit -m "Format animated brand markup with Prettier"
+            git push
+          fi
