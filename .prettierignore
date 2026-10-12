@@ -2,3 +2,8 @@
 node_modules
 social-preview.png
 assets/images
+
+# Standalone previews and browser motion assets
+anteprima-favicon.html
+favicon-motion.js
+assets/js/motion-light.js
