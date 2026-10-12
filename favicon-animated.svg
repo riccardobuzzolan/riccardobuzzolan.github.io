@@ -1,14 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-label="Riccardo Buzzolan">
-  <style>
-    @keyframes page{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(7deg)}}
-    @keyframes ink{0%,100%{opacity:1}50%{opacity:.75}}
-    .page{transform-origin:40px 43px;animation:page 2.8s ease-in-out infinite}
-    .mark{animation:ink 2.8s ease-in-out infinite}
-    @media (prefers-reduced-motion:reduce){.page,.mark{animation:none}}
-  </style>
-  <rect x="2" y="2" width="60" height="60" rx="14" fill="#fff"/>
-  <path d="M13 54V12h17c11 0 15 4.6 15 12 0 7-5 11-14 11H13m20 0 13 19" fill="none" stroke="#132839" stroke-width="6" stroke-linecap="square" stroke-linejoin="round"/>
-  <path d="M37 12h8c9 0 13 5 13 12 0 6-3 10-9 12 7 1 10 4.5 10 10 0 6-4 10-13 10h-5" fill="none" stroke="#132839" stroke-width="5" stroke-linejoin="round"/>
-  <g class="page"><path d="M40 40 54 35 54 41 40 46Z" fill="#16a9d6"/><path d="M40 47 54 42v5L40 52Z" fill="#64c7e5"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Monogramma RB">
+<style>
+@keyframes underline{0%,13%{stroke-dashoffset:36;opacity:.2}60%,85%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:36;opacity:.2}}
+#motion{stroke-dasharray:36;animation:underline 3s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){#motion{animation:none;stroke-dashoffset:0;opacity:1}}
+</style>
+<path d="M9 48V14h16c9 0 14 4 14 11s-5 10-13 10H9m16 0 15 13" fill="none" stroke="#20272F" stroke-width="5.5" stroke-linecap="square" stroke-linejoin="round"/>
+<path d="M36 15h11c7 0 11 4 11 9 0 5-3 8-9 10 7 1 10 5 10 10 0 5-4 8-12 8h-7" fill="none" stroke="#20272F" stroke-width="4.5" stroke-linejoin="round"/>
+<path id="motion" d="M10 56H47" fill="none" stroke="#C69255" stroke-width="3" stroke-linecap="round" stroke-dasharray="36"/>
 </svg>
