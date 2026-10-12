@@ -35,7 +35,7 @@
       cursor = (cursor + 1) % count;
     }
     advance();
-    interval = window.setInterval(advance, 180);
+    interval = window.setInterval(advance, 133);
   }
 
   async function prepare() {
