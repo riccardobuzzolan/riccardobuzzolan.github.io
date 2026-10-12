@@ -73,7 +73,7 @@
           const sx = 1 - progress * .18;
           subject.setAttribute('transform', 'translate(' + (32 * (1 - sx)).toFixed(2) + ' 0) scale(' + sx.toFixed(3) + ' 1)');
         } else if (mode === 'kinetic') {
-          const t = index / count;
+          const t = i / count;
           const ease = (v) => 1 - Math.pow(1 - v, 3);
           let sx;
           if (t <= 0.09) sx = 0.08;
