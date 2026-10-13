@@ -1,0 +1,61 @@
+name: Verify published sitemap endpoints
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/verify-sitemaps.yml"
+      - "robots.txt"
+      - "sitemap.xml"
+
+permissions:
+  contents: read
+
+jobs:
+  live-sitemaps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Validate public GitHub Pages, Vercel and Firebase sitemaps
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import sys
+          import urllib.error
+          import urllib.request
+          import xml.etree.ElementTree as ET
+
+          targets = [
+              ("https://riccardobuzzolan.github.io/sitemap.xml", "https://riccardobuzzolan.github.io/"),
+              ("https://riccardobuzzolan.github.io/SitoRiccardoBuzzolan/sitemap.xml", "https://riccardobuzzolan.github.io/SitoRiccardoBuzzolan/"),
+              ("https://riccardobuzzolan.github.io/imparacapitalistati/sitemap.xml", "https://riccardobuzzolan.github.io/imparacapitalistati/"),
+              ("https://scadenze-fiscali.vercel.app/sitemap.xml", "https://scadenze-fiscali.vercel.app/"),
+              ("https://usa-memory-atlas.vercel.app/sitemap.xml", "https://usa-memory-atlas.vercel.app/"),
+              ("https://usa-capital-gamification-ita.web.app/sitemap.xml", "https://usa-capital-gamification-ita.web.app/"),
+          ]
+          errors = []
+          for sitemap_url, canonical_prefix in targets:
+              try:
+                  request = urllib.request.Request(sitemap_url, headers={"User-Agent":"Mozilla/5.0 sitemap-health-check"})
+                  with urllib.request.urlopen(request, timeout=20) as response:
+                      status = response.status
+                      final_url = response.geturl()
+                      mime = response.headers.get_content_type()
+                      body = response.read(10 * 1024 * 1024)
+                  root = ET.fromstring(body)
+                  namespace = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
+                  locs = [e.text for e in root.findall(f"{namespace}url/{namespace}loc")]
+                  valid = (status == 200 and final_url == sitemap_url and root.tag == f"{namespace}urlset" and bool(locs)
+                           and all(u and u.startswith(canonical_prefix) for u in locs))
+                  print(f"{'OK' if valid else 'FAIL'} | HTTP {status} | {mime} | {len(locs)} URLs | {sitemap_url} | final={final_url}", flush=True)
+                  if not valid:
+                      errors.append(f"Invalid XML, URL scope, HTTP status or redirect: {sitemap_url}")
+              except Exception as exc:
+                  print(f"FAIL | {sitemap_url} | {type(exc).__name__}: {exc}", flush=True)
+                  errors.append(sitemap_url)
+          if errors:
+              print(f"FAILED: {len(errors)} sitemap(s)", file=sys.stderr)
+              sys.exit(1)
+          print("All six public sitemaps passed.")
+          PY
