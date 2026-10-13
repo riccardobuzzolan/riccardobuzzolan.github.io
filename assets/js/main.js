@@ -44,12 +44,18 @@
     let wantsPlayback = !reducedMotion;
     let videoVisible = true;
     const updateLabel = () => {
+      videoToggle.hidden = !video.hasAttribute("src");
       videoToggle.textContent = video.paused
         ? "Riproduci il video"
         : "Metti in pausa il video";
       videoToggle.setAttribute("aria-pressed", String(!video.paused));
     };
     const syncVideo = () => {
+      if (!video.hasAttribute("src")) {
+        video.pause();
+        updateLabel();
+        return;
+      }
       if (!wantsPlayback || !videoVisible || document.hidden) video.pause();
       else
         video.play().catch(() => {
@@ -86,6 +92,10 @@
       });
       videoObserver.observe(video);
     }
+    document.addEventListener("siteprivacy:changed", (event) => {
+      wantsPlayback = !!event.detail?.external && !reducedMotion;
+      syncVideo();
+    });
     syncVideo();
   }
 
