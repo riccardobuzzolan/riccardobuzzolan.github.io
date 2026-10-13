@@ -51,7 +51,11 @@
       videoToggle.setAttribute("aria-pressed", String(!video.paused));
     };
     const syncVideo = () => {
-      if (!video.hasAttribute("src")) { video.pause(); updateLabel(); return; }
+      if (!video.hasAttribute("src")) {
+        video.pause();
+        updateLabel();
+        return;
+      }
       if (!wantsPlayback || !videoVisible || document.hidden) video.pause();
       else
         video.play().catch(() => {
