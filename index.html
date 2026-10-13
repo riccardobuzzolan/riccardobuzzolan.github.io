@@ -78,6 +78,7 @@
     
     <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
     <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./assets/css/privacy.css" />
     
     
     <link rel="icon" type="image/svg+xml" href="/favicon-animated.svg?v=bright-white-v7-20261013" data-favicon-motion data-motion="ribbon" />
@@ -100,7 +101,7 @@
       <section class="hero" id="top" aria-labelledby="hero-title">
         <video
           class="hero-video"
-          src="https://thinkingods.com/demos/kingfisher-hero/hero.mp4"
+          data-privacy-src="https://thinkingods.com/demos/kingfisher-hero/hero.mp4"
           muted
           playsinline
           loop
@@ -252,7 +253,7 @@
           <div class="atlas-showcase-frame">
             <iframe
               id="atlasPreview"
-              src="https://usa-memory-atlas.vercel.app/"
+              data-privacy-src="https://usa-memory-atlas.vercel.app/"
               title="Memory Atlas — studia le capitali sulla mappa"
               loading="lazy"
               referrerpolicy="strict-origin-when-cross-origin"
@@ -402,9 +403,28 @@
       <div class="inner">
         <span>© 2026 Riccardo Buzzolan · Schio, Vicenza</span
         ><span>Ripetizioni in presenza e online</span>
+        <span><a href="./privacy.html">Privacy e cookie</a> · <button type="button" data-privacy-open>Preferenze privacy</button></span>
       </div>
     </footer>
+    
+<section id="sitePrivacyBanner" class="site-privacy" aria-label="Gestione consenso privacy" hidden>
+  <div class="site-privacy-accent" aria-hidden="true">✳</div>
+  <div class="site-privacy-body">
+    <div class="site-privacy-head"><strong>La tua privacy, le tue scelte.</strong><button id="sitePrivacyClose" class="site-privacy-x" type="button" aria-label="Continua senza contenuti esterni">×</button></div>
+    <p>Le anteprime e i video esterni possono trasmettere dati tecnici ai fornitori. Accettando, li caricheremo automaticamente. Rifiutando, il sito resta consultabile.</p>
+    <div class="site-privacy-settings" id="sitePrivacyOptions" hidden><label><input id="sitePrivacyExternal" type="checkbox"> <span>Abilita anteprime e contenuti multimediali esterni</span></label><p>Google Ads non è configurato. Nessun consenso pubblicitario viene concesso.</p></div>
+    <div class="site-privacy-buttons">
+      <button id="sitePrivacyReject" class="site-privacy-reject" type="button">Rifiuta</button>
+      <button id="sitePrivacyCustomize" class="site-privacy-customize" type="button" aria-expanded="false" aria-controls="sitePrivacyOptions">Personalizza</button>
+      <button id="sitePrivacyAccept" class="site-privacy-accept" type="button">Accetta tutti</button>
+      <button id="sitePrivacySave" class="site-privacy-accept" type="button" hidden>Salva preferenze</button>
+    </div>
+    <a class="site-privacy-policy" href="./privacy.html">Informativa privacy e cookie</a>
+  </div>
+</section>
+
     <script src="./assets/js/motion-light.js" defer></script>
     <script src="./assets/js/main.js" defer></script>
+    <script src="./assets/js/privacy.js" data-privacy-site="portfolio" defer></script>
   </body>
 </html>
