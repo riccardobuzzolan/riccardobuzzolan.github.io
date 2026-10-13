@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://riccardobuzzolan.github.io/sitemap.xml
+Sitemap: https://riccardobuzzolan.github.io/SitoRiccardoBuzzolan/sitemap.xml
+Sitemap: https://riccardobuzzolan.github.io/imparacapitalistati/sitemap.xml
