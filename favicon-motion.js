@@ -63,13 +63,14 @@
         tr('voice-b','translate('+(11*(1-p)).toFixed(2)+' '+(7*(1-p)).toFixed(2)+')',.55+.45*p);
         tr('insight','translate(32 31) rotate('+(-35*(1-p2)).toFixed(2)+') scale(' + (.1+.9*p2).toFixed(3)+') translate(-32 -31)',p2);
         break;
-      case 'ribbon':
+      case 'ribbon': {
         const path=tr('loop');
         path.setAttribute('stroke-dasharray','100');
         path.setAttribute('stroke-dashoffset',(100*(1-p)).toFixed(2));
         tr('leg','translate(39 40) rotate('+(-47*(1-p2)).toFixed(2)+') scale('+(.65+.35*p2).toFixed(3)+') translate(-39 -40)',p2);
         tr('seal','translate(50 12) scale('+(.12+.88*p2).toFixed(3)+') translate(-50 -12)',p2);
         break;
+      }
       default: throw new Error('Unknown favicon animation mode');
     }
   }
