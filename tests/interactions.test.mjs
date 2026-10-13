@@ -28,6 +28,9 @@ class Element {
   setAttribute(name, value) {
     this.attributes.set(name, value);
   }
+  hasAttribute(name) {
+    return this.attributes.has(name);
+  }
   getBoundingClientRect() {
     return { width: 500, height: 400, left: 0, top: 0 };
   }
@@ -38,6 +41,7 @@ async function setup({
   imageFails = false,
   noCanvas = false,
   noObservers = false,
+  mediaGranted = true,
 } = {}) {
   const motion = new Element();
   motion.matches = reduced;
@@ -58,6 +62,8 @@ async function setup({
   };
   canvas.getContext = () => (noCanvas ? null : context);
   const video = new Element();
+  if (mediaGranted)
+    video.setAttribute("src", "https://thinkingods.com/media.mp4");
   video.paused = true;
   video.play = () => {
     video.paused = false;
@@ -254,4 +260,27 @@ test("canvas or observer absence does not prevent the page and contacts from wor
   const noObservers = await setup({ noObservers: true });
   assert.ok(noObservers.reveal.classes.has("visible"));
   assert.equal(noObservers.frames.size, 1);
+});
+
+test("external video is not played before consent and starts automatically after consent", async () => {
+  const app = await setup({ mediaGranted: false });
+  assert.equal(app.video.paused, true);
+  app.video.setAttribute("src", "https://thinkingods.com/media.mp4");
+  app.document.emit("siteprivacy:changed", { detail: { external: true } });
+  assert.equal(app.video.paused, false);
+  app.document.emit("siteprivacy:changed", { detail: { external: false } });
+  assert.equal(app.video.paused, true);
+});
+
+test("external preview and decorative video are inert in initial HTML", () => {
+  const markup = readFileSync(
+    new URL("../index.html", import.meta.url),
+    "utf8",
+  );
+  assert.match(
+    markup,
+    /data-privacy-src="https:\/\/usa-memory-atlas\.vercel\.app\/"/,
+  );
+  assert.match(markup, /data-privacy-src="https:\/\/thinkingods\.com\/demos\//);
+  assert.doesNotMatch(markup, /<iframe\s[^>]*\ssrc="https:\/\//);
 });

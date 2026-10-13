@@ -1,0 +1,179 @@
+/* Consent is site-local. Third-party iframes never have src in initial markup. */
+.site-privacy[hidden],
+.site-privacy-settings[hidden],
+.privacy-placeholder[hidden] {
+  display: none !important;
+}
+.site-privacy {
+  position: fixed;
+  z-index: 9999;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+  width: min(810px, calc(100vw - 28px));
+  padding: 23px 24px;
+  border: 1px solid #e0e8e6;
+  border-radius: 21px;
+  background: rgba(255, 255, 255, 0.98);
+  color: #1f302a;
+  box-shadow: 0 22px 75px rgba(31, 52, 45, 0.18);
+  font-family: inherit;
+}
+.site-privacy-accent {
+  flex: none;
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #e5f4ea, #ecedf9);
+  color: #2b6850;
+  font-size: 23px;
+}
+.site-privacy-body {
+  flex: 1;
+  min-width: 0;
+}
+.site-privacy-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.site-privacy-head strong {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.site-privacy-head .site-privacy-x {
+  border: 0;
+  background: transparent;
+  color: #607168;
+  cursor: pointer;
+  font-size: 24px;
+  width: 32px;
+  height: 32px;
+}
+.site-privacy p {
+  font-size: 0.85rem;
+  color: #546b5e;
+  line-height: 1.64;
+  margin: 8px 0 13px;
+  max-width: none;
+}
+.site-privacy-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.site-privacy-buttons button {
+  padding: 10px 16px;
+  border-radius: 11px;
+  border: 1px solid #dbe4de;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.83rem;
+  font-weight: 650;
+  min-height: 42px;
+}
+.site-privacy-reject {
+  background: #f0f3f1;
+  color: #2a3c32;
+}
+.site-privacy-customize {
+  background: #fff;
+  color: #284839;
+}
+.site-privacy-buttons .site-privacy-accept {
+  background: #24583d;
+  color: #fff;
+  border-color: #24583d;
+}
+.site-privacy a {
+  color: #33694f;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.site-privacy-policy {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.75rem;
+}
+.site-privacy-settings {
+  margin: 12px 0;
+  border: 1px solid #e3ece6;
+  border-radius: 11px;
+  padding: 10px;
+  background: #f4f8f5;
+}
+.site-privacy-settings label {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  font-size: 0.83rem;
+}
+.site-privacy-settings p {
+  font-size: 0.76rem;
+  margin-bottom: 0;
+}
+.site-privacy :is(button, a):focus-visible,
+.privacy-placeholder button:focus-visible,
+[data-privacy-open]:focus-visible {
+  outline: 3px solid #84bea2;
+  outline-offset: 3px;
+}
+.privacy-placeholder {
+  width: 100%;
+  min-height: 230px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(130deg, #f4f8f5, #f2f0fa);
+  color: #33503f;
+  padding: 20px;
+}
+.privacy-placeholder strong {
+  font-size: 0.94rem;
+}
+.privacy-placeholder span {
+  font-size: 0.78rem;
+}
+.privacy-placeholder button {
+  padding: 9px 13px;
+  border-radius: 10px;
+  border: 1px solid #b4cfbf;
+  background: #fff;
+  color: #28593e;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+@media (max-width: 590px) {
+  .site-privacy {
+    padding: 15px;
+    gap: 11px;
+    border-radius: 16px;
+  }
+  .site-privacy-accent {
+    width: 31px;
+    height: 31px;
+    font-size: 17px;
+  }
+  .site-privacy-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .site-privacy-buttons button {
+    padding: 10px 7px;
+  }
+  .privacy-placeholder {
+    min-height: 180px;
+  }
+}
