@@ -1,48 +1,201 @@
 <!doctype html>
 <html lang="it">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex,follow">
-  <title>Privacy e cookie | Riccardo Buzzolan</title>
-  <meta name="description" content="Informativa sul sito, sui dati tecnici e sul consenso per i contenuti esterni.">
-  <link rel="canonical" href="https://riccardobuzzolan.github.io/privacy.html">
-  <link rel="stylesheet" href="./assets/css/privacy.css">
-  <style>body{margin:0;background:#fcfdfc;color:#1d3026;font:16px/1.7 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:800px;padding:clamp(24px,5vw,64px);margin:auto}h1{font-size:clamp(2rem,5vw,3rem);line-height:1.18;letter-spacing:-.035em}h2{font-size:1.16rem;margin-top:30px}a{color:#216447;text-underline-offset:3px}.back{font-size:.9rem}footer{padding:24px 0;border-top:1px solid #e3ebe6;color:#607267;font-size:.84rem}.policy-control{background:#e9f2ec;color:#22553b;border:1px solid #b7d0c0;border-radius:10px;padding:9px 14px;cursor:pointer}</style>
-</head>
-<body>
-<main>
-  <a class="back" href="./">← Torna al sito</a>
-  <h1>Privacy e cookie</h1>
-  <p>Il sito è consultabile anche senza accettare contenuti esterni facoltativi.</p>
-  <h2>Titolare del trattamento</h2>
-  <p>Riccardo Buzzolan. Contatto per informazioni e richieste relative ai dati: <a href="mailto:riccardobuzzolan96@gmail.com">riccardobuzzolan96@gmail.com</a>.</p>
-  <h2>Hosting e dati tecnici</h2>
-  <p>Il sito utilizza GitHub Pages. Le richieste di navigazione comportano il trattamento da parte dei fornitori di dati tecnici, come IP, orario e dati di connessione. Per la durata dei log e gli eventuali trasferimenti internazionali si applicano le condizioni dei fornitori, che il titolare deve periodicamente verificare.</p>
-  <h2>Contenuti di terze parti</h2>
-  <p>Solo dopo il consenso attiviamo l'anteprima Memory Atlas su Vercel e il video decorativo ospitato su thinkingods.com. Quando questi servizi sono caricati, i relativi fornitori possono ricevere dati tecnici del browser e utilizzare cookie o tecnologie simili. Puoi non accettare e utilizzare il resto del sito. I collegamenti esterni aprono il sito del destinatario soltanto se li selezioni.</p>
-  <h2>Preferenze e durata</h2>
-  <p>Il browser conserva la tua scelta nella chiave locale <code>richi-privacy-portfolio-v1</code> per un massimo di 180 giorni. Puoi accettare, rifiutare o modificare la scelta tramite il comando Preferenze privacy. Revocando il consenso, le anteprime e il video esterno vengono disattivati dalla pagina, impedendo ulteriori caricamenti automatici; gli eventuali dati già ricevuti da terzi restano soggetti alle loro informative.</p>
-  <p>Nel codice del sito non sono configurati Google Analytics né Google Ads. I consensi pubblicitari rimangono negati.</p>
-  <h2>Diritti</h2>
-  <p>Nei casi previsti dal GDPR puoi richiedere al titolare accesso, rettifica, cancellazione, opposizione, limitazione e portabilità dei dati. Puoi revocare il consenso in ogni momento e proporre reclamo al Garante per la protezione dei dati personali.</p>
-  <button class="policy-control" type="button" data-privacy-open>Preferenze privacy</button>
-  <footer><p>Aggiornata il 13 ottobre 2026. Le condizioni dei fornitori esterni richiedono revisione periodica.</p></footer>
-</main>
-<section id="sitePrivacyBanner" class="site-privacy" aria-label="Gestione consenso privacy" hidden>
-  <div class="site-privacy-accent" aria-hidden="true">✳</div>
-  <div class="site-privacy-body">
-    <div class="site-privacy-head"><strong>La tua privacy, le tue scelte.</strong><button id="sitePrivacyClose" class="site-privacy-x" type="button" aria-label="Continua senza contenuti esterni">×</button></div>
-    <p>Le anteprime e i video esterni possono trasmettere dati tecnici ai fornitori. Accettando, li caricheremo automaticamente. Rifiutando, il sito resta consultabile.</p>
-    <div class="site-privacy-settings" id="sitePrivacyOptions" hidden><label><input id="sitePrivacyExternal" type="checkbox"> <span>Abilita contenuti esterni</span></label><p>Google Ads non configurato.</p></div>
-    <div class="site-privacy-buttons">
-      <button id="sitePrivacyReject" class="site-privacy-reject" type="button">Rifiuta</button>
-      <button id="sitePrivacyCustomize" class="site-privacy-customize" type="button" aria-controls="sitePrivacyOptions" aria-expanded="false">Personalizza</button>
-      <button id="sitePrivacyAccept" class="site-privacy-accept" type="button">Accetta tutti</button>
-      <button id="sitePrivacySave" class="site-privacy-accept" type="button" hidden>Salva preferenze</button>
-    </div>
-  </div>
-</section>
-<script src="./assets/js/privacy.js" data-privacy-site="portfolio" defer></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,follow" />
+    <title>Privacy e cookie | Riccardo Buzzolan</title>
+    <meta
+      name="description"
+      content="Informativa sul sito, sui dati tecnici e sul consenso per i contenuti esterni."
+    />
+    <link
+      rel="canonical"
+      href="https://riccardobuzzolan.github.io/privacy.html"
+    />
+    <link rel="stylesheet" href="./assets/css/privacy.css" />
+    <style>
+      body {
+        margin: 0;
+        background: #fcfdfc;
+        color: #1d3026;
+        font:
+          16px/1.7 system-ui,
+          -apple-system,
+          Segoe UI,
+          sans-serif;
+      }
+      main {
+        max-width: 800px;
+        padding: clamp(24px, 5vw, 64px);
+        margin: auto;
+      }
+      h1 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        line-height: 1.18;
+        letter-spacing: -0.035em;
+      }
+      h2 {
+        font-size: 1.16rem;
+        margin-top: 30px;
+      }
+      a {
+        color: #216447;
+        text-underline-offset: 3px;
+      }
+      .back {
+        font-size: 0.9rem;
+      }
+      footer {
+        padding: 24px 0;
+        border-top: 1px solid #e3ebe6;
+        color: #607267;
+        font-size: 0.84rem;
+      }
+      .policy-control {
+        background: #e9f2ec;
+        color: #22553b;
+        border: 1px solid #b7d0c0;
+        border-radius: 10px;
+        padding: 9px 14px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a class="back" href="./">← Torna al sito</a>
+      <h1>Privacy e cookie</h1>
+      <p>
+        Il sito è consultabile anche senza accettare contenuti esterni
+        facoltativi.
+      </p>
+      <h2>Titolare del trattamento</h2>
+      <p>
+        Riccardo Buzzolan. Contatto per informazioni e richieste relative ai
+        dati:
+        <a href="mailto:riccardobuzzolan96@gmail.com"
+          >riccardobuzzolan96@gmail.com</a
+        >.
+      </p>
+      <h2>Hosting e dati tecnici</h2>
+      <p>
+        Il sito utilizza GitHub Pages. Le richieste di navigazione comportano il
+        trattamento da parte dei fornitori di dati tecnici, come IP, orario e
+        dati di connessione. Per la durata dei log e gli eventuali trasferimenti
+        internazionali si applicano le condizioni dei fornitori, che il titolare
+        deve periodicamente verificare.
+      </p>
+      <h2>Contenuti di terze parti</h2>
+      <p>
+        Solo dopo il consenso attiviamo l'anteprima Memory Atlas su Vercel e il
+        video decorativo ospitato su thinkingods.com. Quando questi servizi sono
+        caricati, i relativi fornitori possono ricevere dati tecnici del browser
+        e utilizzare cookie o tecnologie simili. Puoi non accettare e utilizzare
+        il resto del sito. I collegamenti esterni aprono il sito del
+        destinatario soltanto se li selezioni.
+      </p>
+      <h2>Preferenze e durata</h2>
+      <p>
+        Il browser conserva la tua scelta nella chiave locale
+        <code>richi-privacy-portfolio-v1</code> per un massimo di 180 giorni.
+        Puoi accettare, rifiutare o modificare la scelta tramite il comando
+        Preferenze privacy. Revocando il consenso, le anteprime e il video
+        esterno vengono disattivati dalla pagina, impedendo ulteriori
+        caricamenti automatici; gli eventuali dati già ricevuti da terzi restano
+        soggetti alle loro informative.
+      </p>
+      <p>
+        Nel codice del sito non sono configurati Google Analytics né Google Ads.
+        I consensi pubblicitari rimangono negati.
+      </p>
+      <h2>Diritti</h2>
+      <p>
+        Nei casi previsti dal GDPR puoi richiedere al titolare accesso,
+        rettifica, cancellazione, opposizione, limitazione e portabilità dei
+        dati. Puoi revocare il consenso in ogni momento e proporre reclamo al
+        Garante per la protezione dei dati personali.
+      </p>
+      <button class="policy-control" type="button" data-privacy-open>
+        Preferenze privacy
+      </button>
+      <footer>
+        <p>
+          Aggiornata il 13 ottobre 2026. Le condizioni dei fornitori esterni
+          richiedono revisione periodica.
+        </p>
+      </footer>
+    </main>
+    <section
+      id="sitePrivacyBanner"
+      class="site-privacy"
+      aria-label="Gestione consenso privacy"
+      hidden
+    >
+      <div class="site-privacy-accent" aria-hidden="true">✳</div>
+      <div class="site-privacy-body">
+        <div class="site-privacy-head">
+          <strong>La tua privacy, le tue scelte.</strong
+          ><button
+            id="sitePrivacyClose"
+            class="site-privacy-x"
+            type="button"
+            aria-label="Continua senza contenuti esterni"
+          >
+            ×
+          </button>
+        </div>
+        <p>
+          Le anteprime e i video esterni possono trasmettere dati tecnici ai
+          fornitori. Accettando, li caricheremo automaticamente. Rifiutando, il
+          sito resta consultabile.
+        </p>
+        <div class="site-privacy-settings" id="sitePrivacyOptions" hidden>
+          <label
+            ><input id="sitePrivacyExternal" type="checkbox" />
+            <span>Abilita contenuti esterni</span></label
+          >
+          <p>Google Ads non configurato.</p>
+        </div>
+        <div class="site-privacy-buttons">
+          <button
+            id="sitePrivacyReject"
+            class="site-privacy-reject"
+            type="button"
+          >
+            Rifiuta
+          </button>
+          <button
+            id="sitePrivacyCustomize"
+            class="site-privacy-customize"
+            type="button"
+            aria-controls="sitePrivacyOptions"
+            aria-expanded="false"
+          >
+            Personalizza
+          </button>
+          <button
+            id="sitePrivacyAccept"
+            class="site-privacy-accept"
+            type="button"
+          >
+            Accetta tutti
+          </button>
+          <button
+            id="sitePrivacySave"
+            class="site-privacy-accept"
+            type="button"
+            hidden
+          >
+            Salva preferenze
+          </button>
+        </div>
+      </div>
+    </section>
+    <script
+      src="./assets/js/privacy.js"
+      data-privacy-site="portfolio"
+      defer
+    ></script>
+  </body>
 </html>
