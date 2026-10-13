@@ -59,3 +59,48 @@ jobs:
               sys.exit(1)
           print("All six public sitemaps passed.")
           PY
+
+      - name: Probe canonical homepages and robots using a Googlebot user agent
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import sys
+          import urllib.request
+          from urllib.parse import urlsplit
+
+          bases = [
+              "https://riccardobuzzolan.github.io/",
+              "https://riccardobuzzolan.github.io/SitoRiccardoBuzzolan/",
+              "https://riccardobuzzolan.github.io/imparacapitalistati/",
+              "https://scadenze-fiscali.vercel.app/",
+              "https://usa-memory-atlas.vercel.app/",
+              "https://usa-capital-gamification-ita.web.app/",
+          ]
+          failures = []
+          user_agent = {"User-Agent": "Googlebot/2.1 (+http://www.google.com/bot.html)"}
+          for base in bases:
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(base, headers=user_agent), timeout=20) as response:
+                      homepage_status = response.status
+                      homepage_url = response.geturl()
+                      homepage_html = response.read(1024 * 1024).decode("utf-8", "replace")
+                      robot_header = response.headers.get("X-Robots-Tag", "")
+                  host = urlsplit(base).netloc
+                  robots_url = "https://" + host + "/robots.txt"
+                  with urllib.request.urlopen(urllib.request.Request(robots_url, headers=user_agent), timeout=20) as response:
+                      robots_status = response.status
+                      robots = response.read(1024 * 1024).decode("utf-8", "replace")
+                  blocked = any(line.strip().lower() == "disallow: /" for line in robots.splitlines())
+                  noindex = "noindex" in robot_header.lower() or '<meta name="robots" content="noindex' in homepage_html.lower()
+                  ok = homepage_status == 200 and robots_status == 200 and not blocked and not noindex and homepage_url == base
+                  print(f"{'OK' if ok else 'FAIL'} | home={homepage_status} | robots={robots_status} | {base} | final={homepage_url}", flush=True)
+                  if not ok:
+                      failures.append(base)
+              except Exception as exc:
+                  print(f"FAIL | {base} | {type(exc).__name__}: {exc}", flush=True)
+                  failures.append(base)
+          if failures:
+              print(f"FAILED: {len(failures)} homepage/robots probes.", file=sys.stderr)
+              sys.exit(1)
+          print("All six homepage and robots probes passed.")
+          PY
