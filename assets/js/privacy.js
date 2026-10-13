@@ -1,6 +1,8 @@
 (() => {
   "use strict";
-  const site = document.querySelector("script[data-privacy-site]")?.dataset.privacySite || "website";
+  const site =
+    document.querySelector("script[data-privacy-site]")?.dataset.privacySite ||
+    "website";
   const KEY = "richi-privacy-" + site + "-v1";
   const AGE = 180 * 24 * 60 * 60 * 1000;
   const banner = document.getElementById("sitePrivacyBanner");
@@ -16,9 +18,17 @@
   let choice = null;
   try {
     const saved = JSON.parse(localStorage.getItem(KEY) || "null");
-    if (saved && typeof saved.external === "boolean" && Number.isFinite(saved.at) &&
-      saved.at <= Date.now() && Date.now() - saved.at < AGE) choice = saved.external;
-  } catch { /* Disabled browser storage: consent must be requested again. */ }
+    if (
+      saved &&
+      typeof saved.external === "boolean" &&
+      Number.isFinite(saved.at) &&
+      saved.at <= Date.now() &&
+      Date.now() - saved.at < AGE
+    )
+      choice = saved.external;
+  } catch {
+    /* Disabled browser storage: consent must be requested again. */
+  }
 
   function open() {
     banner.hidden = false;
@@ -33,7 +43,8 @@
     const heading = document.createElement("strong");
     heading.textContent = "Anteprima esterna";
     const description = document.createElement("span");
-    description.textContent = "Per mostrare questo contenuto serve il consenso.";
+    description.textContent =
+      "Per mostrare questo contenuto serve il consenso.";
     const action = document.createElement("button");
     action.type = "button";
     action.textContent = "Preferenze privacy";
@@ -44,16 +55,19 @@
   }
   function apply() {
     const allowed = choice === true;
-    document.documentElement.dataset.externalConsent = allowed ? "granted" : "denied";
-    document.querySelectorAll("iframe[data-privacy-src]").forEach(frame => {
+    document.documentElement.dataset.externalConsent = allowed
+      ? "granted"
+      : "denied";
+    document.querySelectorAll("iframe[data-privacy-src]").forEach((frame) => {
       const placeholder = showPlaceholder(frame);
       if (allowed) {
-        if (!frame.hasAttribute("src")) frame.setAttribute("src", frame.dataset.privacySrc);
+        if (!frame.hasAttribute("src"))
+          frame.setAttribute("src", frame.dataset.privacySrc);
       } else frame.removeAttribute("src");
       frame.style.display = allowed ? "" : "none";
       placeholder.hidden = allowed;
     });
-    document.querySelectorAll("video[data-privacy-src]").forEach(video => {
+    document.querySelectorAll("video[data-privacy-src]").forEach((video) => {
       if (allowed && !video.hasAttribute("src")) {
         video.src = video.dataset.privacySrc;
         video.load();
@@ -64,11 +78,20 @@
       }
       video.style.visibility = allowed ? "" : "hidden";
     });
-    document.dispatchEvent(new CustomEvent("siteprivacy:changed", { detail: { external: allowed } }));
+    document.dispatchEvent(
+      new CustomEvent("siteprivacy:changed", { detail: { external: allowed } }),
+    );
   }
   function choose(allow) {
     choice = allow;
-    try { localStorage.setItem(KEY, JSON.stringify({ external: allow, at: Date.now() })); } catch { /* Session choice still applies. */ }
+    try {
+      localStorage.setItem(
+        KEY,
+        JSON.stringify({ external: allow, at: Date.now() }),
+      );
+    } catch {
+      /* Session choice still applies. */
+    }
     apply();
     banner.hidden = true;
   }
@@ -83,7 +106,9 @@
     accept.hidden = !choices.hidden;
     customize.setAttribute("aria-expanded", String(!choices.hidden));
   });
-  document.querySelectorAll("[data-privacy-open]").forEach(button => button.addEventListener("click", open));
+  document
+    .querySelectorAll("[data-privacy-open]")
+    .forEach((button) => button.addEventListener("click", open));
   apply();
   if (choice === null) banner.hidden = false;
 })();
