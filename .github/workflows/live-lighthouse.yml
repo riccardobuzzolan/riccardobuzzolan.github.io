@@ -73,7 +73,7 @@ jobs:
                 for (const ref of r.categories?.[category]?.auditRefs || []) {
                   const a = r.audits?.[ref.id];
                   if (a && a.score !== null && a.score < 1 && (ref.weight || 0) > 0) {
-                    console.log("ISSUE " + category + ": " + a.title + " (" + ref.id + ")");
+                    console.log("ISSUE " + category + ": " + a.title + " (" + ref.id + ") " + JSON.stringify((a.details?.items || []).slice(0, 5)).slice(0, 2100));
                   }
                 }
               }
