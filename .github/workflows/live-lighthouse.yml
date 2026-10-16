@@ -1,0 +1,70 @@
+name: Live Lighthouse audit
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/live-lighthouse.yml
+  schedule:
+    - cron: "45 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        include:
+          - name: Portfolio GitHub
+            url: https://riccardobuzzolan.github.io/
+          - name: Portfolio ripetizioni
+            url: https://riccardobuzzolan.github.io/SitoRiccardoBuzzolan/
+          - name: Scadenze Fiscali
+            url: https://scadenze-fiscali.vercel.app/
+          - name: Memory Atlas
+            url: https://usa-memory-atlas.vercel.app/
+          - name: Impara Capitali
+            url: https://riccardobuzzolan.github.io/imparacapitalistati/
+          - name: Atlas Quest
+            url: https://atlas-quest-beige.vercel.app/
+          - name: Ripetizioni ChatGPT
+            url: https://riccardo-buzzolan-ripetizioni-schio.riccardobb.chatgpt.site/
+    env:
+      TARGET_URL: ${{ matrix.url }}
+      SITE_NAME: ${{ matrix.name }}
+    steps:
+      - name: Prepare Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: 22
+      - name: Mobile Lighthouse audit
+        continue-on-error: true
+        run: |
+          npx --yes lighthouse@12 "$TARGET_URL" --chrome-flags="--headless --no-sandbox --disable-gpu" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path="$RUNNER_TEMP/lighthouse.json" --max-wait-for-load=30000 --quiet
+      - name: Print measured scores
+        if: always()
+        run: |
+          if [ -f "$RUNNER_TEMP/lighthouse.json" ]; then
+            node --input-type=module -e '
+              import { readFileSync } from "node:fs";
+              const r = JSON.parse(readFileSync(process.env.RUNNER_TEMP + "/lighthouse.json", "utf8"));
+              for (const id of ["performance", "accessibility", "best-practices", "seo"]) {
+                const s = r.categories?.[id]?.score;
+                console.log(id + ": " + (Number.isFinite(s) ? Math.round(s * 100) : "non misurato"));
+              }
+              for (const id of ["largest-contentful-paint", "cumulative-layout-shift", "total-blocking-time"]) {
+                console.log(id + ": " + (r.audits?.[id]?.displayValue || "non misurato"));
+              }
+              const issues = Object.values(r.audits || {}).filter(a => a.details?.type === "opportunity" && a.score !== null && a.score < 0.9);
+              for (const a of issues.slice(0, 7)) console.log("OPPORTUNITÀ: " + a.title);
+              console.log("URL: " + r.finalDisplayedUrl);
+            '
+          else
+            echo "AUDIT NON DISPONIBILE: il browser non ha completato il test per $SITE_NAME ($TARGET_URL)"
+          fi
