@@ -1,0 +1,27 @@
+name: Public demos content check
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/public-demo-content.yml
+      - scripts/check-public-demo.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  content:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: 22
+      - name: Inspect the public HTML
+        run: node scripts/check-public-demo.mjs
