@@ -95,7 +95,7 @@ for (const path of htmlFiles) {
   )) {
     try {
       const data = JSON.parse(value);
-      if (!data["@context"] || !data["@type"])
+      if (!data["@context"] || (!data["@type"] && !Array.isArray(data["@graph"])))
         failures.push("JSON-LD incompleto: " + relative(root, path));
     } catch {
       failures.push("JSON-LD non valido: " + relative(root, path));
@@ -146,14 +146,20 @@ if (!readFileSync(resolve("404.html"), "utf8").includes('content="noindex"'))
   failures.push("404 senza noindex");
 if (/<script(?![^>]*application\/ld\+json)[^>]*>\s*[^<\s]/i.test(home))
   failures.push("JavaScript eseguibile inline");
-// Non ripubblicare offerte commerciali nella homepage dimostrativa.
-if (/20 €|25 €|30 €|200 €|10\s*\+\s*1 ore|https:\/\/wa\.me\//i.test(home) ||
-    /"@type"\s*:\s*"(?:Offer|Service)"/.test(home))
+// I contenuti didattici sono una bozza: non devono pubblicizzare offerte attive.
+if (
+  /20 €|25 €|30 €|200 €|10\s*\+\s*1 ore|https:\/\/wa\.me\//i.test(home) ||
+  /"@type"\s*:\s*"(?:Offer|Service)"/.test(home)
+)
   failures.push("Homepage: vecchia offerta di ripetizioni o link commerciale rilevato");
-if (!home.includes('Sezione in lavorazione · Bozza') || home.indexOf('id="formazione"') > home.indexOf('id="materie"'))
+if (
+  !home.includes("Sezione in lavorazione · Bozza") ||
+  home.indexOf('id="formazione"') > home.indexOf('id="materie"')
+)
   failures.push("Homepage: la bozza didattica deve seguire la formazione");
 for (const match of home.matchAll(/<img\b[^>]*>/gi))
-  if (!/\balt\s*=/.test(match[0])) failures.push("Homepage: immagine senza alt");
+  if (!/\balt\s*=/.test(match[0]))
+    failures.push("Homepage: immagine senza alt");
 for (const match of home.matchAll(/<a\b[^>]*target=["']_blank["'][^>]*>/gi))
   if (!/\brel=["'][^"']*(?:noopener|noreferrer)/i.test(match[0]))
     failures.push("Homepage: link esterno senza protezione opener");
