@@ -146,6 +146,17 @@ if (!readFileSync(resolve("404.html"), "utf8").includes('content="noindex"'))
   failures.push("404 senza noindex");
 if (/<script(?![^>]*application\/ld\+json)[^>]*>\s*[^<\s]/i.test(home))
   failures.push("JavaScript eseguibile inline");
+// Non ripubblicare offerte commerciali nella homepage dimostrativa.
+if (/20 €|25 €|30 €|200 €|10\s*\+\s*1 ore|https:\/\/wa\.me\//i.test(home) ||
+    /"@type"\s*:\s*"(?:Offer|Service)"/.test(home))
+  failures.push("Homepage: vecchia offerta di ripetizioni o link commerciale rilevato");
+if (!home.includes('Sezione in lavorazione · Bozza') || home.indexOf('id="formazione"') > home.indexOf('id="materie"'))
+  failures.push("Homepage: la bozza didattica deve seguire la formazione");
+for (const match of home.matchAll(/<img\b[^>]*>/gi))
+  if (!/\balt\s*=/.test(match[0])) failures.push("Homepage: immagine senza alt");
+for (const match of home.matchAll(/<a\b[^>]*target=["']_blank["'][^>]*>/gi))
+  if (!/\brel=["'][^"']*(?:noopener|noreferrer)/i.test(match[0]))
+    failures.push("Homepage: link esterno senza protezione opener");
 if (/data:image\/[^;]+;base64/i.test(home))
   failures.push("Immagine Base64 ancora incorporata");
 const patterns = [
