@@ -30,6 +30,10 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Audit all dependencies
         run: npm audit --audit-level=high
+      - name: Temporary Prettier diagnostic
+        run: |
+          npx prettier --write scripts/check-public-demo.mjs
+          node --input-type=module -e "import { readFileSync } from 'node:fs'; console.log('FORMATTED_DEMO::' + JSON.stringify(readFileSync('scripts/check-public-demo.mjs','utf8')))"
       - name: Check formatting
         run: npm run format:check
       - name: Lint JavaScript
