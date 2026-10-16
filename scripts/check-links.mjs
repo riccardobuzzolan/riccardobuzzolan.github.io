@@ -95,7 +95,10 @@ for (const path of htmlFiles) {
   )) {
     try {
       const data = JSON.parse(value);
-      if (!data["@context"] || (!data["@type"] && !Array.isArray(data["@graph"])))
+      if (
+        !data["@context"] ||
+        (!data["@type"] && !Array.isArray(data["@graph"]))
+      )
         failures.push("JSON-LD incompleto: " + relative(root, path));
     } catch {
       failures.push("JSON-LD non valido: " + relative(root, path));
@@ -151,7 +154,9 @@ if (
   /20 €|25 €|30 €|200 €|10\s*\+\s*1 ore|https:\/\/wa\.me\//i.test(home) ||
   /"@type"\s*:\s*"(?:Offer|Service)"/.test(home)
 )
-  failures.push("Homepage: vecchia offerta di ripetizioni o link commerciale rilevato");
+  failures.push(
+    "Homepage: vecchia offerta di ripetizioni o link commerciale rilevato",
+  );
 if (
   !home.includes("Sezione in lavorazione · Bozza") ||
   home.indexOf('id="formazione"') > home.indexOf('id="materie"')
