@@ -1317,10 +1317,43 @@ button:focus-visible {
 }
 
 /* Portfolio personale: sezione didattica solo come bozza, a fine pagina. */
-.draft-label{display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;margin:0 0 28px;font:600 12px/1.5 var(--display);letter-spacing:.02em;color:#45413b}
-.draft-label strong{font-size:12px;font-weight:750}
-.draft-label span{display:inline-block;padding:7px 12px;border:1px solid #d1ccc4;border-radius:999px;background:#f8f7f4;color:#4d4942}
-.hero p{color:#48433d}
-.contact p{color:#d7d1c7}
-.nav-links a{font-size:12px}
-@media(max-width:620px){.draft-label{gap:6px 10px;margin-bottom:20px}.draft-label span{font-size:11px}}
+.draft-label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin: 0 0 28px;
+  font: 600 12px/1.5 var(--display);
+  letter-spacing: 0.02em;
+  color: #45413b;
+}
+.draft-label strong {
+  font-size: 12px;
+  font-weight: 750;
+}
+.draft-label span {
+  display: inline-block;
+  padding: 7px 12px;
+  border: 1px solid #d1ccc4;
+  border-radius: 999px;
+  background: #f8f7f4;
+  color: #4d4942;
+}
+.hero p {
+  color: #48433d;
+}
+.contact p {
+  color: #d7d1c7;
+}
+.nav-links a {
+  font-size: 12px;
+}
+@media (max-width: 620px) {
+  .draft-label {
+    gap: 6px 10px;
+    margin-bottom: 20px;
+  }
+  .draft-label span {
+    font-size: 11px;
+  }
+}
