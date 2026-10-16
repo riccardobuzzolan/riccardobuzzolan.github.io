@@ -612,8 +612,8 @@ body {
   padding: 7px 9px;
   background: rgba(14, 14, 13, 0.72);
   color: #fff;
-  font-size: 9px;
-  letter-spacing: 0.15em;
+  font-size: 12px;
+  letter-spacing: 0.08em;
   text-shadow: none;
 }
 @keyframes video-settle {
@@ -965,8 +965,8 @@ body {
 .footer .inner {
   padding-top: 30px;
   padding-bottom: 30px;
-  font-size: 10px;
-  letter-spacing: 0.06em;
+  font-size: 12px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 .reveal.is-pending {
@@ -1015,7 +1015,7 @@ body {
     padding-top: 64px;
   }
   .hero-video {
-    order: 1;
+    order: 2;
     height: 55svh;
     min-height: 350px;
     transform: none;
@@ -1023,7 +1023,7 @@ body {
     object-position: center top;
   }
   .hero-copy {
-    order: 2;
+    order: 1;
     padding: 48px 20px 72px;
     border-right: 0;
     border-top: 1px solid var(--line);
@@ -1113,8 +1113,8 @@ body {
     letter-spacing: 0 !important;
   }
   .hero-video {
-    height: 46svh;
-    min-height: 305px;
+    height: 40svh;
+    min-height: 260px;
   }
   .hero-copy {
     padding: 38px 18px 62px;
