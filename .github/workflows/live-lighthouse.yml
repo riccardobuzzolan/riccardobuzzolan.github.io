@@ -63,6 +63,20 @@ jobs:
               }
               const issues = Object.values(r.audits || {}).filter(a => a.details?.type === "opportunity" && a.score !== null && a.score < 0.9);
               for (const a of issues.slice(0, 7)) console.log("OPPORTUNITÀ: " + a.title);
+              for (const id of ["layout-shifts", "layout-shift-elements", "cls-culprits-insight", "bootup-time", "mainthread-work-breakdown", "long-tasks", "render-blocking-resources", "unused-css-rules", "unused-javascript"]) {
+                const a = r.audits?.[id];
+                if (!a) continue;
+                const items = a.details?.items || [];
+                console.log("DIAGNOSTIC " + id + ": " + JSON.stringify({title: a.title, score: a.score, value: a.displayValue, items: items.slice(0, 6)}).slice(0, 2500));
+              }
+              for (const category of ["accessibility", "best-practices", "seo"]) {
+                for (const ref of r.categories?.[category]?.auditRefs || []) {
+                  const a = r.audits?.[ref.id];
+                  if (a && a.score !== null && a.score < 1 && (ref.weight || 0) > 0) {
+                    console.log("ISSUE " + category + ": " + a.title + " (" + ref.id + ")");
+                  }
+                }
+              }
               console.log("URL: " + r.finalDisplayedUrl);
             '
           else
