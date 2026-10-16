@@ -30,6 +30,10 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Audit all dependencies
         run: npm audit --audit-level=high
+      - name: Temporary formatting diagnostic for review branch
+        run: |
+          npx prettier --write index.html scripts/check-links.mjs
+          node --input-type=module -e "import { readFileSync } from 'node:fs'; for (const file of ['index.html','scripts/check-links.mjs']) { console.log('FORMATTED::' + file + '::' + JSON.stringify(readFileSync(file, 'utf8'))); }"
       - name: Check formatting
         run: npm run format:check
       - name: Lint JavaScript
