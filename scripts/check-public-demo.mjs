@@ -17,13 +17,13 @@ for (const { name, url } of targets) {
     });
     const html = await response.text();
     const content = html
-      .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
-      .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
+      .replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, " ")
+      .replace(/<style\b[^>]*>[\s\S]*?<\/style\s*>/gi, " ")
       .replace(/<[^>]*>/g, " ")
       .replace(/&nbsp;|&#160;/gi, " ")
       .replace(/\s+/g, " ");
     const title =
-      html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || "non trovato";
+      html.match(/<title[^>]*>([\s\S]*?)<\/title\s*>/i)?.[1] || "non trovato";
     const checks = {
       prezzi_visibili: /\b\d+(?:[.,]\d+)?\s*€|€\s*\d+/i.test(content),
       offerte_o_prenotazioni:
