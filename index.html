@@ -80,6 +80,7 @@
     <link rel="stylesheet" href="./assets/css/style.css" />
     <link rel="stylesheet" href="./assets/css/privacy.css" />
     <link rel="stylesheet" href="./assets/css/attio-inspired.css" />
+    <link rel="stylesheet" href="./assets/css/kingfisher-hero.css" />
 
     <link
       rel="icon"
@@ -104,25 +105,49 @@
     </header>
     <main id="contenuto">
       <section class="hero" id="top" aria-labelledby="hero-title">
-        <video
-          class="hero-video"
-          data-privacy-src="https://thinkingods.com/demos/kingfisher-hero/hero.mp4"
-          muted
-          playsinline
-          loop
-          preload="none"
-          controls
-          aria-label="Martin pescatore in volo che atterra su un ramo"
-        ></video>
-        <button
-          class="video-toggle"
-          type="button"
-          data-video-toggle
-          hidden
-          aria-pressed="false"
+        <div
+          class="hero-media"
+          data-video-state="consent"
+          role="group"
+          aria-label="Video del martin pescatore"
         >
-          Riproduci il video
-        </button>
+          <video
+            class="hero-video"
+            data-privacy-src="https://thinkingods.com/demos/kingfisher-hero/hero.mp4"
+            muted
+            playsinline
+            loop
+            preload="none"
+            controls
+            aria-label="Martin pescatore in volo che atterra su un ramo"
+          ></video>
+          <div class="hero-media-fallback" data-video-fallback>
+            <span class="hero-media-eyebrow">Video naturalistico</span>
+            <strong class="hero-media-title">Il martin pescatore, in volo.</strong>
+            <p class="hero-media-description" data-video-message role="status" aria-live="polite">
+              Per vedere il filmato esterno, abilita i contenuti multimediali nelle preferenze privacy.
+            </p>
+            <button class="hero-media-action" type="button" data-video-action>
+              Gestisci preferenze video
+            </button>
+          </div>
+          <div class="hero-media-toolbar">
+            <span class="hero-media-caption">
+              Martin pescatore
+              <small>Ripresa naturalistica</small>
+            </span>
+            <button
+              class="video-toggle"
+              type="button"
+              data-video-toggle
+              hidden
+              aria-pressed="false"
+              aria-label="Riproduci il video del martin pescatore"
+            >
+              Riproduci il video
+            </button>
+          </div>
+        </div>
         <div class="hero-copy">
           <h1 id="hero-title">
             <span>Riccardo</span><span>Buzzolan.</span
