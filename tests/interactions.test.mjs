@@ -31,6 +31,9 @@ class Element {
   hasAttribute(name) {
     return this.attributes.has(name);
   }
+  removeAttribute(name) {
+    this.attributes.delete(name);
+  }
   getBoundingClientRect() {
     return { width: 500, height: 400, left: 0, top: 0 };
   }
@@ -62,12 +65,19 @@ async function setup({
   };
   canvas.getContext = () => (noCanvas ? null : context);
   const video = new Element();
+  const media = new Element();
+  const action = new Element();
+  const message = new Element();
+  media.dataset = { videoState: "consent" };
+  video.closest = () => media;
   if (mediaGranted)
     video.setAttribute("src", "https://thinkingods.com/media.mp4");
   video.paused = true;
   video.play = () => {
     video.paused = false;
     video.emit("play");
+    video.emit("loadeddata");
+    video.emit("playing");
     return Promise.resolve();
   };
   video.pause = () => {
@@ -75,9 +85,23 @@ async function setup({
     video.emit("pause");
   };
   const toggle = new Element();
+  media.querySelector = (selector) =>
+    selector === "[data-video-toggle]"
+      ? toggle
+      : selector === "[data-video-action]"
+        ? action
+        : message;
+  const privacyButton = new Element();
+  privacyButton.click = () => {
+    privacyButton.clicked = true;
+  };
   document.querySelectorAll = () => [reveal];
   document.querySelector = (selector) =>
-    selector === ".hero-video" ? video : toggle;
+    selector === ".hero-media .hero-video"
+      ? video
+      : selector === "[data-privacy-open]"
+        ? privacyButton
+        : null;
   document.getElementById = () => canvas;
   document.createElement = () => ({
     getContext: () => ({
@@ -151,6 +175,10 @@ async function setup({
     document,
     motion,
     video,
+    media,
+    action,
+    message,
+    privacyButton,
     toggle,
     canvas,
     reveal,
@@ -239,7 +267,7 @@ test("manual video pause survives leaving and returning to the viewport", async 
   assert.equal(app.video.paused, false);
   app.toggle.emit("click");
   const observer = app.observers.find((candidate) =>
-    candidate.targets.includes(app.video),
+    candidate.targets.includes(app.media),
   );
   observer.visible(false);
   observer.visible(true);
@@ -268,6 +296,7 @@ test("external video is not played before consent and starts automatically after
   app.video.setAttribute("src", "https://thinkingods.com/media.mp4");
   app.document.emit("siteprivacy:changed", { detail: { external: true } });
   assert.equal(app.video.paused, false);
+  app.video.removeAttribute("src");
   app.document.emit("siteprivacy:changed", { detail: { external: false } });
   assert.equal(app.video.paused, true);
 });
@@ -283,4 +312,24 @@ test("external preview and decorative video are inert in initial HTML", () => {
   );
   assert.match(markup, /data-privacy-src="https:\/\/thinkingods\.com\/demos\//);
   assert.doesNotMatch(markup, /<iframe\s[^>]*\ssrc="https:\/\//);
+});
+
+test("video fallback opens preferences without fetching external video", async () => {
+  const app = await setup({ mediaGranted: false });
+  assert.equal(app.media.dataset.videoState, "consent");
+  assert.equal(app.video.paused, true);
+  app.action.emit("click");
+  assert.equal(app.privacyButton.clicked, true);
+});
+
+test("video errors provide a retry and a stable fallback", async () => {
+  const app = await setup();
+  app.video.load = () => {
+    app.video.paused = true;
+  };
+  app.video.emit("error");
+  assert.equal(app.media.dataset.videoState, "error");
+  assert.equal(app.action.textContent, "Riprova il video");
+  app.action.emit("click");
+  assert.notEqual(app.media.dataset.videoState, "error");
 });
