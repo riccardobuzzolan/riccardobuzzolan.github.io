@@ -343,7 +343,12 @@
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: linear-gradient(90deg, rgba(11, 24, 30, 0.79), rgba(11, 24, 30, 0.34) 66%, rgba(11, 24, 30, 0.13));
+  background: linear-gradient(
+    90deg,
+    rgba(11, 24, 30, 0.79),
+    rgba(11, 24, 30, 0.34) 66%,
+    rgba(11, 24, 30, 0.13)
+  );
 }
 .hero .hero-media .hero-media-toolbar,
 .hero .hero-media .hero-media-fallback > * {
