@@ -1,13 +1,14 @@
 (() => {
   "use strict";
-  const section = document.getElementById("video-finale");
-  const video = section?.querySelector("video");
-  if (!section || !video) return;
-  video.addEventListener("loadeddata", () => {
-    section.hidden = false;
-    video.play().catch(() => {});
-  });
-  video.addEventListener("error", () => {
-    section.hidden = true;
+  document.querySelectorAll(".footer-film-video").forEach((video) => {
+    const frame = video.closest("[data-video-option]");
+    if (!frame) return;
+    video.addEventListener("error", () => {
+      frame.classList.add("video-unavailable");
+    });
+    video.addEventListener("loadeddata", () => {
+      frame.classList.remove("video-unavailable");
+      video.play().catch(() => {});
+    });
   });
 })();
