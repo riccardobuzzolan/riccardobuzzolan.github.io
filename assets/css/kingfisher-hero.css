@@ -9,7 +9,10 @@
   isolation: isolate;
   grid-column: 2;
   grid-row: 1;
-  align-self: stretch;
+  align-self: center;
+  aspect-ratio: 16 / 10;
+  height: auto;
+  max-height: min(70svh, 600px);
   justify-self: stretch;
   display: block;
   min-width: 0;
@@ -39,7 +42,7 @@
   padding: 0;
   border: 0;
   border-radius: 0;
-  object-fit: cover;
+  object-fit: contain;
   object-position: var(--video-focus-x) var(--video-focus-y);
   background: #1d2421;
   box-shadow: none;
@@ -238,7 +241,9 @@
     order: 2;
     flex: none;
     width: calc(100% - 40px);
-    height: clamp(340px, 53svh, 510px);
+    height: auto;
+    aspect-ratio: 16 / 10;
+    max-height: none;
     min-height: 0;
     margin: 0 20px 24px;
     border-radius: 16px;
@@ -253,7 +258,8 @@
 @media (max-width: 620px) {
   .hero .hero-media {
     width: calc(100% - 28px);
-    height: clamp(300px, 58vw, 430px);
+    height: clamp(215px, 58vw, 340px);
+    aspect-ratio: auto;
     min-height: 0;
     margin: 0 14px 18px;
     border-radius: 13px;
