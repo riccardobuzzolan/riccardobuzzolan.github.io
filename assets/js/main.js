@@ -38,61 +38,178 @@
       revealAll();
     }
 
-  const video = document.querySelector(".hero-video");
-  const videoToggle = document.querySelector("[data-video-toggle]");
-  if (video && videoToggle) {
+  // Filmato esterno: lo stato visivo non deve dipendere dalla disponibilità
+  // della rete. La sorgente viene aggiunta esclusivamente da privacy.js.
+  const video = document.querySelector(".hero-media .hero-video");
+  const media = video?.closest(".hero-media");
+  const videoToggle = media?.querySelector("[data-video-toggle]");
+  const videoAction = media?.querySelector("[data-video-action]");
+  const videoMessage = media?.querySelector("[data-video-message]");
+
+  if (video && media && videoToggle && videoAction && videoMessage) {
     let wantsPlayback = !reducedMotion;
     let videoVisible = true;
-    const updateLabel = () => {
-      videoToggle.hidden = !video.hasAttribute("src");
-      videoToggle.textContent = video.paused
-        ? "Riproduci il video"
-        : "Metti in pausa il video";
-      videoToggle.setAttribute("aria-pressed", String(!video.paused));
+    let hasFrame = false;
+    let failed = false;
+    let pendingPlay = false;
+    let userInteracted = false;
+    const hasSource = () => video.hasAttribute("src");
+
+    const renderVideo = () => {
+      const state = !hasSource()
+        ? "consent"
+        : failed
+          ? "error"
+          : !hasFrame
+            ? "loading"
+            : video.paused
+              ? "paused"
+              : "playing";
+      media.dataset.videoState = state;
+
+      if (state === "consent") {
+        videoMessage.textContent =
+          "Per vedere il filmato esterno, abilita i contenuti multimediali nelle preferenze privacy.";
+        videoAction.textContent = "Gestisci preferenze video";
+      } else if (state === "error") {
+        videoMessage.textContent =
+          "Il filmato non è disponibile in questo momento. Puoi riprovare senza ricaricare la pagina.";
+        videoAction.textContent = "Riprova il video";
+      } else if (state === "loading") {
+        videoMessage.textContent =
+          "Caricamento del video. Se non parte, avvialo manualmente.";
+        videoAction.textContent = "Riproduci il video";
+      }
+
+      videoAction.hidden = state === "playing" || state === "paused";
+      videoToggle.hidden = !hasSource() || failed || !hasFrame;
+      const playing = state === "playing";
+      videoToggle.textContent = playing
+        ? "Metti in pausa"
+        : "Riproduci";
+      videoToggle.setAttribute("aria-pressed", String(playing));
+      videoToggle.setAttribute(
+        "aria-label",
+        playing
+          ? "Metti in pausa il video del martin pescatore"
+          : "Riproduci il video del martin pescatore",
+      );
     };
+
     const syncVideo = () => {
-      if (!video.hasAttribute("src")) {
-        video.pause();
-        updateLabel();
+      if (!hasSource()) {
+        if (!video.paused) video.pause();
+        hasFrame = false;
+        failed = false;
+        pendingPlay = false;
+        renderVideo();
         return;
       }
-      if (!wantsPlayback || !videoVisible || document.hidden) video.pause();
-      else
-        video.play().catch(() => {
+      if (failed || !wantsPlayback || !videoVisible || document.hidden) {
+        if (!video.paused) video.pause();
+        renderVideo();
+        return;
+      }
+      if (video.paused && !pendingPlay) {
+        pendingPlay = true;
+        try {
+          const attempt = video.play();
+          if (attempt && typeof attempt.then === "function") {
+            attempt.then(
+              () => {
+                pendingPlay = false;
+                renderVideo();
+              },
+              () => {
+                pendingPlay = false;
+                // Il browser può bloccare l'autoplay: il pulsante manuale resta visibile.
+                if (hasSource()) wantsPlayback = false;
+                renderVideo();
+              },
+            );
+          } else {
+            pendingPlay = false;
+          }
+        } catch {
+          pendingPlay = false;
           wantsPlayback = false;
-          updateLabel();
-        });
-      updateLabel();
+        }
+      }
+      renderVideo();
     };
+
+    // I controlli nativi rimangono disponibili se lo script non parte.
     video.controls = false;
     video.setAttribute("aria-hidden", "true");
     video.setAttribute("tabindex", "-1");
-    videoToggle.hidden = false;
+
+    videoAction.addEventListener("click", () => {
+      if (!hasSource()) {
+        document.querySelector("[data-privacy-open]")?.click();
+        return;
+      }
+      if (failed) {
+        failed = false;
+        hasFrame = false;
+        video.load();
+      }
+      userInteracted = true;
+      wantsPlayback = true;
+      syncVideo();
+    });
     videoToggle.addEventListener("click", () => {
+      userInteracted = true;
       wantsPlayback = video.paused;
       syncVideo();
     });
-    video.addEventListener("play", updateLabel);
-    video.addEventListener("pause", updateLabel);
-    video.addEventListener("error", () => {
-      wantsPlayback = false;
-      videoToggle.hidden = true;
+
+    video.addEventListener("loadeddata", () => {
+      if (!hasSource()) return;
+      hasFrame = true;
+      renderVideo();
     });
+    video.addEventListener("playing", () => {
+      if (!hasSource()) return;
+      hasFrame = true;
+      renderVideo();
+    });
+    video.addEventListener("play", renderVideo);
+    video.addEventListener("pause", renderVideo);
+    video.addEventListener("error", () => {
+      if (!hasSource()) return;
+      failed = true;
+      pendingPlay = false;
+      wantsPlayback = false;
+      renderVideo();
+    });
+    video.addEventListener("emptied", () => {
+      if (!hasSource()) {
+        hasFrame = false;
+        pendingPlay = false;
+        renderVideo();
+      }
+    });
+
     document.addEventListener("visibilitychange", syncVideo);
     window.addEventListener("pageshow", syncVideo);
     window.addEventListener("pagehide", () => video.pause());
     motion.addEventListener("change", () => {
       if (reducedMotion) wantsPlayback = false;
+      else if (!userInteracted) wantsPlayback = true;
       syncVideo();
     });
     if ("IntersectionObserver" in window) {
       const videoObserver = new IntersectionObserver((entries) => {
         videoVisible = entries[0]?.isIntersecting ?? false;
         syncVideo();
-      });
-      videoObserver.observe(video);
+      }, { threshold: 0.05 });
+      videoObserver.observe(media);
     }
     document.addEventListener("siteprivacy:changed", (event) => {
+      hasFrame = false;
+      failed = false;
+      pendingPlay = false;
+      userInteracted = false;
       wantsPlayback = !!event.detail?.external && !reducedMotion;
       syncVideo();
     });
