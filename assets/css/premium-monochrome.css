@@ -61,66 +61,103 @@ button:focus-visible,
   background: #333333 !important;
 }
 
-/* Apertura: il filmato resta protagonista, con contrasto nero anziché blu. */
+/* Apertura editoriale: contenuto leggibile anche senza video esterno. */
 .hero {
-  background: #151515 !important;
+  background: #ffffff !important;
 }
-.hero .hero-media {
-  background: #151515 !important;
-}
-.hero .hero-media::after {
-  background: linear-gradient(
-    90deg,
-    rgba(10, 10, 10, 0.89) 0%,
-    rgba(10, 10, 10, 0.64) 47%,
-    rgba(10, 10, 10, 0.26) 100%
-  );
+.hero .hero-copy {
+  background: #ffffff;
 }
 .hero .hero-copy h1,
 .hero .hero-copy h1 span {
-  color: #ffffff !important;
+  color: #171717 !important;
 }
 .hero .hero-copy h1 .hero-place {
-  color: #f1eaf2 !important;
+  color: #4d484b !important;
   text-decoration-line: underline;
   text-decoration-color: var(--accent-lilac);
   text-decoration-thickness: 3px;
   text-underline-offset: 9px;
 }
 .hero .hero-copy p {
-  color: #eae9e7 !important;
+  color: #595653 !important;
 }
 .hero .hero-actions a:first-child {
-  border-color: #f8f7f6 !important;
-  background: #f8f7f6 !important;
-  color: #1c1c1c !important;
-}
-.hero .hero-actions a:last-child {
-  border-color: rgba(255, 255, 255, 0.58) !important;
-  background: rgba(14, 14, 14, 0.34) !important;
+  border-color: #171717 !important;
+  background: #171717 !important;
   color: #ffffff !important;
 }
-.hero .hero-actions a:hover {
-  box-shadow: 0 9px 26px rgba(0, 0, 0, 0.18);
+.hero .hero-actions a:last-child {
+  border-color: #d9d4d2 !important;
+  background: #ffffff !important;
+  color: #171717 !important;
 }
+.hero .hero-actions a:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+.hero .hero-media {
+  border-color: #e5dfdd;
+  background: #f5f2ee !important;
+  box-shadow: 0 20px 60px rgba(27, 24, 24, 0.07);
+}
+.hero .hero-media .hero-video {
+  background: #151515;
+  object-fit: contain;
+}
+/* This veil only appears while the actual bird video can be seen. */
+.hero .hero-media::after {
+  background: linear-gradient(
+    180deg,
+    transparent 64%,
+    rgba(12, 12, 12, 0.30) 100%
+  );
+}
+.hero .hero-media[data-video-state="consent"]::after,
+.hero .hero-media[data-video-state="loading"]::after,
+.hero .hero-media[data-video-state="error"]::after {
+  display: none;
+}
+/* No consent, network error, or slow loading: show an actionable
+   neutral panel instead of a large empty dark rectangle. */
 .hero .hero-media .hero-media-fallback {
-  background: linear-gradient(125deg, #161616 0%, #262424 100%);
+  background:
+    radial-gradient(circle at 88% 15%, rgba(221, 209, 226, 0.58), transparent 43%),
+    radial-gradient(circle at 12% 82%, rgba(215, 224, 214, 0.55), transparent 45%),
+    linear-gradient(135deg, #faf9f7 0%, #e9e4df 100%);
+  color: #171717;
+  pointer-events: auto;
 }
 .hero .hero-media .hero-media-fallback::before {
-  border-color: rgba(221, 209, 226, 0.2);
+  border-color: rgba(100, 86, 106, 0.16);
 }
-.hero .hero-media .hero-media-title,
-.hero .hero-media .hero-media-description,
-.hero .hero-media .hero-media-eyebrow {
-  color: #f5f3f4;
-}
-.hero .hero-media .hero-media-action {
-  border-color: #f4f2f1;
-  background: #f4f2f1;
+.hero .hero-media .hero-media-title {
   color: #171717;
 }
+.hero .hero-media .hero-media-title::after {
+  content: "";
+  display: block;
+  width: 67px;
+  height: 3px;
+  margin-top: 14px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent-lilac), var(--accent-sage));
+}
+.hero .hero-media .hero-media-description {
+  color: #504e4b;
+}
+.hero .hero-media .hero-media-eyebrow {
+  color: #696268;
+}
+.hero .hero-media .hero-media-action {
+  border-color: #171717;
+  background: #171717;
+  color: #ffffff;
+}
 .hero .hero-media .hero-media-action:hover {
-  background: #e7e1e8;
+  background: #333333;
+}
+.hero .hero-media .hero-media-action:focus-visible {
+  outline-color: #937b9f;
 }
 .hero .hero-media .video-toggle,
 .hero .hero-media .hero-media-caption {
@@ -367,12 +404,11 @@ button:focus-visible,
 
 /* Riduzione del movimento e leggibilità su smartphone. */
 @media (max-width: 760px) {
-  .hero .hero-media::after {
-    background: linear-gradient(
-      180deg,
-      rgba(12, 12, 12, 0.62) 0%,
-      rgba(12, 12, 12, 0.77) 100%
-    );
+  .hero .hero-media {
+    height: clamp(340px, 88vw, 430px);
+  }
+  .hero .hero-media .hero-media-fallback {
+    padding: 22px;
   }
   .hero .hero-copy h1 .hero-place {
     text-decoration-thickness: 2px;
