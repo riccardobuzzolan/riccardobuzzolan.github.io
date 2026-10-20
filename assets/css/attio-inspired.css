@@ -1,0 +1,719 @@
+/*
+ * Portfolio – revisione grafica ispirata al linguaggio visuale di Attio.
+ * Progetto originale: mantenere contenuti, video, consenso e interazioni.
+ * Caricato dopo style.css e privacy.css per rendere il restyling reversibile.
+ */
+
+:root {
+  --paper: #ffffff;
+  --paper-2: #fafafb;
+  --ink: #1c1d1f;
+  --muted: #626a76;
+  --line: #e3e6eb;
+  --orange: #266df0;
+  --orange-dark: #225ed0;
+  --dark: #131518;
+  --max: 1240px;
+  --ui-shadow: 0 22px 70px rgba(20, 29, 45, 0.055);
+  --ui-radius: 16px;
+  --ui-ease: cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+html,
+body {
+  background: var(--paper);
+}
+body {
+  color: var(--ink);
+  letter-spacing: -0.012em;
+}
+::selection {
+  background: #d6e5ff;
+  color: #101722;
+}
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid #266df0;
+  outline-offset: 3px;
+}
+section[id],
+main[id] {
+  scroll-margin-top: 88px;
+}
+
+/* Header: sottile, leggibile, senza decorazioni invasive. */
+.nav {
+  height: 76px;
+  background: rgba(255, 255, 255, 0.93);
+  border-bottom: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+.brand {
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  color: #1b1d21;
+}
+.nav-links {
+  gap: clamp(14px, 2vw, 32px);
+}
+.nav-links a {
+  color: #3f444c;
+  font-size: 13px;
+  font-weight: 540;
+  letter-spacing: -0.015em;
+  text-transform: none;
+}
+.nav-links a:not(.nav-contact)::after {
+  height: 1px;
+  background: #1b1d21;
+}
+.nav-contact {
+  padding: 10px 15px !important;
+  border: 1px solid #202124 !important;
+  border-radius: 9px;
+  color: #fff !important;
+  background: #202124;
+  min-height: 41px;
+  display: inline-flex;
+  align-items: center;
+  transition:
+    background 0.2s var(--ui-ease),
+    transform 0.2s var(--ui-ease);
+}
+.nav-contact:hover {
+  color: #fff !important;
+  background: #34373e !important;
+  border-color: #34373e !important;
+  transform: translateY(-1px);
+}
+
+/* Hero: il martin pescatore resta la risorsa visiva principale. */
+.hero {
+  height: min(880px, 100svh);
+  min-height: 720px;
+  padding-top: 76px;
+  grid-template-columns: minmax(0, 51%) minmax(0, 49%);
+  background: #fff;
+}
+.hero-copy {
+  padding: clamp(54px, 6.8vw, 112px) clamp(26px, 5.2vw, 90px)
+    clamp(56px, 7vw, 110px);
+  border-right: none;
+  justify-content: center;
+}
+.hero-copy::before {
+  display: none;
+}
+.hero h1 {
+  max-width: 11ch;
+  font-weight: 600;
+  font-size: clamp(60px, 6.5vw, 104px);
+  letter-spacing: -0.079em;
+  line-height: 0.9;
+  gap: 0.04em;
+}
+.hero h1 .hero-place {
+  margin-top: 0.16em;
+  font-size: 0.51em;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  color: #6b7280;
+}
+.hero p {
+  margin-top: 32px;
+  max-width: 44ch;
+  color: #565e68;
+  font-size: clamp(15px, 1.2vw, 18px);
+  line-height: 1.6;
+  letter-spacing: -0.014em;
+}
+.hero-actions {
+  margin-top: 30px;
+  gap: 10px;
+}
+.hero-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 12px 19px;
+  border: 1px solid #d4d9e1;
+  border-radius: 10px;
+  background: #fff;
+  color: #22252b !important;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.008em;
+  text-decoration: none;
+  transition:
+    transform 0.2s var(--ui-ease),
+    background 0.2s var(--ui-ease),
+    border-color 0.2s var(--ui-ease),
+    box-shadow 0.2s var(--ui-ease);
+}
+.hero-actions a::after {
+  content: none;
+}
+.hero-actions a:first-child {
+  background: #202124;
+  color: #fff !important;
+  border-color: #202124;
+}
+.hero-actions a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
+}
+.hero-actions a:first-child:hover {
+  background: #37393e;
+}
+.hero-video {
+  align-self: center;
+  justify-self: stretch;
+  width: calc(100% - 30px);
+  height: calc(100% - 52px);
+  min-height: 580px;
+  margin: 26px 30px 26px 0;
+  border-radius: var(--ui-radius);
+  border: 1px solid #e4e7ed;
+  background: linear-gradient(145deg, #f1f4f9, #dee4ed);
+  object-position: 54% center;
+  filter: none;
+  animation: none;
+  transform: none;
+  box-shadow: var(--ui-shadow);
+}
+.video-toggle {
+  top: 103px;
+  right: 48px;
+  min-height: 42px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  background: rgba(21, 24, 29, 0.86);
+  border-color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+}
+.scroll-cue {
+  bottom: 20px;
+  right: 44px;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  background: rgba(19, 23, 27, 0.6);
+  font-size: 10px;
+  letter-spacing: 0.025em;
+  text-transform: none;
+}
+
+/* Titoli e sezioni: tipografia di prodotto, spaziatura più controllata. */
+.section {
+  background: #fff;
+  border-top: 1px solid var(--line);
+}
+.inner {
+  padding: clamp(88px, 9vw, 136px) clamp(24px, 4vw, 56px);
+}
+.section-head {
+  grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
+  gap: clamp(30px, 6vw, 100px);
+  margin-bottom: 55px;
+}
+.section-head h2,
+.materie-copy h2,
+.contact h2 {
+  font-family: var(--display);
+  font-weight: 580;
+  line-height: 1.02;
+  letter-spacing: -0.065em;
+}
+.section-head h2,
+#formazione .section-head h2,
+#tariffe .section-head h2 {
+  font-size: clamp(42px, 4.8vw, 70px);
+  line-height: 1.03;
+}
+.section-head p {
+  max-width: 55ch;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* Formazione: schede come viste di un'interfaccia professionale. */
+#formazione {
+  background: #fff;
+}
+.education-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  border: 0;
+}
+.edu-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  min-height: 270px;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--ui-radius);
+  background: #fff;
+  transition:
+    transform 0.22s var(--ui-ease),
+    border-color 0.22s var(--ui-ease),
+    box-shadow 0.22s var(--ui-ease);
+}
+.edu-row:hover {
+  padding: 26px;
+  background: #fff;
+  border-color: #c5ccd7;
+  transform: translateY(-3px);
+  box-shadow: var(--ui-shadow);
+}
+.edu-year {
+  padding: 6px 9px;
+  margin-bottom: 23px;
+  border: 1px solid #e5e8ed;
+  border-radius: 7px;
+  background: #f8f9fb;
+  color: #596374;
+  font-size: 11px;
+  letter-spacing: 0.015em;
+}
+.edu-row h3 {
+  font-size: clamp(19px, 1.65vw, 24px);
+  line-height: 1.2;
+  font-weight: 580;
+  letter-spacing: -0.04em;
+}
+.edu-row p {
+  font-size: 13px;
+  line-height: 1.62;
+  color: #626a76;
+}
+.edu-row a {
+  margin-top: auto;
+  padding-top: 16px;
+  font-size: 12px;
+  color: #245fcc;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.edu-row > span:empty {
+  display: none;
+}
+
+/* Anteprima applicazione: la cornice ricorda una finestra software. */
+.atlas-showcase {
+  background: var(--paper-2);
+}
+.atlas-showcase-actions {
+  margin-bottom: 18px;
+}
+.atlas-showcase-actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 43px;
+  padding: 10px 15px;
+  border: 1px solid #202124;
+  border-radius: 9px;
+  background: #202124;
+  color: #fff;
+  font-size: 12px;
+  text-decoration: none;
+  transition:
+    background 0.2s var(--ui-ease),
+    transform 0.2s var(--ui-ease);
+}
+.atlas-showcase-actions a:hover {
+  background: #3b3e44;
+  transform: translateY(-1px);
+}
+.atlas-showcase-actions span {
+  color: #646d7b;
+}
+.atlas-showcase-frame {
+  padding: 12px;
+  border: 1px solid #dfe3e9;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: var(--ui-shadow);
+  overflow: hidden;
+}
+.atlas-showcase-frame iframe {
+  border-radius: 9px;
+}
+
+/* La sezione didattica rimane chiaramente indicata come bozza. */
+.materie {
+  min-height: 890px;
+  background: #fff;
+}
+.materie .inner {
+  min-height: 890px;
+}
+.materie-copy {
+  width: min(760px, 65vw);
+}
+.materie-copy h2 {
+  max-width: 12ch;
+  margin-bottom: 40px;
+  font-size: clamp(44px, 5.1vw, 74px);
+}
+.draft-label {
+  color: #565f6b;
+}
+.draft-label span {
+  padding: 6px 10px;
+  border-color: #e0e5ec;
+  border-radius: 8px;
+  background: #f7f8fa;
+  color: #606a76;
+}
+.subject-lines {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  border-top: 0;
+}
+.subject-line {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 150px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.94);
+  transition:
+    background 0.2s var(--ui-ease),
+    border-color 0.2s var(--ui-ease),
+    transform 0.2s var(--ui-ease);
+}
+.subject-line::after {
+  content: none;
+}
+.subject-line:hover {
+  padding: 22px;
+  border-color: #b9c9e8;
+  background: #fff;
+  transform: translateY(-2px);
+}
+.subject-line strong {
+  font-weight: 620;
+  font-size: 17px;
+  color: #22252b;
+}
+.subject-line span {
+  align-self: flex-start;
+  color: #646c76;
+  line-height: 1.55;
+}
+#portraitCanvas {
+  opacity: 0.32;
+}
+
+/* Una fascia scura, con righe tecniche e senza effetti pesanti. */
+#metodo {
+  background: #15171b;
+  color: #fff;
+}
+#metodo .inner {
+  gap: clamp(40px, 6vw, 90px);
+}
+#metodo .section-head h2 {
+  color: #fff;
+  font-size: clamp(43px, 4.5vw, 66px);
+}
+#metodo .section-head p {
+  color: #b6becb;
+}
+#metodo .method-list {
+  border-top: 1px solid #48505c;
+}
+.method-row {
+  grid-template-columns: 45px minmax(0, 0.95fr) minmax(0, 1.15fr);
+  gap: 16px;
+  padding: 30px 0;
+  border-bottom: 1px solid #3a424f;
+}
+.method-row::before {
+  background: #21262d;
+}
+.method-num {
+  color: #98bcff;
+  font-size: 12px;
+}
+.method-row h3 {
+  color: #fff;
+  font-size: clamp(18px, 1.8vw, 24px);
+}
+.method-row p {
+  color: #b6becb;
+  font-size: 13px;
+}
+
+/* Contatti / footer coerenti con la call-to-action finale. */
+.contact,
+.footer {
+  background: #121417;
+}
+.contact h2 {
+  max-width: 11ch;
+  font-size: clamp(57px, 6vw, 88px);
+  line-height: 1.02;
+  color: #fff;
+}
+.contact h2::first-line {
+  color: #fff;
+}
+.contact p {
+  color: #b6becb;
+}
+.contact-links a {
+  border-color: #555e6b;
+}
+.contact-links a:first-child {
+  color: #fff !important;
+  border-color: #c9d2df;
+}
+.footer {
+  border-top-color: #2c333e;
+}
+.footer .inner {
+  color: #a0a9b6;
+  font-size: 11px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Pannello privacy: estetica coerente, logica di consenso invariata. */
+.site-privacy {
+  border: 1px solid #dfe3e9;
+  border-radius: 16px;
+  color: #252932;
+  box-shadow: 0 20px 65px rgba(19, 26, 36, 0.15);
+}
+.site-privacy-accent {
+  background: #f1f5fd;
+  color: #255fce;
+  border-radius: 11px;
+}
+.site-privacy p {
+  color: #66707e;
+}
+.site-privacy-buttons button {
+  border-radius: 9px;
+  border-color: #d6dce4;
+}
+.site-privacy-buttons .site-privacy-accept {
+  background: #202124;
+  border-color: #202124;
+}
+.site-privacy a {
+  color: #245fcc;
+}
+
+/* Responsive: contenuti e pulsanti restano raggiungibili. */
+@media (max-width: 1080px) {
+  .hero {
+    grid-template-columns: minmax(0, 49%) minmax(0, 51%);
+  }
+  .hero h1 {
+    font-size: clamp(54px, 7vw, 82px);
+  }
+  .hero-copy {
+    padding-inline: clamp(24px, 4vw, 56px);
+  }
+  .method-row {
+    grid-template-columns: 38px 1fr;
+  }
+  .method-row p {
+    grid-column: 2;
+  }
+}
+@media (max-width: 900px) {
+  .nav {
+    height: 68px;
+    padding-inline: 20px;
+  }
+  .nav-links {
+    gap: 16px;
+    margin-left: 16px;
+  }
+  .hero {
+    height: auto;
+    min-height: 0;
+    padding-top: 68px;
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-copy {
+    order: 1;
+    padding: 75px clamp(22px, 5vw, 44px) 50px;
+    border: 0;
+  }
+  .hero h1 {
+    max-width: none;
+    font-size: clamp(60px, 9vw, 88px);
+  }
+  .hero p {
+    max-width: 55ch;
+    margin-top: 26px;
+  }
+  .hero-video {
+    order: 2;
+    width: calc(100% - 40px);
+    height: clamp(350px, 50svh, 560px);
+    min-height: 350px;
+    margin: 0 20px 24px;
+    object-position: center center;
+    transform: none;
+    animation: none;
+  }
+  .video-toggle {
+    top: auto;
+    bottom: 45px;
+    right: 40px;
+  }
+  .scroll-cue {
+    display: none;
+  }
+  .section-head {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .education-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .materie,
+  .materie .inner {
+    min-height: 0;
+  }
+  .materie-copy {
+    width: 100%;
+    padding-top: 0;
+  }
+  #portraitCanvas {
+    opacity: 0.12;
+  }
+  #metodo .inner {
+    display: block;
+  }
+  #metodo .section-head {
+    position: static;
+    margin-bottom: 44px;
+  }
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+}
+@media (max-width: 620px) {
+  .nav {
+    height: 62px;
+    padding-inline: 16px;
+  }
+  .brand {
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .nav-links {
+    margin-left: 12px;
+    gap: 10px;
+    overflow-x: auto;
+  }
+  .nav-contact {
+    min-height: 40px;
+    padding: 9px 12px !important;
+  }
+  .hero {
+    padding-top: 62px;
+  }
+  .hero-copy {
+    padding: 60px 20px 35px;
+  }
+  .hero h1 {
+    font-size: clamp(48px, 12vw, 70px);
+  }
+  .hero h1 .hero-place {
+    font-size: 0.54em;
+  }
+  .hero-actions {
+    align-items: stretch;
+    flex-direction: row;
+    gap: 10px;
+  }
+  .hero-actions a {
+    font-size: 12px;
+  }
+  .hero-video {
+    width: calc(100% - 28px);
+    height: 320px;
+    min-height: 0;
+    margin: 0 14px 18px;
+    border-radius: 12px;
+  }
+  .video-toggle {
+    bottom: 36px;
+    right: 28px;
+  }
+  .inner {
+    padding: 78px 20px 84px;
+  }
+  .section-head h2,
+  #formazione .section-head h2 {
+    font-size: clamp(40px, 10.5vw, 58px);
+  }
+  .education-list,
+  .subject-lines {
+    grid-template-columns: 1fr;
+  }
+  .edu-row,
+  .edu-row:hover {
+    min-height: 0;
+    padding: 24px;
+  }
+  .edu-row a {
+    margin-top: 8px;
+  }
+  .materie-copy h2 {
+    font-size: clamp(42px, 10.4vw, 58px);
+  }
+  .subject-line,
+  .subject-line:hover {
+    min-height: 0;
+    padding: 19px;
+  }
+  .atlas-showcase-frame {
+    padding: 7px;
+    border-radius: 13px;
+  }
+  .contact h2 {
+    font-size: clamp(50px, 12vw, 72px);
+  }
+  .footer .inner {
+    font-size: 11px;
+  }
+}
+@media (max-width: 390px) {
+  .hero-actions {
+    flex-direction: column;
+  }
+  .hero-actions a {
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-actions a,
+  .nav-contact,
+  .edu-row,
+  .subject-line,
+  .atlas-showcase-actions a {
+    transition: none !important;
+    transform: none !important;
+  }
+}
