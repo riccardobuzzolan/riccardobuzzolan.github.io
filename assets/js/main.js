@@ -52,7 +52,6 @@
     let hasFrame = false;
     let failed = false;
     let pendingPlay = false;
-    let userInteracted = false;
     const hasSource = () => video.hasAttribute("src");
 
     const renderVideo = () => {
@@ -84,9 +83,7 @@
       videoAction.hidden = state === "playing" || state === "paused";
       videoToggle.hidden = !hasSource() || failed || !hasFrame;
       const playing = state === "playing";
-      videoToggle.textContent = playing
-        ? "Metti in pausa"
-        : "Riproduci";
+      videoToggle.textContent = playing ? "Metti in pausa" : "Riproduci";
       videoToggle.setAttribute("aria-pressed", String(playing));
       videoToggle.setAttribute(
         "aria-label",
@@ -153,12 +150,10 @@
         hasFrame = false;
         video.load();
       }
-      userInteracted = true;
       wantsPlayback = true;
       syncVideo();
     });
     videoToggle.addEventListener("click", () => {
-      userInteracted = true;
       wantsPlayback = video.paused;
       syncVideo();
     });
@@ -195,22 +190,25 @@
     window.addEventListener("pagehide", () => video.pause());
     motion.addEventListener("change", () => {
       if (reducedMotion) wantsPlayback = false;
-      else if (!userInteracted) wantsPlayback = true;
       syncVideo();
     });
     if ("IntersectionObserver" in window) {
-      const videoObserver = new IntersectionObserver((entries) => {
-        videoVisible = entries[0]?.isIntersecting ?? false;
-        syncVideo();
-      }, { threshold: 0.05 });
+      const videoObserver = new IntersectionObserver(
+        (entries) => {
+          videoVisible = entries[0]?.isIntersecting ?? false;
+          syncVideo();
+        },
+        { threshold: 0.05 },
+      );
       videoObserver.observe(media);
     }
     document.addEventListener("siteprivacy:changed", (event) => {
-      hasFrame = false;
+      const allowed = !!event.detail?.external;
+      if (!allowed) hasFrame = false;
+      else if (video.readyState >= 2) hasFrame = true;
       failed = false;
       pendingPlay = false;
-      userInteracted = false;
-      wantsPlayback = !!event.detail?.external && !reducedMotion;
+      wantsPlayback = allowed && !reducedMotion;
       syncVideo();
     });
     syncVideo();
