@@ -309,7 +309,8 @@ section[id], main[id] { scroll-margin-top: 88px; }
 .atlas-showcase-frame iframe { border-radius: 9px; }
 
 /* La sezione didattica rimane chiaramente indicata come bozza. */
-.materie, .materie .inner { min-height: 890px; background: #fff; }
+.materie { min-height: 890px; background: #fff; }
+.materie .inner { min-height: 890px; }
 .materie-copy { width: min(760px, 65vw); }
 .materie-copy h2 {
   max-width: 12ch;
