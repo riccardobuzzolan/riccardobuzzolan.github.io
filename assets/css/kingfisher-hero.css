@@ -304,35 +304,46 @@
   }
 }
 
-/* Full-bleed film backdrop; introduction follows beneath the film. */
+/* Full-screen kingfisher hero with editorial content above the film. */
 .hero {
-  display: flex !important;
-  flex-direction: column !important;
-  height: auto !important;
-  min-height: 0 !important;
-  padding-top: 76px !important;
-  background: #fff !important;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  grid-template-rows: 1fr !important;
+  min-height: min(780px, 100svh) !important;
+  height: min(860px, 100svh) !important;
+  padding: 76px 0 0 !important;
+  position: relative !important;
+  isolation: isolate;
+  overflow: hidden;
+  background: #233439 !important;
 }
 .hero .hero-media {
-  order: 0 !important;
-  position: relative !important;
-  grid-column: auto !important;
-  grid-row: auto !important;
-  align-self: stretch !important;
+  position: absolute !important;
+  inset: 0 !important;
   width: 100% !important;
+  height: 100% !important;
   max-width: none !important;
-  height: clamp(440px, 78svh, 920px) !important;
+  max-height: none !important;
   min-height: 0 !important;
   aspect-ratio: auto !important;
   margin: 0 !important;
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  background: #e5eced !important;
+  z-index: -1;
+  background: #233439 !important;
 }
 .hero .hero-media .hero-video {
   object-fit: cover !important;
   object-position: 54% 48% !important;
+}
+.hero .hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(11, 24, 30, 0.79), rgba(11, 24, 30, 0.34) 66%, rgba(11, 24, 30, 0.13));
 }
 .hero .hero-media .hero-media-toolbar,
 .hero .hero-media .hero-media-fallback > * {
@@ -343,43 +354,42 @@
   pointer-events: none !important;
 }
 .hero .hero-copy {
-  order: 1 !important;
   position: relative !important;
+  z-index: 3;
+  grid-area: 1 / 1 !important;
   width: 100% !important;
-  max-width: 1240px !important;
-  margin: 0 auto !important;
-  padding: clamp(44px, 6vw, 90px) clamp(22px, 5vw, 80px) !important;
+  max-width: 1300px !important;
+  margin: auto !important;
+  padding: clamp(48px, 7vw, 100px) clamp(24px, 6vw, 90px) !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+.hero .hero-copy h1,
+.hero .hero-copy h1 span,
+.hero .hero-copy h1 .hero-place {
+  color: #fff !important;
+}
+.hero .hero-copy p {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+.hero .hero-actions a {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
+  color: #1c232b !important;
+}
+.hero .hero-actions a:first-child {
   background: #fff !important;
+  color: #1c232b !important;
 }
 @media (max-width: 760px) {
-  .hero .hero-media {
-    height: 62svh !important;
-    min-height: 330px !important;
+  .hero {
+    min-height: 640px !important;
+    height: 88svh !important;
   }
   .hero .hero-copy {
-    padding: 40px 22px 56px !important;
+    padding: 38px 22px 54px !important;
   }
-}
-
-/* Final full-bleed film, without player chrome or overlays. */
-.footer-film {
-  width: 100%;
-  height: clamp(340px, 68svh, 820px);
-  margin: 0;
-  overflow: hidden;
-  background: #192322;
-}
-.footer-film-video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  border: 0;
-}
-@media (max-width: 760px) {
-  .footer-film {
-    height: 52svh;
-    min-height: 270px;
+  .hero .hero-copy h1 {
+    font-size: clamp(48px, 12vw, 76px) !important;
   }
 }
