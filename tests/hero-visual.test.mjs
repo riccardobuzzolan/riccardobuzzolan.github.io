@@ -29,7 +29,7 @@ test("bird video no longer obscures the whole opening screen", () => {
 });
 
 test("premium hero keeps dark type and mobile fallback usable", () => {
-  assert.match(themeCSS, /\.hero \.hero-copy h1\.hero-place/);
+  assert.match(themeCSS, /\.hero \.hero-copy h1 \.hero-place/);
   assert.match(themeCSS, /\.hero \.hero-media \.hero-media-title\s*\{\s*color:\s*#171717/);
   assert.match(themeCSS, /height:\s*clamp\(340px, 88vw, 430px\)/);
   assert.match(themeCSS, /prefers-reduced-motion:\s*reduce/);
