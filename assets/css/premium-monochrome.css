@@ -61,16 +61,25 @@ button:focus-visible,
   background: #333333 !important;
 }
 
-/* Apertura editoriale: contenuto leggibile anche senza video esterno. */
+/* Hero editoriale aperta: nessuna cornice sul filmato. */
 .hero {
+  height: clamp(570px, 76svh, 665px) !important;
+  min-height: 0 !important;
+  padding-top: 76px;
+  grid-template-columns: minmax(0, 44%) minmax(0, 56%);
   background: #ffffff !important;
 }
 .hero .hero-copy {
+  padding: clamp(30px, 4vw, 60px) clamp(24px, 4vw, 70px) !important;
   background: #ffffff;
+  justify-content: center;
 }
 .hero .hero-copy h1,
 .hero .hero-copy h1 span {
   color: #171717 !important;
+}
+.hero .hero-copy h1 {
+  font-size: clamp(55px, 5.65vw, 96px);
 }
 .hero .hero-copy h1 .hero-place {
   color: #4d484b !important;
@@ -80,7 +89,11 @@ button:focus-visible,
   text-underline-offset: 9px;
 }
 .hero .hero-copy p {
+  margin-top: 24px;
   color: #595653 !important;
+}
+.hero .hero-actions {
+  margin-top: 24px;
 }
 .hero .hero-actions a:first-child {
   border-color: #171717 !important;
@@ -96,20 +109,27 @@ button:focus-visible,
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 .hero .hero-media {
-  border-color: #e5dfdd;
+  align-self: stretch;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  aspect-ratio: auto;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
   background: #f5f2ee !important;
-  box-shadow: 0 20px 60px rgba(27, 24, 24, 0.07);
+  box-shadow: none;
 }
 .hero .hero-media .hero-video {
-  background: #151515;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: 54% 50%;
+  background: #171717;
 }
-/* This veil only appears while the actual bird video can be seen. */
 .hero .hero-media::after {
   background: linear-gradient(
     180deg,
-    transparent 64%,
-    rgba(12, 12, 12, 0.3) 100%
+    transparent 71%,
+    rgba(12, 12, 12, 0.23)
   );
 }
 .hero .hero-media[data-video-state="consent"]::after,
@@ -117,34 +137,26 @@ button:focus-visible,
 .hero .hero-media[data-video-state="error"]::after {
   display: none;
 }
-/* Consent and loading: show an actionable panel instead of a blank hero. */
+/* Fallback attivo solo in attesa di consenso, caricamento o errore. */
 .hero .hero-media .hero-media-fallback {
+  justify-content: flex-end;
+  gap: 9px;
+  padding: clamp(22px, 4vw, 42px);
   background: linear-gradient(135deg, #faf9f7, #e9e4df);
   color: #171717;
   pointer-events: auto;
 }
 .hero .hero-media .hero-media-fallback::before {
-  border-color: rgba(100, 86, 106, 0.16);
-}
-.hero .hero-media .hero-media-title {
-  color: #171717;
-}
-.hero .hero-media .hero-media-title::after {
-  content: "";
-  display: block;
-  width: 67px;
-  height: 3px;
-  margin-top: 14px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--accent-lilac), var(--accent-sage));
+  display: none;
 }
 .hero .hero-media .hero-media-description {
+  max-width: 32ch;
+  margin: 0;
   color: #504e4b;
-}
-.hero .hero-media .hero-media-eyebrow {
-  color: #696268;
+  font-size: 14px;
 }
 .hero .hero-media .hero-media-action {
+  margin-top: 7px;
   border-color: #171717;
   background: #171717;
   color: #ffffff;
@@ -155,10 +167,17 @@ button:focus-visible,
 .hero .hero-media .hero-media-action:focus-visible {
   outline-color: #937b9f;
 }
-.hero .hero-media .video-toggle,
-.hero .hero-media .hero-media-caption {
-  background: rgba(17, 17, 17, 0.84);
-  border-color: rgba(255, 255, 255, 0.28);
+.hero .hero-media .hero-media-toolbar {
+  left: auto;
+  right: 20px;
+  bottom: 20px;
+  justify-content: flex-end;
+}
+.hero .hero-media .video-toggle {
+  min-height: 44px;
+  background: rgba(17, 17, 17, 0.83);
+  border-color: rgba(255, 255, 255, 0.32);
+  color: #ffffff;
 }
 
 /* Titoli: neri e con una linea breve, non un fondale colorato. */
@@ -221,6 +240,11 @@ button:focus-visible,
 }
 
 /* Scadenze Fiscali: anteprima più neutra e autorevole. */
+.fiscal-feature {
+  margin: 12px auto 56px;
+  padding: clamp(18px, 2.6vw, 34px);
+}
+
 .fiscal-feature {
   border: 1px solid var(--line);
   background: #fbfaf9;
@@ -398,17 +422,71 @@ button:focus-visible,
   color: var(--ink);
 }
 
-/* Riduzione del movimento e leggibilità su smartphone. */
-@media (max-width: 760px) {
+/* Mobile: filmato a tutta larghezza e contenuto successivo vicino. */
+@media (max-width: 900px) {
+  .hero {
+    height: auto !important;
+    min-height: 0 !important;
+    padding-top: 68px;
+    display: flex;
+    flex-direction: column;
+  }
+  .hero .hero-copy {
+    order: 1;
+    padding: 48px 24px 40px !important;
+  }
+  .hero .hero-copy h1 {
+    font-size: clamp(52px, 9vw, 82px);
+  }
   .hero .hero-media {
-    height: clamp(340px, 88vw, 430px);
+    order: 2;
+    width: 100%;
+    height: clamp(295px, 50svh, 460px);
+    flex: none;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+  .fiscal-feature {
+    margin: 12px 20px 48px;
+  }
+}
+@media (max-width: 620px) {
+  .hero {
+    padding-top: 62px;
+  }
+  .hero .hero-copy {
+    padding: 34px 20px 28px !important;
+  }
+  .hero .hero-copy h1 {
+    font-size: clamp(48px, 12vw, 64px);
+  }
+  .hero .hero-copy p {
+    margin-top: 18px;
+  }
+  .hero .hero-actions {
+    margin-top: 18px;
+  }
+  .hero .hero-media {
+    height: clamp(265px, 70vw, 350px);
   }
   .hero .hero-media .hero-media-fallback {
     padding: 22px;
   }
+  .hero .hero-media .hero-media-description {
+    font-size: 13px;
+  }
+  .hero .hero-media .hero-media-toolbar {
+    right: 14px;
+    bottom: 14px;
+  }
   .hero .hero-copy h1 .hero-place {
     text-decoration-thickness: 2px;
     text-underline-offset: 6px;
+  }
+  .fiscal-feature {
+    margin: 12px 14px 44px;
+    padding: 22px;
   }
   .section-head h2::after,
   .materie-copy h2::after {
