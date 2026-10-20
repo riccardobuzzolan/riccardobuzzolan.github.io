@@ -303,3 +303,13 @@
     transform: none !important;
   }
 }
+
+
+/* Full-bleed film backdrop; introduction remains readable beneath the film. */
+.hero {display:flex!important;flex-direction:column!important;height:auto!important;min-height:0!important;padding-top:76px!important;background:#fff!important}
+.hero .hero-media{order:0!important;position:relative!important;grid-column:auto!important;grid-row:auto!important;align-self:stretch!important;width:100%!important;max-width:none!important;height:clamp(440px,78svh,920px)!important;min-height:0!important;aspect-ratio:auto!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:#e5eced!important}
+.hero .hero-media .hero-video{object-fit:cover!important;object-position:54% 48%!important}
+.hero .hero-media .hero-media-toolbar,.hero .hero-media .hero-media-fallback > *{display:none!important}
+.hero .hero-media .hero-media-fallback{padding:0!important;pointer-events:none!important}
+.hero .hero-copy{order:1!important;position:relative!important;width:100%!important;max-width:1240px!important;margin:0 auto!important;padding:clamp(44px,6vw,90px) clamp(22px,5vw,80px)!important;background:#fff!important}
+@media(max-width:760px){.hero .hero-media{height:62svh!important;min-height:330px!important}.hero .hero-copy{padding:40px 22px 56px!important}}
