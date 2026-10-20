@@ -68,28 +68,28 @@
 
       if (state === "consent") {
         videoMessage.textContent =
-          "Per vedere il filmato esterno, abilita i contenuti multimediali nelle preferenze privacy.";
-        videoAction.textContent = "Gestisci preferenze video";
+          "Per vedere il video, abilita i contenuti multimediali nelle preferenze privacy.";
+        videoAction.textContent = "Attiva il video";
       } else if (state === "error") {
         videoMessage.textContent =
-          "Il filmato non è disponibile in questo momento. Puoi riprovare senza ricaricare la pagina.";
-        videoAction.textContent = "Riprova il video";
+          "Il video non è disponibile in questo momento. Puoi riprovare senza ricaricare la pagina.";
+        videoAction.textContent = "Riprova";
       } else if (state === "loading") {
         videoMessage.textContent =
           "Caricamento del video. Se non parte, avvialo manualmente.";
-        videoAction.textContent = "Riproduci il video";
+        videoAction.textContent = "Riproduci";
       }
 
       videoAction.hidden = state === "playing" || state === "paused";
       videoToggle.hidden = !hasSource() || failed || !hasFrame;
       const playing = state === "playing";
-      videoToggle.textContent = playing ? "Metti in pausa" : "Riproduci";
+      videoToggle.textContent = playing ? "Pausa" : "Riproduci";
       videoToggle.setAttribute("aria-pressed", String(playing));
       videoToggle.setAttribute(
         "aria-label",
         playing
-          ? "Metti in pausa il video del martin pescatore"
-          : "Riproduci il video del martin pescatore",
+          ? "Metti in pausa il video di apertura"
+          : "Riproduci il video di apertura",
       );
     };
 

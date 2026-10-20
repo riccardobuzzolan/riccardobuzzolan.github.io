@@ -329,7 +329,7 @@ test("video errors provide a retry and a stable fallback", async () => {
   };
   app.video.emit("error");
   assert.equal(app.media.dataset.videoState, "error");
-  assert.equal(app.action.textContent, "Riprova il video");
+  assert.equal(app.action.textContent, "Riprova");
   app.action.emit("click");
   assert.notEqual(app.media.dataset.videoState, "error");
 });
