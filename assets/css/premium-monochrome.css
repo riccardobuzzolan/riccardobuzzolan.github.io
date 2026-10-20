@@ -1,0 +1,394 @@
+/*
+ * Variante A — nero elegante, bianco caldo, pastello minimo.
+ * Livello puramente visivo, caricato per ultimo; il video, il consenso
+ * e le funzionalità continuano a essere gestiti dai file originali.
+ */
+:root {
+  --paper: #ffffff;
+  --paper-2: #faf9f7;
+  --ink: #171717;
+  --muted: #63615f;
+  --line: #e8e5e1;
+  --orange: #bdaabf;
+  --orange-dark: #444044;
+  --dark: #171717;
+  --accent-lilac: #ddd1e2;
+  --accent-sage: #d7e0d6;
+  --accent-cream: #e8dfd4;
+  --ui-shadow: 0 16px 45px rgba(15, 15, 15, 0.045);
+}
+
+html,
+body {
+  background: var(--paper);
+}
+body {
+  color: var(--ink);
+}
+::selection {
+  background: var(--accent-lilac);
+  color: #171717;
+}
+a:focus-visible,
+button:focus-visible,
+[data-privacy-open]:focus-visible {
+  outline: 3px solid #bcaac5;
+  outline-offset: 4px;
+}
+
+/* Navigazione editoriale: nero, bianco e una sola sottolineatura. */
+.nav {
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  color: #171717;
+}
+.nav-links a {
+  color: #3e3d3c;
+}
+.nav-links a:not(.nav-contact)::after {
+  height: 2px;
+  background: var(--accent-lilac);
+}
+.nav-contact,
+.nav-contact:hover {
+  border-color: #171717 !important;
+  background: #171717 !important;
+  color: #ffffff !important;
+}
+.nav-contact:hover {
+  background: #333333 !important;
+}
+
+/* Apertura: il filmato resta protagonista, con contrasto nero anziché blu. */
+.hero {
+  background: #151515 !important;
+}
+.hero .hero-media {
+  background: #151515 !important;
+}
+.hero .hero-media::after {
+  background: linear-gradient(
+    90deg,
+    rgba(10, 10, 10, 0.89) 0%,
+    rgba(10, 10, 10, 0.64) 47%,
+    rgba(10, 10, 10, 0.26) 100%
+  );
+}
+.hero .hero-copy h1,
+.hero .hero-copy h1 span {
+  color: #ffffff !important;
+}
+.hero .hero-copy h1 .hero-place {
+  color: #f1eaf2 !important;
+  text-decoration-line: underline;
+  text-decoration-color: var(--accent-lilac);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 9px;
+}
+.hero .hero-copy p {
+  color: #eae9e7 !important;
+}
+.hero .hero-actions a:first-child {
+  border-color: #f8f7f6 !important;
+  background: #f8f7f6 !important;
+  color: #1c1c1c !important;
+}
+.hero .hero-actions a:last-child {
+  border-color: rgba(255, 255, 255, 0.58) !important;
+  background: rgba(14, 14, 14, 0.34) !important;
+  color: #ffffff !important;
+}
+.hero .hero-actions a:hover {
+  box-shadow: 0 9px 26px rgba(0, 0, 0, 0.18);
+}
+.hero .hero-media .hero-media-fallback {
+  background: linear-gradient(125deg, #161616 0%, #262424 100%);
+}
+.hero .hero-media .hero-media-fallback::before {
+  border-color: rgba(221, 209, 226, 0.2);
+}
+.hero .hero-media .hero-media-title,
+.hero .hero-media .hero-media-description,
+.hero .hero-media .hero-media-eyebrow {
+  color: #f5f3f4;
+}
+.hero .hero-media .hero-media-action {
+  border-color: #f4f2f1;
+  background: #f4f2f1;
+  color: #171717;
+}
+.hero .hero-media .hero-media-action:hover {
+  background: #e7e1e8;
+}
+.hero .hero-media .video-toggle,
+.hero .hero-media .hero-media-caption {
+  background: rgba(17, 17, 17, 0.84);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+/* Titoli: neri e con una linea breve, non un fondale colorato. */
+.section,
+#formazione,
+.atlas-showcase,
+.materie {
+  background: var(--paper);
+  border-color: var(--line);
+}
+.section-head h2,
+.materie-copy h2 {
+  color: var(--ink);
+}
+.section-head h2::after,
+.materie-copy h2::after {
+  content: "";
+  display: block;
+  width: clamp(54px, 7vw, 86px);
+  height: 3px;
+  margin-top: 20px;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--accent-lilac) 0%,
+    var(--accent-sage) 100%
+  );
+}
+.section-head p,
+.edu-row p,
+.subject-line span,
+.draft-label,
+.atlas-showcase-actions span {
+  color: var(--muted);
+}
+
+/* Formazione: righe editoriali, niente card blu. */
+#formazione .education-list {
+  border-top-color: var(--line);
+}
+#formazione .edu-row,
+#formazione .edu-row:hover {
+  border-bottom-color: var(--line);
+  background: transparent;
+}
+#formazione .edu-row h3,
+.subject-line strong {
+  color: var(--ink);
+}
+#formazione .edu-year {
+  color: #6b6764;
+}
+#formazione .edu-row a {
+  color: #242424;
+  border-bottom: 2px solid var(--accent-lilac);
+  text-decoration: none;
+}
+#formazione .edu-row a:hover {
+  border-bottom-color: #a99ab0;
+}
+
+/* Scadenze Fiscali: anteprima più neutra e autorevole. */
+.fiscal-feature {
+  border: 1px solid var(--line);
+  background: #fbfaf9;
+  color: var(--ink);
+  box-shadow: none;
+}
+.fiscal-feature-copy h2 {
+  color: var(--ink);
+  letter-spacing: -0.055em;
+}
+.fiscal-feature-copy h2::after {
+  content: "";
+  display: block;
+  width: 62px;
+  height: 3px;
+  margin-top: 18px;
+  border-radius: 3px;
+  background: var(--accent-lilac);
+}
+.fiscal-feature-copy p,
+.fiscal-feature-copy small {
+  color: var(--muted);
+}
+.fiscal-feature-copy a {
+  border: 1px solid #171717;
+  background: #171717;
+  color: #ffffff !important;
+  border-radius: 9px;
+}
+.fiscal-feature-copy a:hover {
+  background: #333333;
+}
+.fiscal-feature-preview {
+  border-color: var(--line);
+  box-shadow: 0 16px 38px rgba(17, 17, 17, 0.06);
+}
+.fiscal-feature-chrome {
+  border-bottom-color: var(--line);
+  background: #f5f3f1;
+}
+.fiscal-feature-dot {
+  background: #d3ccc9;
+}
+.fiscal-feature-domain {
+  color: #736f6b;
+}
+
+/* Memory Atlas: cornice software bianca, pulsante nero. */
+.atlas-showcase-frame {
+  border-color: var(--line);
+  background: #ffffff;
+  box-shadow: var(--ui-shadow);
+}
+.atlas-showcase-actions a {
+  border-color: #171717;
+  background: #171717;
+  color: #ffffff;
+}
+.atlas-showcase-actions a:hover {
+  background: #323232;
+}
+
+/* Parte didattica: sottolineature e piccoli tocchi pastello. */
+.draft-label span {
+  border-color: #e7e1e8;
+  background: #f8f6f9;
+  color: #5e585f;
+}
+.subject-line {
+  border-color: var(--line);
+  background: #ffffff;
+}
+.subject-line:hover {
+  border-color: #d9d0db;
+  background: #fdfcfd;
+}
+.subject-line span {
+  color: var(--muted);
+}
+#portraitCanvas {
+  opacity: 0.3;
+}
+
+/* Fascia scura e contatti: monocromatici, con un solo accento. */
+#metodo,
+.contact,
+.footer {
+  background: #171717;
+}
+#metodo .section-head h2,
+.contact h2 {
+  color: #ffffff;
+}
+#metodo .section-head h2::after {
+  background: var(--accent-lilac);
+}
+#metodo .section-head p,
+.method-row p,
+.contact p {
+  color: #d0cfce;
+}
+#metodo .method-list,
+.method-row,
+.footer {
+  border-color: #373737;
+}
+.method-num {
+  color: #ddd1e2;
+}
+.method-row h3 {
+  color: #f7f7f7;
+}
+.contact-links a {
+  color: #f5f5f5;
+  text-decoration: underline;
+  text-decoration-color: var(--accent-lilac);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+.contact-links a:first-child {
+  border-color: var(--accent-lilac);
+  color: #ffffff !important;
+}
+.footer .inner,
+.footer .inner a,
+.footer .inner button {
+  color: #cecece;
+}
+
+/* Film panoramico finale: riquadro pulito e ben separato. */
+.footer-video-comparison {
+  background: #f9f8f6;
+}
+.footer-film--framed {
+  border: 1px solid #e5e1dc;
+  border-radius: 16px;
+  background: #171717;
+  box-shadow: 0 18px 55px rgba(17, 17, 17, 0.09);
+}
+
+/* Consenso e anteprime: sfondi sobri, contrasti espliciti. */
+.site-privacy {
+  border-color: var(--line);
+  color: var(--ink);
+}
+.site-privacy-accent {
+  background: #f3eff4;
+  color: #5b4c60;
+}
+.site-privacy p {
+  color: var(--muted);
+}
+.site-privacy-buttons .site-privacy-accept {
+  border-color: #171717;
+  background: #171717;
+  color: #ffffff;
+}
+.site-privacy a {
+  color: #383038;
+  text-decoration-color: var(--accent-lilac);
+}
+.site-privacy :is(button, a):focus-visible,
+.privacy-placeholder button:focus-visible {
+  outline-color: #bcaac5;
+}
+.privacy-placeholder,
+.site-privacy-settings {
+  border-color: var(--line);
+  background: #f8f7f5;
+  color: #44413e;
+}
+.privacy-placeholder button {
+  border-color: #dcd6df;
+  background: #ffffff;
+  color: var(--ink);
+}
+
+/* Riduzione del movimento e leggibilità su smartphone. */
+@media (max-width: 760px) {
+  .hero .hero-media::after {
+    background: linear-gradient(
+      180deg,
+      rgba(12, 12, 12, 0.62) 0%,
+      rgba(12, 12, 12, 0.77) 100%
+    );
+  }
+  .hero .hero-copy h1 .hero-place {
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+  }
+  .section-head h2::after,
+  .materie-copy h2::after {
+    margin-top: 15px;
+  }
+  .footer-film--framed {
+    border-radius: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero .hero-actions a {
+    transition: none !important;
+    transform: none !important;
+  }
+}
