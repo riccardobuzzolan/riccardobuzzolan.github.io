@@ -126,11 +126,7 @@ button:focus-visible,
   background: #171717;
 }
 .hero .hero-media::after {
-  background: linear-gradient(
-    180deg,
-    transparent 71%,
-    rgba(12, 12, 12, 0.23)
-  );
+  background: linear-gradient(180deg, transparent 71%, rgba(12, 12, 12, 0.23));
 }
 .hero .hero-media[data-video-state="consent"]::after,
 .hero .hero-media[data-video-state="loading"]::after,
