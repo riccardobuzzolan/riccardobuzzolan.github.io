@@ -41,10 +41,7 @@ test("borderless bird video occupies a larger split hero", () => {
 });
 
 test("video uses only its playback toggle, without decorative labels", () => {
-  assert.doesNotMatch(
-    html,
-    /class="hero-media-(?:caption|eyebrow|title)"/,
-  );
+  assert.doesNotMatch(html, /class="hero-media-(?:caption|eyebrow|title)"/);
   assert.match(html, /data-video-toggle/);
   assert.match(html, /data-video-action/);
   assert.match(themeCSS, /\.hero \.hero-media \.video-toggle\s*\{/);
