@@ -431,3 +431,61 @@
     border-radius: 15px;
   }
 }
+
+/* Restore the original editorial study-path layout, without cards. */
+#formazione .education-list {
+  display: block;
+  border-top: 1px solid #cbd0d6;
+}
+#formazione .edu-row,
+#formazione .edu-row:hover {
+  display: grid;
+  grid-template-columns: 145px minmax(0, 1fr) 88px;
+  align-items: start;
+  gap: clamp(18px, 3.2vw, 46px);
+  min-height: 0;
+  margin: 0;
+  padding: 34px 0;
+  border: 0;
+  border-bottom: 1px solid #e1e5eb;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+#formazione .edu-year {
+  margin: 0;
+  padding: 4px 0 0;
+  border: 0;
+  background: transparent;
+  color: #737c89;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+#formazione .edu-row h3 {
+  font-size: clamp(22px, 2.25vw, 31px);
+  font-weight: 560;
+  line-height: 1.15;
+}
+#formazione .edu-row p {
+  max-width: 64ch;
+  margin-top: 10px;
+  font-size: 14px;
+}
+#formazione .edu-row a {
+  align-self: start;
+  margin: 0;
+  padding: 6px 0 4px;
+  font-size: 13px;
+}
+@media (max-width: 760px) {
+  #formazione .edu-row,
+  #formazione .edu-row:hover {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 26px 0;
+  }
+  #formazione .edu-row a {
+    margin-top: 2px;
+  }
+}
