@@ -120,6 +120,7 @@
   max-width: 16ch;
   font-family: var(--display);
   font-size: clamp(31px, 3.4vw, 51px);
+  color: #19283a;
   font-weight: 580;
   letter-spacing: -0.064em;
   line-height: 1.04;
