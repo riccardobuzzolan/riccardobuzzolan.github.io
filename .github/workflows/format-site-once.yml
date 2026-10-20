@@ -1,0 +1,29 @@
+name: Format selected site files
+on:
+  push:
+    paths:
+      - .github/workflows/format-site-once.yml
+permissions:
+  contents: write
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npx prettier --write index.html assets/css/kingfisher-hero.css
+      - name: Commit formatting
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html assets/css/kingfisher-hero.css
+          if ! git diff --cached --quiet; then
+            git commit -m "Format portfolio HTML and hero CSS"
+            git push origin HEAD:main
+          fi
