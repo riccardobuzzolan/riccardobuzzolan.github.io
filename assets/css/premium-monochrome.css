@@ -121,8 +121,16 @@ button:focus-visible,
    neutral panel instead of a large empty dark rectangle. */
 .hero .hero-media .hero-media-fallback {
   background:
-    radial-gradient(circle at 88% 15%, rgba(221, 209, 226, 0.58), transparent 43%),
-    radial-gradient(circle at 12% 82%, rgba(215, 224, 214, 0.55), transparent 45%),
+    radial-gradient(
+      circle at 88% 15%,
+      rgba(221, 209, 226, 0.58),
+      transparent 43%
+    ),
+    radial-gradient(
+      circle at 12% 82%,
+      rgba(215, 224, 214, 0.55),
+      transparent 45%
+    ),
     linear-gradient(135deg, #faf9f7 0%, #e9e4df 100%);
   color: #171717;
   pointer-events: auto;
