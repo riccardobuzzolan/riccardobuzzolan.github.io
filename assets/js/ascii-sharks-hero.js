@@ -25,7 +25,7 @@
   const pointer={x:-9999,y:-9999,active:false};
   let W=0,H=0,dpr=1,cw=9,ch=13,cols=0,rows=0;
   let creatures=[],fishes=[],water=null,clock=0,raf=0,last=0,acc=0;
-  let bloodTrail=[],lastBloodPoint=null;
+  let bloodTrail=[],lastBloodPoint=null,lastTrailAt=-Infinity;
   let visible=!document.hidden,insideViewport=true;
   const fixed=1/60;
   const palette={
@@ -80,7 +80,8 @@
     // Silhouette and articulated swimming unchanged from the preferred reference.
     // Only forward travel speed is increased slightly (+10%, instead of +18% in V2).
     return {kind,id,x:ux*W,y:uy*H,angle,L:size,speed:speed*1.10,depth,
-      targetX:anchorX,targetY:anchorY,phase,angular:0,spine:[]};
+      targetX:anchorX,targetY:anchorY,phase,angular:0,spine:[],
+      wasFollowing:false,nextRoam:rand(4.5,8.5)};
   }
   function resetSpine(s){
     const f=Math.cos(s.angle),g=Math.sin(s.angle),n=23;
@@ -163,15 +164,16 @@
     }
     makeWater();paint();
   }
-  // Pixel isolati e distanziati: nessuna fascia rossa continua. Fade breve.
+  // Scia leggibile ma frammentata, con dissolvenza morbida.
   function emitBlood(x,y) {
     const px=clamp(Math.floor(x/cw)*cw+cw*.5+rand(-cw*.42,cw*.42),0,W);
     const py=clamp(Math.floor(y/ch)*ch+ch*.5+rand(-ch*.30,ch*.30),0,H);
-    bloodTrail.push({x:px,y:py,life:1,rate:rand(.75,1.02),shade:Math.random()});
-    if(bloodTrail.length>48)bloodTrail.splice(0,bloodTrail.length-48);
+    bloodTrail.push({x:px,y:py,life:1,rate:rand(.56,.76),shade:Math.random()});
+    lastTrailAt=clock;
+    if(bloodTrail.length>95)bloodTrail.splice(0,bloodTrail.length-95);
   }
   function extendBlood(x,y) {
-    const spacing=Math.max(14,cw*2.6);
+    const spacing=Math.max(10,cw*1.9);
     if(lastBloodPoint){
       const dx=x-lastBloodPoint.x,dy=y-lastBloodPoint.y;
       const distance=Math.hypot(dx,dy);
@@ -180,7 +182,7 @@
       for(let k=1;k<=n;k++){
         const t=k/n;
         // Piccole interruzioni volutamente irregolari, come pigmento disperso.
-        if(k===n||Math.random()>.27)emitBlood(lastBloodPoint.x+dx*t,lastBloodPoint.y+dy*t);
+        if(k===n||Math.random()>.23)emitBlood(lastBloodPoint.x+dx*t,lastBloodPoint.y+dy*t);
       }
     }else emitBlood(x,y);
     lastBloodPoint={x,y};
@@ -196,13 +198,26 @@
       if(bloodTrail[k].life<=0)bloodTrail.splice(k,1);
     }
     const bloodTarget=freshestBlood();
+    // Dopo 2.5 secondi senza nuove tracce, ignoriamo il puntatore fermo.
+    const chasingPointer=pointer.active && clock-lastTrailAt<2.5;
     for(const s of creatures){
-      const following=!!bloodTarget||pointer.active;
+      const following=!!bloodTarget||chasingPointer;
+      if(following){
+        s.wasFollowing=true;
+      }else{
+        // Ogni squalo torna a esplorare un'area diversa, senza salti di posizione.
+        if(s.wasFollowing||clock>=s.nextRoam){
+          s.targetX=rand(.17,.83);
+          s.targetY=rand(.18,.82);
+          s.nextRoam=clock+rand(5.5,10);
+        }
+        s.wasFollowing=false;
+      }
       const margin=Math.min(s.L*.23,W*.15,H*.15);
       const destination=bloodTarget ? {
         x:clamp(bloodTarget.x,margin,W-margin),
         y:clamp(bloodTarget.y,margin,H-margin)
-      } : pointer.active ? {
+      } : chasingPointer ? {
         x:clamp(pointer.x,margin,W-margin),
         y:clamp(pointer.y,margin,H-margin)
       } : {
@@ -322,10 +337,10 @@
       if(!current||current.life<b.life)pixels.set(key,{col,row,life:b.life,shade:b.shade});
     }
     for(const b of pixels.values()){
-      const tint=b.shade>.6?[141,56,66]:b.shade>.3?[163,77,85]:[178,103,110];
-      // Calo progressivo: nella seconda meta' della vita il pixel diventa quasi invisibile.
-      const alpha=.30*b.life*b.life;
-      const size=Math.max(2,Math.min(cw*.54,ch*.44))*(.68+.30*b.shade);
+      const tint=b.shade>.6?[149,38,50]:b.shade>.3?[170,58,70]:[185,78,88];
+      // Rosso percepibile all'inizio, poi dissolvenza continua e senza stacchi.
+      const alpha=.46*Math.pow(b.life,1.5);
+      const size=Math.max(2.6,Math.min(cw*.74,ch*.63))*(.76+.26*b.shade);
       const x=(b.col+.5)*cw,y=(b.row+.5)*ch;
       bloodCtx.fillStyle=`rgba(${tint.join(',')},${alpha.toFixed(3)})`;
       bloodCtx.fillRect(Math.round(x-size/2),Math.round(y-size/2),size,size);
