@@ -1,6 +1,8 @@
 (() => {
   'use strict';
-  const canvas = document.getElementById('ocean');
+  const canvas = document.querySelector('canvas.shark-canvas');
+  if (!canvas) return;
+  const hero = canvas.closest('.hero') || canvas.parentElement;
   const ctx = canvas.getContext('2d', { alpha: false });
   if (!ctx) return;
   const TWO_PI=Math.PI*2, PI=Math.PI;
@@ -11,10 +13,10 @@
   const glyphs=':;t%SX8#@', paleGlyphs=".,'`";
   const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
   const pointer={x:-9999,y:-9999,active:false};
-  const pause=document.getElementById('sharksPause');
   let W=0,H=0,dpr=1,cw=9,ch=13,cols=0,rows=0;
   let creatures=[],fishes=[],water=null,clock=0,raf=0,last=0,acc=0;
-  let paused=false,visible=!document.hidden,insideViewport=true;
+  let bloodTrail=[],lastBloodPoint=null;
+  let visible=!document.hidden,insideViewport=true;
   const fixed=1/60;
   const palette={
     hammerhead:[80,97,111],
@@ -67,7 +69,7 @@
   function makeShark(kind,id,ux,uy,angle,size,speed,depth,anchorX,anchorY,phase) {
     // Silhouette and articulated swimming unchanged from the preferred reference.
     // Only forward travel speed is increased slightly (+10%, instead of +18% in V2).
-    return {kind,id,x:ux*W,y:uy*H,angle,L:size,speed:speed*1.16,depth,
+    return {kind,id,x:ux*W,y:uy*H,angle,L:size,speed:speed*1.10,depth,
       targetX:anchorX,targetY:anchorY,phase,angular:0,spine:[]};
   }
   function resetSpine(s){
@@ -137,7 +139,7 @@
     const oldW=W,oldH=H,wasMobile=W<660;
     W=Math.round(r.width);H=Math.round(r.height);
     dpr=Math.min(devicePixelRatio||1,1.8);
-    cw=clamp(Math.round(W/155),7,10);ch=Math.round(cw*1.42);
+    cw=clamp(Math.round(W/180),5,8);ch=Math.round(cw*1.34);
     cols=Math.ceil(W/cw);rows=Math.ceil(H/ch);
     canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);
     if(!creatures.length || (oldW>0&&wasMobile!==(W<660))){seed();}
@@ -145,30 +147,71 @@
       const sx=W/oldW,sy=H/oldH;
       for(const s of creatures){s.x*=sx;s.y*=sy;for(const p of s.spine){p.x*=sx;p.y*=sy}}
       for(const f of fishes){f.x*=sx;f.y*=sy;}
+      for(const b of bloodTrail){b.x*=sx;b.y*=sy;}
+      if(lastBloodPoint){lastBloodPoint.x*=sx;lastBloodPoint.y*=sy;}
     }
     makeWater();paint();
   }
+  // La scia compare solo nel 44% destro ed evapora in circa 4 secondi.
+  function emitBlood(x,y) {
+    const px=clamp(Math.floor(x/cw)*cw+cw*.5,0,W);
+    const py=clamp(Math.floor(y/ch)*ch+ch*.5,0,H);
+    bloodTrail.push({x:px,y:py,life:1,rate:rand(.19,.29),shade:Math.random()});
+    if(bloodTrail.length>210)bloodTrail.splice(0,bloodTrail.length-210);
+  }
+  function extendBlood(x,y) {
+    if(lastBloodPoint){
+      const dx=x-lastBloodPoint.x,dy=y-lastBloodPoint.y;
+      const distance=Math.hypot(dx,dy);
+      if(distance<3)return;
+      const n=Math.min(26,Math.max(1,Math.ceil(distance/(cw*1.5))));
+      for(let k=1;k<=n;k++){const t=k/n;emitBlood(lastBloodPoint.x+dx*t,lastBloodPoint.y+dy*t);}
+    }else emitBlood(x,y);
+    lastBloodPoint={x,y};
+  }
+  function freshestBlood(){
+    for(let k=bloodTrail.length-1;k>=0;k--)if(bloodTrail[k].life>.07)return bloodTrail[k];
+    return null;
+  }
   function step(dt){
     clock+=dt;
+    for(let k=bloodTrail.length-1;k>=0;k--){
+      bloodTrail[k].life-=dt*bloodTrail[k].rate;
+      if(bloodTrail[k].life<=0)bloodTrail.splice(k,1);
+    }
+    const bloodTarget=freshestBlood();
     for(const s of creatures){
-      // Same velocity smoothing and destination-seeking as the portfolio.
-      const destination={
+      const following=!!bloodTarget||pointer.active;
+      const margin=Math.min(s.L*.23,W*.15,H*.15);
+      const destination=bloodTarget ? {
+        x:clamp(bloodTarget.x,margin,W-margin),
+        y:clamp(bloodTarget.y,margin,H-margin)
+      } : pointer.active ? {
+        x:clamp(pointer.x,margin,W-margin),
+        y:clamp(pointer.y,margin,H-margin)
+      } : {
         x:W*s.targetX+Math.sin(clock*.16+s.phase*.38)*Math.min(W*.11,s.L*.38),
         y:H*s.targetY+Math.sin(clock*.11+s.phase*.43)*Math.min(H*.13,s.L*.35)
       };
-      const desired=Math.atan2(destination.y-s.y,destination.x-s.x);
-      const heading=angleDelta(s.angle,desired);
-      const targetAngular=clamp(heading*.48,-.61,.61);
-      s.angular+=(targetAngular-s.angular)*(1-Math.exp(-dt*.8));
+      const dx=destination.x-s.x,dy=destination.y-s.y;
+      const distance=Math.hypot(dx,dy);
+      let desired=Math.atan2(dy,dx);
+      if(s.x<margin*.75||s.x>W-margin*.75||s.y<margin*.75||s.y>H-margin*.75){
+        const center=Math.atan2(H*.5-s.y,W*.5-s.x);
+        desired+=angleDelta(desired,center)*.54;
+      }
+      const steering=following?(distance<s.L*.26?.31:.84):.56;
+      const maxTurn=following?(distance<s.L*.26?.29:.57):.48;
+      const targetAngular=clamp(angleDelta(s.angle,desired)*steering,-maxTurn,maxTurn);
+      s.angular+=(targetAngular-s.angular)*(1-Math.exp(-dt*(following?2.15:1.18)));
       s.angle+=s.angular*dt;
       s.phase+=dt*(1.55+s.speed/31);
       s.x+=Math.cos(s.angle)*s.speed*dt;
       s.y+=Math.sin(s.angle)*s.speed*dt;
-      // Edge avoidance turns the animal around naturally: no wrapping jumps.
       const safe=s.L*.26;
       if(s.x<safe||s.x>W-safe||s.y<safe||s.y>H-safe){
-        const back=Math.atan2(H*s.targetY-s.y,W*s.targetX-s.x);
-        s.angle+=clamp(angleDelta(s.angle,back),-dt*.65,dt*.65);
+        const back=Math.atan2(H*.5-s.y,W*.5-s.x);
+        s.angle+=clamp(angleDelta(s.angle,back),-dt*.44,dt*.44);
       }
       advanceSpine(s);
     }
@@ -218,7 +261,7 @@
     const j0=clamp(Math.floor((top-pad)/ch),0,rows-1),j1=clamp(Math.ceil((bottom+pad)/ch),0,rows-1);
     ctx.font=`600 ${Math.round(ch*.82)}px ui-monospace, SFMono-Regular, Consolas, monospace`;
     ctx.textAlign='center';ctx.textBaseline='middle';
-    const tint=palette[s.kind];
+    const tint=([[143,116,139],[90,139,153],[152,140,102],[107,118,159]][s.id] || palette[s.kind]);
     const pal=[[151,122,143],[88,145,158],[156,138,104],[109,127,164]];
     for(let j=j0;j<=j1;j++)for(let i=i0;i<=i1;i++){
       const x=(i+.5)*cw,y=(j+.5)*ch;
@@ -247,6 +290,27 @@
       if(piece===1&&at>.16&&at<.30&&Math.abs(v)>.07&&cell>.65)letter=';';
       ctx.fillStyle=`rgba(253,254,253,${clamp(.48+light*.37,.38,.93).toFixed(2)})`;
       ctx.fillText(letter,x,y+.4);
+    }
+  }
+  function drawBlood(){
+    if(!bloodTrail.length)return;
+    const pixels=new Map();
+    for(const b of bloodTrail){
+      const col=Math.floor(b.x/cw),row=Math.floor(b.y/ch);
+      if(col<0||row<0||col>=cols||row>=rows)continue;
+      const key=row*cols+col;
+      const current=pixels.get(key);
+      if(!current||current.life<b.life)pixels.set(key,{col,row,life:b.life,shade:b.shade});
+    }
+    ctx.font=`600 ${Math.round(ch*.70)}px ui-monospace, Consolas, monospace`;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    for(const b of pixels.values()){
+      const tint=b.shade>.6?[137,38,48]:b.shade>.3?[161,52,60]:[178,75,83];
+      const alpha=clamp(b.life*.57,0,.6);
+      ctx.fillStyle=`rgba(${tint.join(',')},${alpha.toFixed(3)})`;
+      ctx.fillRect(b.col*cw+.35,b.row*ch+.35,cw-.7,ch-.7);
+      ctx.fillStyle=`rgba(255,237,239,${(.14+.3*b.life).toFixed(3)})`;
+      ctx.fillText(b.shade>.5?':':'.',(b.col+.5)*cw,(b.row+.5)*ch);
     }
   }
   function drawFish(){
@@ -282,11 +346,12 @@
         if(x===0)ctx.moveTo(x,yy);else ctx.lineTo(x,yy);}
       ctx.stroke();
     }
+    drawBlood();
     // Sorted far-to-near; fish are in front of the pale shapes.
     for(const s of [...creatures].sort((a,b)=>a.depth-b.depth))drawOne(s);
     drawFish();
   }
-  const canAnimate=()=>visible&&!paused&&!motion.matches&&insideViewport;
+  const canAnimate=()=>visible&&!motion.matches&&insideViewport;
   function frame(now){
     if(!canAnimate()){raf=0;return;}
     if(!last)last=now;
@@ -301,18 +366,23 @@
     if(canAnimate())raf=requestAnimationFrame(frame);
     else paint();
   }
-  function toggle(){paused=!paused;pause.textContent=paused?'Riprendi animazione':'Pausa animazione';pause.setAttribute('aria-pressed',String(paused));schedule();}
-  pause.addEventListener('click',toggle);
-  window.addEventListener('pointermove',e=>{
-    const rect=canvas.getBoundingClientRect();pointer.x=e.clientX-rect.left;pointer.y=e.clientY-rect.top;
+  hero.addEventListener('pointermove',e=>{
+    const rect=canvas.getBoundingClientRect();
+    pointer.x=e.clientX-rect.left;pointer.y=e.clientY-rect.top;
     pointer.active=e.pointerType!=='touch'&&pointer.x>=0&&pointer.x<=W&&pointer.y>=0&&pointer.y<=H;
+    if(pointer.active && pointer.x>W*.56 && !motion.matches){
+      extendBlood(pointer.x,pointer.y);
+    }else lastBloodPoint=null;
   },{passive:true});
-  window.addEventListener('pointerleave',()=>pointer.active=false);
-  window.addEventListener('blur',()=>pointer.active=false);
-  window.addEventListener('pointerdown',e=>{
-    if(motion.matches||paused)return;
-    for(const f of fishes){const rect=canvas.getBoundingClientRect();const dx=f.x-(e.clientX-rect.left),dy=f.y-(e.clientY-rect.top),d=Math.hypot(dx,dy);
-      if(d<190&&d>1){const impulse=(1-d/190)*105;f.vx+=dx/d*impulse;f.vy+=dy/d*impulse;f.alarm=1;}}
+  hero.addEventListener('pointerleave',()=>{pointer.active=false;lastBloodPoint=null;});
+  window.addEventListener('blur',()=>{pointer.active=false;lastBloodPoint=null;});
+  hero.addEventListener('pointerdown',e=>{
+    if(motion.matches)return;
+    const rect=canvas.getBoundingClientRect();
+    for(const f of fishes){
+      const dx=f.x-(e.clientX-rect.left),dy=f.y-(e.clientY-rect.top),d=Math.hypot(dx,dy);
+      if(d<190&&d>1){const impulse=(1-d/190)*105;f.vx+=dx/d*impulse;f.vy+=dy/d*impulse;f.alarm=1;}
+    }
   },{passive:true});
   document.addEventListener('visibilitychange',()=>{visible=!document.hidden;schedule();});
   motion.addEventListener?.('change',schedule);
@@ -323,5 +393,5 @@
   if(motion.matches){for(let k=0;k<55;k++)step(fixed);paint();}
   schedule();
   // Nonvisual diagnostic access for browser tests.
-  window.__asciiSharks={get count(){return creatures.length;},get kinds(){return creatures.map(s=>s.kind);},get coordinates(){return creatures.map(s=>({x:s.x,y:s.y,heading:s.angle,speed:s.speed}));},get running(){return canAnimate();},get spine(){return creatures.map(s=>s.spine.map(p=>({x:p.x,y:p.y})));}};
+  window.__asciiSharks={get count(){return creatures.length;},get kinds(){return creatures.map(s=>s.kind);},get coordinates(){return creatures.map(s=>({x:s.x,y:s.y,heading:s.angle,speed:s.speed}));},get running(){return canAnimate();},get blood(){return bloodTrail.map(b=>({x:b.x,y:b.y,life:b.life}));},get target(){return {...pointer};},get spine(){return creatures.map(s=>s.spine.map(p=>({x:p.x,y:p.y})));}};
 })();
