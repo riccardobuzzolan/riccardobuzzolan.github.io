@@ -163,20 +163,25 @@
     }
     makeWater();paint();
   }
-  // La scia compare solo nel 44% destro ed evapora in circa 4 secondi.
+  // Pixel isolati e distanziati: nessuna fascia rossa continua. Fade breve.
   function emitBlood(x,y) {
-    const px=clamp(Math.floor(x/cw)*cw+cw*.5,0,W);
-    const py=clamp(Math.floor(y/ch)*ch+ch*.5,0,H);
-    bloodTrail.push({x:px,y:py,life:1,rate:rand(.19,.29),shade:Math.random()});
-    if(bloodTrail.length>210)bloodTrail.splice(0,bloodTrail.length-210);
+    const px=clamp(Math.floor(x/cw)*cw+cw*.5+rand(-cw*.42,cw*.42),0,W);
+    const py=clamp(Math.floor(y/ch)*ch+ch*.5+rand(-ch*.30,ch*.30),0,H);
+    bloodTrail.push({x:px,y:py,life:1,rate:rand(.75,1.02),shade:Math.random()});
+    if(bloodTrail.length>48)bloodTrail.splice(0,bloodTrail.length-48);
   }
   function extendBlood(x,y) {
+    const spacing=Math.max(14,cw*2.6);
     if(lastBloodPoint){
       const dx=x-lastBloodPoint.x,dy=y-lastBloodPoint.y;
       const distance=Math.hypot(dx,dy);
-      if(distance<3)return;
-      const n=Math.min(26,Math.max(1,Math.ceil(distance/(cw*1.5))));
-      for(let k=1;k<=n;k++){const t=k/n;emitBlood(lastBloodPoint.x+dx*t,lastBloodPoint.y+dy*t);}
+      if(distance<spacing)return;
+      const n=Math.min(18,Math.max(1,Math.floor(distance/spacing)));
+      for(let k=1;k<=n;k++){
+        const t=k/n;
+        // Piccole interruzioni volutamente irregolari, come pigmento disperso.
+        if(k===n||Math.random()>.27)emitBlood(lastBloodPoint.x+dx*t,lastBloodPoint.y+dy*t);
+      }
     }else emitBlood(x,y);
     lastBloodPoint={x,y};
   }
@@ -316,15 +321,14 @@
       const current=pixels.get(key);
       if(!current||current.life<b.life)pixels.set(key,{col,row,life:b.life,shade:b.shade});
     }
-    bloodCtx.font=`600 ${Math.round(ch*.70)}px ui-monospace, Consolas, monospace`;
-    bloodCtx.textAlign='center';bloodCtx.textBaseline='middle';
     for(const b of pixels.values()){
-      const tint=b.shade>.6?[137,38,48]:b.shade>.3?[161,52,60]:[178,75,83];
-      const alpha=clamp(b.life*.57,0,.6);
+      const tint=b.shade>.6?[141,56,66]:b.shade>.3?[163,77,85]:[178,103,110];
+      // Calo progressivo: nella seconda meta' della vita il pixel diventa quasi invisibile.
+      const alpha=.30*b.life*b.life;
+      const size=Math.max(2,Math.min(cw*.54,ch*.44))*(.68+.30*b.shade);
+      const x=(b.col+.5)*cw,y=(b.row+.5)*ch;
       bloodCtx.fillStyle=`rgba(${tint.join(',')},${alpha.toFixed(3)})`;
-      bloodCtx.fillRect(b.col*cw+.35,b.row*ch+.35,cw-.7,ch-.7);
-      bloodCtx.fillStyle=`rgba(255,237,239,${(.14+.3*b.life).toFixed(3)})`;
-      bloodCtx.fillText(b.shade>.5?':':'.',(b.col+.5)*cw,(b.row+.5)*ch);
+      bloodCtx.fillRect(Math.round(x-size/2),Math.round(y-size/2),size,size);
     }
   }
   function drawFish(){
