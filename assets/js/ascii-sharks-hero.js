@@ -5,6 +5,16 @@
   const hero = canvas.closest('.hero') || canvas.parentElement;
   const ctx = canvas.getContext('2d', { alpha: false });
   if (!ctx) return;
+  // Layer separato sopra la sfumatura bianca, sotto il testo: il rosso resta visibile su tutta la hero.
+  const bloodCanvas=document.createElement('canvas');
+  bloodCanvas.className='shark-blood-overlay';
+  bloodCanvas.setAttribute('aria-hidden','true');
+  Object.assign(bloodCanvas.style,{position:'absolute',inset:'0',display:'block',width:'100%',height:'100%',zIndex:'2',pointerEvents:'none'});
+  const bloodCtx=bloodCanvas.getContext('2d');
+  if(bloodCtx){
+    const foreground=hero.querySelector('.hero-copy, .stack-hero-grid');
+    hero.insertBefore(bloodCanvas,foreground||null);
+  }
   const TWO_PI=Math.PI*2, PI=Math.PI;
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
   const rand=(a,b)=>a+(b-a)*Math.random();
@@ -142,6 +152,7 @@
     cw=clamp(Math.round(W/180),5,8);ch=Math.round(cw*1.34);
     cols=Math.ceil(W/cw);rows=Math.ceil(H/ch);
     canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);
+    if(bloodCtx){bloodCanvas.width=canvas.width;bloodCanvas.height=canvas.height;}
     if(!creatures.length || (oldW>0&&wasMobile!==(W<660))){seed();}
     else{
       const sx=W/oldW,sy=H/oldH;
@@ -293,6 +304,9 @@
     }
   }
   function drawBlood(){
+    if(!bloodCtx)return;
+    bloodCtx.setTransform(dpr,0,0,dpr,0,0);
+    bloodCtx.clearRect(0,0,W,H);
     if(!bloodTrail.length)return;
     const pixels=new Map();
     for(const b of bloodTrail){
@@ -302,15 +316,15 @@
       const current=pixels.get(key);
       if(!current||current.life<b.life)pixels.set(key,{col,row,life:b.life,shade:b.shade});
     }
-    ctx.font=`600 ${Math.round(ch*.70)}px ui-monospace, Consolas, monospace`;
-    ctx.textAlign='center';ctx.textBaseline='middle';
+    bloodCtx.font=`600 ${Math.round(ch*.70)}px ui-monospace, Consolas, monospace`;
+    bloodCtx.textAlign='center';bloodCtx.textBaseline='middle';
     for(const b of pixels.values()){
       const tint=b.shade>.6?[137,38,48]:b.shade>.3?[161,52,60]:[178,75,83];
       const alpha=clamp(b.life*.57,0,.6);
-      ctx.fillStyle=`rgba(${tint.join(',')},${alpha.toFixed(3)})`;
-      ctx.fillRect(b.col*cw+.35,b.row*ch+.35,cw-.7,ch-.7);
-      ctx.fillStyle=`rgba(255,237,239,${(.14+.3*b.life).toFixed(3)})`;
-      ctx.fillText(b.shade>.5?':':'.',(b.col+.5)*cw,(b.row+.5)*ch);
+      bloodCtx.fillStyle=`rgba(${tint.join(',')},${alpha.toFixed(3)})`;
+      bloodCtx.fillRect(b.col*cw+.35,b.row*ch+.35,cw-.7,ch-.7);
+      bloodCtx.fillStyle=`rgba(255,237,239,${(.14+.3*b.life).toFixed(3)})`;
+      bloodCtx.fillText(b.shade>.5?':':'.',(b.col+.5)*cw,(b.row+.5)*ch);
     }
   }
   function drawFish(){
@@ -370,7 +384,7 @@
     const rect=canvas.getBoundingClientRect();
     pointer.x=e.clientX-rect.left;pointer.y=e.clientY-rect.top;
     pointer.active=e.pointerType!=='touch'&&pointer.x>=0&&pointer.x<=W&&pointer.y>=0&&pointer.y<=H;
-    if(pointer.active && pointer.x>W*.56 && !motion.matches){
+    if(pointer.active && !motion.matches){
       extendBlood(pointer.x,pointer.y);
     }else lastBloodPoint=null;
   },{passive:true});
