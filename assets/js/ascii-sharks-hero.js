@@ -381,15 +381,52 @@
     else paint();
   }
   hero.addEventListener('pointermove',e=>{
+    // Mouse e penna: comportamento gia' esistente; gli eventi touch sono separati.
+    if(e.pointerType==='touch')return;
     const rect=canvas.getBoundingClientRect();
     pointer.x=e.clientX-rect.left;pointer.y=e.clientY-rect.top;
-    pointer.active=e.pointerType!=='touch'&&pointer.x>=0&&pointer.x<=W&&pointer.y>=0&&pointer.y<=H;
+    pointer.active=pointer.x>=0&&pointer.x<=W&&pointer.y>=0&&pointer.y<=H;
     if(pointer.active && !motion.matches){
       extendBlood(pointer.x,pointer.y);
     }else lastBloodPoint=null;
   },{passive:true});
-  hero.addEventListener('pointerleave',()=>{pointer.active=false;lastBloodPoint=null;});
-  window.addEventListener('blur',()=>{pointer.active=false;lastBloodPoint=null;});
+  hero.addEventListener('pointerleave',e=>{
+    if(e.pointerType==='touch')return;
+    pointer.active=false;lastBloodPoint=null;
+  });
+  // Tap e swipe disegnano la stessa scia ASCII, senza bloccare lo scroll.
+  let activeTouchId=null;
+  function moveTouch(touch){
+    if(motion.matches)return;
+    const rect=canvas.getBoundingClientRect();
+    const x=touch.clientX-rect.left,y=touch.clientY-rect.top;
+    pointer.x=x;pointer.y=y;
+    pointer.active=x>=0&&x<=W&&y>=0&&y<=H;
+    if(pointer.active)extendBlood(x,y);
+    else lastBloodPoint=null;
+  }
+  hero.addEventListener('touchstart',e=>{
+    if(activeTouchId!==null||!e.changedTouches.length)return;
+    const target=e.target;
+    if(target instanceof Element && target.closest('a,button,input,textarea,select,[role="button"]'))return;
+    const touch=e.changedTouches[0];
+    activeTouchId=touch.identifier;
+    lastBloodPoint=null;
+    moveTouch(touch);
+  },{passive:true});
+  hero.addEventListener('touchmove',e=>{
+    if(activeTouchId===null)return;
+    const touch=Array.from(e.changedTouches).find(t=>t.identifier===activeTouchId);
+    if(touch)moveTouch(touch);
+  },{passive:true});
+  function endTouch(e){
+    if(activeTouchId===null)return;
+    if(!Array.from(e.changedTouches).some(t=>t.identifier===activeTouchId))return;
+    activeTouchId=null;pointer.active=false;lastBloodPoint=null;
+  }
+  hero.addEventListener('touchend',endTouch,{passive:true});
+  hero.addEventListener('touchcancel',endTouch,{passive:true});
+  window.addEventListener('blur',()=>{pointer.active=false;lastBloodPoint=null;activeTouchId=null;});
   hero.addEventListener('pointerdown',e=>{
     if(motion.matches)return;
     const rect=canvas.getBoundingClientRect();
