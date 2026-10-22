@@ -149,7 +149,8 @@
     const r=canvas.getBoundingClientRect();if(r.width<1||r.height<1)return;
     const oldW=W,oldH=H,wasMobile=W<660;
     W=Math.round(r.width);H=Math.round(r.height);
-    dpr=Math.min(devicePixelRatio||1,1.8);
+    // On touch-sized screens, retain the same shark shapes with a lighter canvas backing.
+    dpr=Math.min(devicePixelRatio||1,W<660?1.5:1.8);
     cw=clamp(Math.round(W/180),5,8);ch=Math.round(cw*1.34);
     cols=Math.ceil(W/cw);rows=Math.ceil(H/ch);
     canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);
@@ -384,9 +385,16 @@
     for(const s of [...creatures].sort((a,b)=>a.depth-b.depth))drawOne(s);
     drawFish();
   }
-  const canAnimate=()=>visible&&!motion.matches&&insideViewport;
+  // OS reduced-motion should not freeze the portfolio. Use a lower render rate instead.
+  const canAnimate=()=>visible&&insideViewport;
   function frame(now){
     if(!canAnimate()){raf=0;return;}
+    // Limit redraws on mobile; simulation time remains real-time, so swimming speed is unchanged.
+    const renderInterval=W<660?(motion.matches?45:30):(motion.matches?40:0);
+    if(last && renderInterval && now-last<renderInterval){
+      raf=requestAnimationFrame(frame);
+      return;
+    }
     if(!last)last=now;
     acc+=clamp((now-last)/1000,0,.05);last=now;
     let iter=0;
@@ -405,7 +413,7 @@
     const rect=canvas.getBoundingClientRect();
     pointer.x=e.clientX-rect.left;pointer.y=e.clientY-rect.top;
     pointer.active=pointer.x>=0&&pointer.x<=W&&pointer.y>=0&&pointer.y<=H;
-    if(pointer.active && !motion.matches){
+    if(pointer.active){
       extendBlood(pointer.x,pointer.y);
     }else lastBloodPoint=null;
   },{passive:true});
@@ -416,7 +424,6 @@
   // Tap e swipe disegnano la stessa scia ASCII, senza bloccare lo scroll.
   let activeTouchId=null;
   function moveTouch(touch){
-    if(motion.matches)return;
     const rect=canvas.getBoundingClientRect();
     const x=touch.clientX-rect.left,y=touch.clientY-rect.top;
     pointer.x=x;pointer.y=y;
@@ -447,7 +454,6 @@
   hero.addEventListener('touchcancel',endTouch,{passive:true});
   window.addEventListener('blur',()=>{pointer.active=false;lastBloodPoint=null;activeTouchId=null;});
   hero.addEventListener('pointerdown',e=>{
-    if(motion.matches)return;
     const rect=canvas.getBoundingClientRect();
     for(const f of fishes){
       const dx=f.x-(e.clientX-rect.left),dy=f.y-(e.clientY-rect.top),d=Math.hypot(dx,dy);
@@ -460,7 +466,6 @@
   if('ResizeObserver'in window)new ResizeObserver(resize).observe(canvas);
   else window.addEventListener('resize',resize,{passive:true});
   resize();
-  if(motion.matches){for(let k=0;k<55;k++)step(fixed);paint();}
   schedule();
   // Nonvisual diagnostic access for browser tests.
   window.__asciiSharks={get count(){return creatures.length;},get kinds(){return creatures.map(s=>s.kind);},get coordinates(){return creatures.map(s=>({x:s.x,y:s.y,heading:s.angle,speed:s.speed}));},get running(){return canAnimate();},get blood(){return bloodTrail.map(b=>({x:b.x,y:b.y,life:b.life}));},get target(){return {...pointer};},get spine(){return creatures.map(s=>s.spine.map(p=>({x:p.x,y:p.y})));}};
