@@ -1,0 +1,82 @@
+
+/* Il nuoto ASCII rimane separato dal resto del portfolio. */
+.hero.hero--ascii {
+  position:relative!important;isolation:isolate!important;display:flex!important;
+  flex-direction:row!important;justify-content:flex-start!important;align-items:center!important;
+  grid-template-columns:none!important;height:clamp(640px,89svh,900px)!important;
+  min-height:610px!important;padding:78px 0 0!important;overflow:hidden!important;background:#fff!important;
+}
+.hero.hero--ascii > .shark-canvas {
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  display:block!important;z-index:0!important;pointer-events:none!important;background:#fff;
+}
+.hero.hero--ascii::after {
+  content:""!important;position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,rgba(255,255,255,.97),rgba(255,255,255,.88) 18%,rgba(255,255,255,.55) 37%,rgba(255,255,255,.08) 62%,transparent 79%);
+}
+.hero.hero--ascii .hero-copy {
+  position:relative!important;z-index:2!important;width:min(690px,85%)!important;
+  max-width:690px!important;min-height:0!important;margin-left:clamp(12px,3vw,50px)!important;
+  padding:clamp(30px,5vw,76px)!important;border:0!important;background:transparent!important;
+}
+.hero.hero--ascii .hero-copy::before{content:none!important}
+.hero.hero--ascii .scroll-cue {
+  position:absolute!important;z-index:2!important;right:30px;bottom:26px;left:auto;
+  color:#79878b;background:rgba(255,255,255,.72);pointer-events:none;
+}
+.hero.hero--ascii .sharks-pause {
+  position:absolute;z-index:4;right:24px;bottom:64px;padding:11px 14px;
+  border:1px solid rgba(70,96,103,.23);border-radius:9px;background:rgba(255,255,255,.86);
+  color:#526269;font:500 12px/1.25 ui-monospace,Consolas,monospace;cursor:pointer;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+}
+.hero.hero--ascii .sharks-pause:hover{background:#fff;border-color:#92a5a9}
+.hero.hero--ascii .sharks-pause:focus-visible{outline:2px solid #7897a8;outline-offset:3px}
+/* Video originale in blocco autonomo, senza cambiare il consenso privacy. */
+.hero.hero--kingfisher {
+  display:flex!important;justify-content:center!important;align-items:center!important;
+  flex-direction:row!important;grid-template-columns:none!important;
+  height:auto!important;min-height:0!important;
+  padding:clamp(32px,5vw,65px) 24px clamp(65px,8vw,110px)!important;
+  overflow:visible!important;background:#fff!important;border-top:1px solid #eceeed;
+}
+.hero.hero--kingfisher::before,.hero.hero--kingfisher::after{content:none!important}
+.hero.hero--kingfisher > .hero-media {
+  position:relative!important;display:block!important;flex:0 1 1080px!important;
+  width:min(100%,1080px)!important;height:auto!important;max-height:none!important;min-height:0!important;
+  aspect-ratio:16/10!important;margin:0!important;border:1px solid #e4e7e7!important;
+  border-radius:18px!important;overflow:hidden!important;box-shadow:0 16px 48px rgba(17,28,36,.065)!important;
+}
+.hero.hero--kingfisher .hero-media .hero-video {
+  width:100%;height:100%;object-fit:contain!important;object-position:center!important;
+}
+@media(max-width:900px){
+  .hero.hero--ascii {
+    flex-direction:row!important;height:clamp(590px,90svh,780px)!important;
+    min-height:590px!important;padding-top:68px!important;
+  }
+  .hero.hero--ascii .hero-copy {
+    order:0!important;width:min(590px,88%)!important;
+    padding:35px 28px!important;margin-left:10px!important;
+  }
+  .hero.hero--ascii::after {
+    background:linear-gradient(90deg,rgba(255,255,255,.95),rgba(255,255,255,.85) 35%,rgba(255,255,255,.30) 72%,transparent);
+  }
+  .hero.hero--kingfisher{flex-direction:row!important}
+}
+@media(max-width:620px){
+  .hero.hero--ascii {
+    height:min(790px,96svh)!important;min-height:600px!important;padding-top:62px!important;
+  }
+  .hero.hero--ascii .hero-copy {
+    width:calc(100% - 24px)!important;margin:0 12px!important;padding:25px 12px!important;
+  }
+  .hero.hero--ascii::after {
+    background:linear-gradient(180deg,rgba(255,255,255,.25),rgba(255,255,255,.88) 28%,rgba(255,255,255,.91) 62%,rgba(255,255,255,.14));
+  }
+  .hero.hero--ascii .sharks-pause{right:14px;bottom:23px;padding:10px 12px;font-size:11px}
+  .hero.hero--ascii .scroll-cue{display:none!important}
+  .hero.hero--kingfisher{padding:26px 14px 65px!important}
+  .hero.hero--kingfisher > .hero-media{border-radius:12px!important}
+}
+@media(prefers-reduced-motion:reduce){.hero.hero--ascii .sharks-pause{transition:none!important}}
