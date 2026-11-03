@@ -4,11 +4,9 @@ Sito personale con informazioni sulle ripetizioni a Schio e online, una selezion
 
 **Apri il progetto:** https://riccardobuzzolan.github.io/
 
-## Anteprima grafica
+## Screenshot del sito
 
-![Immagine di anteprima del progetto](./social-preview.png)
-
-*Questa è l'immagine di condivisione del sito, non uno screenshot della pagina.*
+![Schermata desktop reale del sito pubblicato](docs/images/screenshot-desktop.png)
 
 ## Come funziona
 
