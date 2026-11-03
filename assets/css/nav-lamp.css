@@ -83,3 +83,92 @@
   .lamp-nav > a { transition: none !important; }
   .lamp-nav .lamp-beam { display: none; }
 }
+
+
+/* Desk lamp navigation, based on the reference: visible feature below hero. */
+.lamp-showcase {
+  position: relative;
+  max-width: 1160px;
+  min-height: 345px;
+  margin: clamp(28px, 4vw, 58px) auto;
+  border: 1px solid #e7e2eb;
+  border-radius: 22px;
+  overflow: hidden;
+  background: linear-gradient(110deg, #fdfcff 0%, #faf8fd 65%, #f4f0fa 100%);
+  isolation: isolate;
+}
+.lamp-showcase-label {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  padding: 25px 36px 0;
+  color: #706778;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+.lamp-showcase-links {
+  position: relative;
+  z-index: 2;
+  width: min(43%, 410px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 20px 36px 30px;
+}
+.lamp-showcase-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 49px;
+  padding: 5px 17px;
+  border-radius: 13px;
+  color: #89818d;
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -.04em;
+  text-decoration: none;
+  transition: background .3s ease, color .3s ease, transform .3s ease, box-shadow .3s ease;
+}
+.lamp-showcase-links a:hover,
+.lamp-showcase-links a:focus-visible,
+.lamp-showcase-links a.is-lit {
+  background: #fff;
+  color: #241a2d;
+  transform: translateX(5px);
+  box-shadow: 0 4px 22px rgba(93,56,118,.10);
+}
+.lamp-showcase-illustration {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 1;
+}
+.lamp-showcase-ray {
+  opacity: .9;
+  transition: d .55s cubic-bezier(.2,.7,.2,1);
+}
+.lamp-showcase svg .lamp-metal {
+  stroke: #47404d;
+  stroke-width: 17;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+@media (max-width: 1200px) {
+  .lamp-showcase { margin-inline: 20px; }
+}
+@media (max-width: 620px) {
+  .lamp-showcase { min-height: 315px; margin: 24px 14px 38px; border-radius: 18px; }
+  .lamp-showcase-label { padding: 22px 20px 0; }
+  .lamp-showcase-links { width: 65%; padding: 22px 15px 22px 14px; gap: 2px; }
+  .lamp-showcase-links a { font-size: 18px; min-height: 44px; padding-inline: 11px; }
+  .lamp-showcase-illustration { opacity: .65; transform: translateX(12%); transform-origin: right center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lamp-showcase-links a, .lamp-showcase-ray { transition: none !important; }
+}
