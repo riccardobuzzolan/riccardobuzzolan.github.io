@@ -1,25 +1,23 @@
-# Sito personale | Riccardo Buzzolan
+# Sito personale
 
-Sito personale con informazioni sulle ripetizioni a Schio e online, progetti e contatti.
+Sito personale con informazioni sulle ripetizioni a Schio e online, una selezione di progetti e i contatti. Le animazioni sono un dettaglio visivo: i contenuti restano accessibili anche senza gli effetti.
 
-**Sito online:** https://riccardobuzzolan.github.io/
+**Apri il progetto:** https://riccardobuzzolan.github.io/
 
-## Il progetto
+## Anteprima grafica
 
-Il sito è realizzato con HTML, CSS e JavaScript, senza framework frontend. Include una navigazione responsive, animazioni adattate alle preferenze di accessibilità e un collegamento a Memory Atlas.
+![Immagine di anteprima del progetto](./social-preview.png)
 
-## Struttura
+*Questa è l'immagine di condivisione del sito, non uno screenshot della pagina.*
 
-- `index.html`: contenuti e struttura.
-- `assets/css/style.css`: stile e layout responsive.
-- `assets/js/main.js`: interazioni e animazioni.
-- `assets/images/`: immagini.
+## Come funziona
 
-## Controlli
+![Schema del flusso principale](docs/images/flusso.svg)
 
-```bash
-npm ci
-npm run check
-```
+Ho tenuto il sito statico per semplificare aggiornamenti e pubblicazione. Il collegamento a Memory Atlas è disponibile anche come pagina separata.
 
-Per dettagli su pubblicazione, accessibilità, manutenzione e ripristino consulta [la documentazione tecnica](docs/TECHNICAL.md).
+## Tecnologie e struttura
+
+Per eseguire i controlli: `npm ci` e `npm run check`.
+
+Le informazioni su distribuzione, accessibilità, gestione dati e ripristino sono conservate nella [documentazione tecnica](docs/TECHNICAL.md).
