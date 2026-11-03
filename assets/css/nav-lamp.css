@@ -1,0 +1,85 @@
+/* Lampada di navigazione: decorativa, nessuna dipendenza esterna. */
+@media (min-width: 901px) {
+  .nav-links.lamp-nav {
+    position: relative;
+    isolation: isolate;
+    overflow: visible;
+  }
+  .lamp-nav .nav-lamp {
+    position: absolute;
+    top: -13px;
+    left: 0;
+    width: 34px;
+    height: 24px;
+    transform: translate3d(var(--lamp-x, 0px), 0, 0);
+    transition: transform 560ms cubic-bezier(.22,1,.36,1), opacity 200ms ease;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+  }
+  .lamp-nav.lamp-ready .nav-lamp { opacity: 1; }
+  .nav-lamp .lamp-cord {
+    position: absolute;
+    left: 16px;
+    top: -9px;
+    width: 1px;
+    height: 10px;
+    background: #918a96;
+  }
+  .nav-lamp .lamp-shade {
+    position: absolute;
+    width: 25px;
+    height: 10px;
+    left: 4px;
+    top: 0;
+    background: linear-gradient(150deg, #55505c, #24232a);
+    border-radius: 12px 12px 3px 3px;
+    box-shadow: 0 2px 4px rgba(24,20,31,.15);
+  }
+  .nav-lamp .lamp-shade::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    bottom: -2px;
+    height: 3px;
+    width: 19px;
+    border-radius: 50%;
+    background: #e7daef;
+  }
+  .nav-lamp .lamp-beam {
+    position: absolute;
+    left: -27px;
+    top: 9px;
+    width: 88px;
+    height: 57px;
+    background: linear-gradient(180deg, rgba(218,192,234,.35), rgba(227,208,242,.10) 62%, transparent);
+    clip-path: polygon(44% 0,56% 0,100% 100%,0 100%);
+    filter: blur(4px);
+    opacity: .9;
+  }
+  .lamp-nav > a {
+    position: relative;
+    z-index: 1;
+    transition: color 220ms ease, text-shadow 220ms ease;
+  }
+  .lamp-nav > a.lamp-active:not(.nav-contact) {
+    color: #211b28;
+    text-shadow: 0 0 12px rgba(172,124,204,.28);
+  }
+  .lamp-nav > a.nav-contact.lamp-active {
+    box-shadow: 0 0 0 3px rgba(198,175,216,.22);
+  }
+}
+@media (max-width: 900px) {
+  .nav-lamp { display: none !important; }
+  .nav-links > a.lamp-active:not(.nav-contact) {
+    text-decoration: underline;
+    text-decoration-color: #bea5d2;
+    text-underline-offset: 5px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lamp-nav .nav-lamp,
+  .lamp-nav > a { transition: none !important; }
+  .lamp-nav .lamp-beam { display: none; }
+}
