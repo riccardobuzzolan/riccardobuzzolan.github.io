@@ -1,16 +1,21 @@
-/* Animated enlarged cyan hammerhead favicon: circular swim and moving tail. */
+/* Animated favicon: real hammerhead swimming frames, never rotating the icon. */
 (() => {
   "use strict";
+
   const icon = document.querySelector('link[rel="icon"][data-favicon-motion]');
-  if (!icon || !window.matchMedia || !window.fetch || !window.DOMParser) return;
+  if (!icon || !window.matchMedia) return;
+
   const original = icon.getAttribute("href");
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const blocked = () => document.hidden || reduced.matches || navigator.connection?.saveData === true;
-  const frameCount = 54;
-  const frameDelay = 105;
+  const blocked = () =>
+    document.hidden || reduced.matches || navigator.connection?.saveData === true;
+  const source = "/shark-swim-atlas.png?v=hammerhead-swim-20261110-v7";
+  const count = 8;
+  const tile = 48;
+  const delay = 120;
   let frames = [];
-  let timer = null;
   let index = 0;
+  let timer = null;
   let preparing = false;
   let disposed = false;
 
@@ -18,80 +23,80 @@
     if (timer !== null) window.clearTimeout(timer);
     timer = null;
     index = 0;
-    if (icon.getAttribute("href") !== original) icon.setAttribute("href", original);
+    icon.setAttribute("href", original);
   }
 
   function tick() {
-    if (disposed || blocked()) { stop(); return; }
+    if (disposed || blocked()) {
+      stop();
+      return;
+    }
     icon.setAttribute("href", frames[index]);
-    index = (index + 1) % frames.length;
-    timer = window.setTimeout(tick, frameDelay);
+    index = (index + 1) % count;
+    timer = window.setTimeout(tick, delay);
   }
 
   function play() {
-    if (disposed || blocked() || frames.length !== frameCount) return;
+    if (disposed || blocked() || frames.length !== count) return;
     stop();
     tick();
   }
 
-  async function createFrames() {
-    if (preparing || disposed || blocked()) return;
+  async function prepare() {
+    if (disposed || blocked() || preparing || frames.length === count) return;
     preparing = true;
     try {
-      const response = await fetch(original, { cache: "force-cache" });
-      if (!response.ok) throw new Error("Favicon unavailable");
-      const source = new DOMParser().parseFromString(await response.text(), "image/svg+xml");
-      if (source.querySelector("parsererror")) throw new Error("Invalid favicon SVG");
+      const sprite = new Image();
+      sprite.decoding = "async";
+      sprite.src = source;
+      await sprite.decode();
+      if (sprite.naturalWidth !== tile * 4 || sprite.naturalHeight !== tile * 2) {
+        throw new Error("Unexpected favicon animation dimensions");
+      }
       const canvas = document.createElement("canvas");
       canvas.width = 96;
       canvas.height = 96;
-      const ctx = canvas.getContext("2d", { alpha: true });
-      if (!ctx || !canvas.toDataURL) throw new Error("Canvas unavailable");
+      const ctx = canvas.getContext("2d", { alpha: false });
+      if (!ctx) throw new Error("Canvas unavailable");
       const next = [];
-      for (let i = 0; i < frameCount; i += 1) {
-        if (disposed || blocked()) return;
-        const t = (i / frameCount) * Math.PI * 2;
-        const svg = source.documentElement.cloneNode(true);
-        const shark = svg.querySelector("#shark");
-        const tail = svg.querySelector("#tail");
-        if (!shark || !tail) throw new Error("Missing hammerhead shape");
-        const dx = (3.2 * Math.sin(t)).toFixed(3);
-        const dy = (-3.2 * Math.cos(t)).toFixed(3);
-        const heading = (90 + (t * 180) / Math.PI).toFixed(3);
-        shark.setAttribute("transform",
-          "translate(" + dx + " " + dy + ") rotate(" + heading +
-          " 32 32) translate(32 32) scale(.92) translate(-32 -32)");
-        tail.setAttribute("transform",
-          "rotate(" + (13 * Math.sin(t * 6)).toFixed(2) + " 32 48)");
-        const serialized = new XMLSerializer().serializeToString(svg);
-        const frame = await new Promise((resolve, reject) => {
-          const image = new Image();
-          image.onload = () => {
-            ctx.clearRect(0, 0, 96, 96);
-            ctx.drawImage(image, 0, 0, 96, 96);
-            resolve(canvas.toDataURL("image/png"));
-          };
-          image.onerror = () => reject(new Error("Cannot render favicon frame"));
-          image.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(serialized);
-        });
-        next.push(frame);
+      for (let i = 0; i < count; i += 1) {
+        ctx.clearRect(0, 0, 96, 96);
+        ctx.drawImage(
+          sprite,
+          (i % 4) * tile,
+          Math.floor(i / 4) * tile,
+          tile,
+          tile,
+          0,
+          0,
+          96,
+          96,
+        );
+        next.push(canvas.toDataURL("image/png"));
       }
+      if (disposed) return;
       frames = next;
       play();
-    } catch { stop(); }
-    finally { preparing = false; }
+    } catch {
+      stop(); // Keep the static image if this browser cannot animate favicons.
+    } finally {
+      preparing = false;
+    }
   }
 
   function sync() {
     if (blocked()) stop();
-    else if (frames.length === frameCount) play();
-    else createFrames();
+    else if (frames.length === count) play();
+    else prepare();
   }
 
   document.addEventListener("visibilitychange", sync);
   reduced.addEventListener?.("change", sync);
-  window.addEventListener("pagehide", () => { disposed = true; stop(); });
-  if (document.readyState === "loading")
-    document.addEventListener("DOMContentLoaded", createFrames, { once: true });
-  else createFrames();
+  window.addEventListener("pageshow", sync);
+  window.addEventListener("pagehide", stop);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", prepare, { once: true });
+  } else {
+    prepare();
+  }
 })();
