@@ -1,4 +1,4 @@
-/* Animated hammerhead favicon: swimming in a circle, with a moving tail. */
+/* Animated enlarged cyan hammerhead favicon: circular swim and moving tail. */
 (() => {
   "use strict";
   const icon = document.querySelector('link[rel="icon"][data-favicon-motion]');
@@ -55,14 +55,14 @@
         const shark = svg.querySelector("#shark");
         const tail = svg.querySelector("#tail");
         if (!shark || !tail) throw new Error("Missing hammerhead shape");
-        const dx = (6 * Math.sin(t)).toFixed(3);
-        const dy = (-6 * Math.cos(t)).toFixed(3);
+        const dx = (3.2 * Math.sin(t)).toFixed(3);
+        const dy = (-3.2 * Math.cos(t)).toFixed(3);
         const heading = (90 + (t * 180) / Math.PI).toFixed(3);
         shark.setAttribute("transform",
           "translate(" + dx + " " + dy + ") rotate(" + heading +
-          " 32 32) translate(32 32) scale(.78) translate(-32 -32)");
+          " 32 32) translate(32 32) scale(.92) translate(-32 -32)");
         tail.setAttribute("transform",
-          "rotate(" + (11 * Math.sin(t * 6)).toFixed(2) + " 32 48)");
+          "rotate(" + (13 * Math.sin(t * 6)).toFixed(2) + " 32 48)");
         const serialized = new XMLSerializer().serializeToString(svg);
         const frame = await new Promise((resolve, reject) => {
           const image = new Image();
