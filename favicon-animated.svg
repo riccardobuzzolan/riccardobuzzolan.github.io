@@ -1,5 +1,44 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Firma personale animata che si compone"><title>Segno — Riccardo Buzzolan</title><style>
-#loop{stroke-dasharray:100;stroke-dashoffset:100;animation:loopdraw 3.8s cubic-bezier(.38,.02,.24,1) infinite}#leg{transform-origin:39px 40px;animation:fold 3.8s cubic-bezier(.22,.8,.24,1) infinite}#seal{transform-origin:50px 12px;animation:seal 3.8s cubic-bezier(.22,.8,.24,1) infinite}
-@keyframes loopdraw{0%,12%,100%{stroke-dashoffset:100}51%,86%{stroke-dashoffset:0}}@keyframes fold{0%,20%,100%{transform:rotate(-47deg) scale(.65);opacity:0}53%,86%{transform:rotate(0deg) scale(1);opacity:1}}@keyframes seal{0%,34%,100%{transform:scale(.12);opacity:0}58%,86%{transform:scale(1);opacity:1}}
-@media(prefers-reduced-motion:reduce){#loop,#leg,#seal{animation:none}#loop{stroke-dashoffset:0}#leg,#seal{opacity:1;transform:scale(1)}}</style>
-<path id="stem" d="M14 52V12" fill="none" stroke="#173CB8" stroke-width="8.5" stroke-linecap="round"/><path id="loop" d="M14 12H32C45 12 51 19 51 29S44 45 31 45H14" pathLength="100" fill="none" stroke="#173CB8" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/><g id="leg"><path d="M31 40 51 54" fill="none" stroke="#FF5C4E" stroke-width="9" stroke-linecap="round"/></g><g id="seal"><circle cx="50" cy="12" r="3.4" fill="#00CBB1"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="shark-title">
+  <title id="shark-title">Riccardo Buzzolan — squalo azzurro</title>
+  <defs>
+    <linearGradient id="blue" x1=".14" y1=".05" x2=".86" y2="1" gradientUnits="objectBoundingBox">
+      <stop id="light" offset="0" stop-color="#b0f0ff"/>
+      <stop id="mid" offset=".38" stop-color="#4ccef3"/>
+      <stop id="dark" offset="1" stop-color="#159cdd"/>
+    </linearGradient>
+    <linearGradient id="fin" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#57d6f7"/>
+      <stop offset="1" stop-color="#1687c1"/>
+    </linearGradient>
+    <linearGradient id="belly" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d7f5ff"/>
+    </linearGradient>
+    <radialGradient id="iris"><stop stop-color="#263b50"/><stop offset="1" stop-color="#101d2a"/></radialGradient>
+  </defs>
+  <g id="shark">
+    <path d="M18.5 32C12.2 23.5 8 21 5.9 18.4c.8 5.4 1.8 10.2 3.8 13.6-2.6 4.1-3.5 9.1-3.8 14.3 4-2.4 8.5-5.7 13.4-10.8Z" fill="url(#fin)" stroke="#1c9fda" stroke-width=".7"/>
+    <path d="M25.4 25.6C24.7 18.2 26.1 10.2 29.8 7c5.4 4.3 8.8 10.8 9.5 17.6Z" fill="url(#fin)" stroke="#239dd0" stroke-width=".7"/>
+    <path d="M11.4 36.9C11.5 24.2 21.8 16.5 36.6 17.2c12.4.5 22.5 9.4 23.2 20.4.8 12-10.7 19.8-25.2 19C22.3 56 11.3 48.3 11.4 36.9Z" fill="url(#blue)" stroke="#148dc9" stroke-width=".7"/>
+    <path d="M23 26.8C30.6 19.4 45.4 20.4 52.6 28.5" fill="none" stroke="#dbfaff" stroke-width="2.9" stroke-linecap="round" opacity=".42"/>
+    <path d="M13.9 41.4C17.5 47.5 28.1 53.7 39 53.1c8.7-.4 16.4-5.3 19.9-12.2-6.9.7-12.2 3.4-18.2 4.2-11.5 1.5-18.5-2.2-26.8-3.7Z" fill="url(#belly)" opacity=".97"/>
+    <path d="M25.7 45c-3.9 2.2-9.1 8.3-12 14.2 7.2-.6 15.3-3.3 21.1-8.1Z" fill="url(#blue)" stroke="#219acb" stroke-width=".6"/>
+    <path d="M50.2 45.9c4.8 2.5 7.8 6.7 10.8 11.4-5.1.1-10.2-2.6-13.7-6.2Z" fill="#279fcc"/>
+    <g fill="none" stroke="#1078ae" stroke-width="1.35" stroke-linecap="round" opacity=".75">
+      <path d="M20.8 35.6q-2.7 3.8-.4 7.2"/><path d="M24.1 35.7q-2.4 3.8-.2 7.2"/><path d="M27.4 35.9q-2.3 3.8 0 6.8"/>
+    </g>
+    <g id="eyes">
+      <ellipse id="white-left" cx="37.2" cy="34.8" rx="7.05" ry="7.6" fill="#ffffff" stroke="#a5e1f0" stroke-width=".55"/>
+      <ellipse id="white-right" cx="51.8" cy="33.5" rx="5.45" ry="6.3" fill="#ffffff" stroke="#a5e1f0" stroke-width=".5"/>
+      <circle id="pupil-left" cx="39.25" cy="35.5" r="3.05" fill="url(#iris)"/>
+      <circle id="pupil-right" cx="53.2" cy="34.0" r="2.3" fill="url(#iris)"/>
+      <circle id="spark-left" cx="38.1" cy="34.15" r=".93" fill="white"/>
+      <circle id="spark-right" cx="52.35" cy="32.95" r=".72" fill="white"/>
+    </g>
+    <path d="M32 28.4q4.5-4.5 8.5-1.5" fill="none" stroke="#147db3" stroke-width="1.1" stroke-linecap="round" opacity=".7"/>
+    <path d="M38.4 45.1c5.6 4.5 11.2 4 15.8-1.1-1.7 7.3-10.8 10.7-15.8 1.1Z" fill="#4f223d"/>
+    <path d="M39 45.6q3.1 2 5.4 2.3l-2 2.3-1.6-3.1ZM47.2 47.6l2.6-1.1-.9 3Z" fill="white"/>
+    <path d="M44.2 51.1q3.5-1.7 6.4-1.3-3.1 3-6.4 1.3Z" fill="#fb879b"/>
+    <circle cx="57.4" cy="40.6" r=".78" fill="#147baa" opacity=".5"/>
+  </g>
+</svg>
