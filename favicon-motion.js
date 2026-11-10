@@ -1,4 +1,4 @@
-/* Animated favicon: real hammerhead swimming frames, never rotating the icon. */
+/* Transparent hammerhead favicon: eight swimming poses, no icon rotation. */
 (() => {
   "use strict";
 
@@ -9,56 +9,64 @@
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
   const blocked = () =>
     document.hidden || reduced.matches || navigator.connection?.saveData === true;
-  const source = "/shark-swim-atlas.png?v=hammerhead-swim-20261110-v7";
+  const atlasUrl = "/shark-swim-atlas.png?v=hammerhead-transparent-swim-20261110-v8";
+  const tile = 64;
   const count = 8;
-  const tile = 48;
-  const delay = 120;
+  const delay = 125;
+  const sequence = [0, 1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1];
+
   let frames = [];
   let index = 0;
   let timer = null;
   let preparing = false;
-  let disposed = false;
 
   function stop() {
     if (timer !== null) window.clearTimeout(timer);
     timer = null;
     index = 0;
-    icon.setAttribute("href", original);
+    if (icon.getAttribute("href") !== original) {
+      icon.setAttribute("href", original);
+    }
   }
 
   function tick() {
-    if (disposed || blocked()) {
+    if (blocked()) {
       stop();
       return;
     }
-    icon.setAttribute("href", frames[index]);
-    index = (index + 1) % count;
+    icon.setAttribute("href", frames[sequence[index]]);
+    index = (index + 1) % sequence.length;
     timer = window.setTimeout(tick, delay);
   }
 
   function play() {
-    if (disposed || blocked() || frames.length !== count) return;
+    if (blocked() || frames.length !== count) return;
     stop();
     tick();
   }
 
   async function prepare() {
-    if (disposed || blocked() || preparing || frames.length === count) return;
+    if (blocked() || preparing || frames.length === count) return;
     preparing = true;
     try {
       const sprite = new Image();
       sprite.decoding = "async";
-      sprite.src = source;
-      await sprite.decode();
+      sprite.src = atlasUrl;
+      if (sprite.decode) await sprite.decode();
+      else await new Promise((resolve, reject) => {
+        sprite.onload = resolve;
+        sprite.onerror = reject;
+      });
       if (sprite.naturalWidth !== tile * 4 || sprite.naturalHeight !== tile * 2) {
-        throw new Error("Unexpected favicon animation dimensions");
+        throw new Error("Unexpected shark sprite dimensions");
       }
+
       const canvas = document.createElement("canvas");
-      canvas.width = 96;
-      canvas.height = 96;
-      const ctx = canvas.getContext("2d", { alpha: false });
-      if (!ctx) throw new Error("Canvas unavailable");
-      const next = [];
+      canvas.width = canvas.height = 96;
+      const ctx = canvas.getContext("2d", { alpha: true });
+      if (!ctx) throw new Error("Canvas not available");
+
+      const nextFrames = [];
       for (let i = 0; i < count; i += 1) {
         ctx.clearRect(0, 0, 96, 96);
         ctx.drawImage(
@@ -72,13 +80,13 @@
           96,
           96,
         );
-        next.push(canvas.toDataURL("image/png"));
+        nextFrames.push(canvas.toDataURL("image/png"));
       }
-      if (disposed) return;
-      frames = next;
-      play();
+
+      frames = nextFrames;
+      if (!blocked()) play();
     } catch {
-      stop(); // Keep the static image if this browser cannot animate favicons.
+      stop(); // Keep the transparent static PNG when animation is unsupported.
     } finally {
       preparing = false;
     }
