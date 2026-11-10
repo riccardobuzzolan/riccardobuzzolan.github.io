@@ -1,44 +1,41 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="shark-title">
-  <title id="shark-title">Riccardo Buzzolan — squalo azzurro</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Squalo martello in movimento — Riccardo Buzzolan</title>
   <defs>
-    <linearGradient id="blue" x1=".14" y1=".05" x2=".86" y2="1" gradientUnits="objectBoundingBox">
-      <stop id="light" offset="0" stop-color="#b0f0ff"/>
-      <stop id="mid" offset=".38" stop-color="#4ccef3"/>
-      <stop id="dark" offset="1" stop-color="#159cdd"/>
+    <linearGradient id="body-shade" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#adcfd8"/>
+      <stop offset=".37" stop-color="#829ca8"/>
+      <stop offset="1" stop-color="#4b6574"/>
     </linearGradient>
-    <linearGradient id="fin" x1="0" y1="0" x2="1" y2="1">
-      <stop stop-color="#57d6f7"/>
-      <stop offset="1" stop-color="#1687c1"/>
+    <linearGradient id="fin-shade" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#89b4c0"/>
+      <stop offset="1" stop-color="#536e7c"/>
     </linearGradient>
-    <linearGradient id="belly" x1="0" y1="0" x2="0" y2="1">
-      <stop stop-color="#ffffff"/>
-      <stop offset="1" stop-color="#d7f5ff"/>
-    </linearGradient>
-    <radialGradient id="iris"><stop stop-color="#263b50"/><stop offset="1" stop-color="#101d2a"/></radialGradient>
   </defs>
   <g id="shark">
-    <path d="M18.5 32C12.2 23.5 8 21 5.9 18.4c.8 5.4 1.8 10.2 3.8 13.6-2.6 4.1-3.5 9.1-3.8 14.3 4-2.4 8.5-5.7 13.4-10.8Z" fill="url(#fin)" stroke="#1c9fda" stroke-width=".7"/>
-    <path d="M25.4 25.6C24.7 18.2 26.1 10.2 29.8 7c5.4 4.3 8.8 10.8 9.5 17.6Z" fill="url(#fin)" stroke="#239dd0" stroke-width=".7"/>
-    <path d="M11.4 36.9C11.5 24.2 21.8 16.5 36.6 17.2c12.4.5 22.5 9.4 23.2 20.4.8 12-10.7 19.8-25.2 19C22.3 56 11.3 48.3 11.4 36.9Z" fill="url(#blue)" stroke="#148dc9" stroke-width=".7"/>
-    <path d="M23 26.8C30.6 19.4 45.4 20.4 52.6 28.5" fill="none" stroke="#dbfaff" stroke-width="2.9" stroke-linecap="round" opacity=".42"/>
-    <path d="M13.9 41.4C17.5 47.5 28.1 53.7 39 53.1c8.7-.4 16.4-5.3 19.9-12.2-6.9.7-12.2 3.4-18.2 4.2-11.5 1.5-18.5-2.2-26.8-3.7Z" fill="url(#belly)" opacity=".97"/>
-    <path d="M25.7 45c-3.9 2.2-9.1 8.3-12 14.2 7.2-.6 15.3-3.3 21.1-8.1Z" fill="url(#blue)" stroke="#219acb" stroke-width=".6"/>
-    <path d="M50.2 45.9c4.8 2.5 7.8 6.7 10.8 11.4-5.1.1-10.2-2.6-13.7-6.2Z" fill="#279fcc"/>
-    <g fill="none" stroke="#1078ae" stroke-width="1.35" stroke-linecap="round" opacity=".75">
-      <path d="M20.8 35.6q-2.7 3.8-.4 7.2"/><path d="M24.1 35.7q-2.4 3.8-.2 7.2"/><path d="M27.4 35.9q-2.3 3.8 0 6.8"/>
+    <g id="tail">
+      <path d="M29.5 44.5 29.3 51 18.5 59.5 24.6 58.5 31.6 55.1 39.5 61 44.5 60 35.2 51 34.6 44.5Z" fill="url(#fin-shade)" stroke="#4a6673" stroke-width=".85" stroke-linejoin="round"/>
+      <path d="M31.5 50.7 31.8 55 40 60" fill="none" stroke="#b2d5de" stroke-width=".9" stroke-linecap="round" opacity=".62"/>
     </g>
-    <g id="eyes">
-      <ellipse id="white-left" cx="37.2" cy="34.8" rx="7.05" ry="7.6" fill="#ffffff" stroke="#a5e1f0" stroke-width=".55"/>
-      <ellipse id="white-right" cx="51.8" cy="33.5" rx="5.45" ry="6.3" fill="#ffffff" stroke="#a5e1f0" stroke-width=".5"/>
-      <circle id="pupil-left" cx="39.25" cy="35.5" r="3.05" fill="url(#iris)"/>
-      <circle id="pupil-right" cx="53.2" cy="34.0" r="2.3" fill="url(#iris)"/>
-      <circle id="spark-left" cx="38.1" cy="34.15" r=".93" fill="white"/>
-      <circle id="spark-right" cx="52.35" cy="32.95" r=".72" fill="white"/>
+    <path d="M27.9 19.5 C24.9 25.7 22.2 28.6 22.4 33.4 L8.2 42.2 15.7 40.1 24 36.5 C26 40.5 28.2 47.2 31.5 51.5 L32 51.6 C35.5 46.6 37.5 40.4 40.2 36.4 L48.6 40 55.8 42.4 41.7 33.4 C41.7 28.1 39.2 25.1 36.6 19.5Z" fill="url(#body-shade)" stroke="#415c69" stroke-width=".9" stroke-linejoin="round"/>
+    <path d="M30.4 22.5 C29.3 31.4 28.9 40.3 31.8 47.9" fill="none" stroke="#dfedf0" stroke-width="1.4" stroke-linecap="round" opacity=".52"/>
+    <path d="M23.6 33.9 10 41.2 23.4 36.3" fill="#a3c5cf" opacity=".55"/>
+    <path d="M40.8 33.9 53.7 41.2 40.9 36.3" fill="#d6e6e9" opacity=".34"/>
+    <path d="M27 19.9 C25.1 19.5 22.3 19.4 20.1 20.1 C15.6 21.3 13 19.4 12.9 16.3 C12.7 13.2 15 10.9 18 11.5 C20.5 12 21.8 13.7 24.6 14.6 C27.4 15.3 36.4 15.3 39.5 14.6 C42.1 13.8 43.7 12 46.2 11.5 C49.7 10.8 51.6 13.7 51.1 16.6 C50.8 20 47.9 21.4 43.8 20.1 C41.2 19.4 38.9 19.5 36.8 20.1 C34.1 20.7 29.8 20.7 27 19.9Z" fill="url(#body-shade)" stroke="#3d5764" stroke-width="1.05" stroke-linejoin="round"/>
+    <path d="M15.6 14.7 C18.6 17.2 20.8 17.5 24.5 17.7 C29.9 19.1 35.7 19 41 17.8 C45.1 17.6 47.8 17.5 49.1 14.7" fill="none" stroke="#d5e8ec" stroke-width="1.05" stroke-linecap="round" opacity=".67"/>
+    <ellipse cx="16.7" cy="17.1" rx="1.25" ry="1.6" fill="#233e49" opacity=".94"/>
+    <ellipse cx="47.3" cy="17.1" rx="1.25" ry="1.6" fill="#233e49" opacity=".94"/>
+    <g fill="#edf6f6" opacity=".68">
+      <rect x="27.4" y="26" width="2" height="1.5" rx=".1"/>
+      <rect x="33" y="30" width="1.5" height="1.5" rx=".1"/>
+      <rect x="27.6" y="35" width="2.2" height="1.6" rx=".1"/>
+      <rect x="34.4" y="38.4" width="1.3" height="1.3" rx=".1"/>
+      <rect x="29.1" y="42" width="1.5" height="1.2" rx=".1"/>
     </g>
-    <path d="M32 28.4q4.5-4.5 8.5-1.5" fill="none" stroke="#147db3" stroke-width="1.1" stroke-linecap="round" opacity=".7"/>
-    <path d="M38.4 45.1c5.6 4.5 11.2 4 15.8-1.1-1.7 7.3-10.8 10.7-15.8 1.1Z" fill="#4f223d"/>
-    <path d="M39 45.6q3.1 2 5.4 2.3l-2 2.3-1.6-3.1ZM47.2 47.6l2.6-1.1-.9 3Z" fill="white"/>
-    <path d="M44.2 51.1q3.5-1.7 6.4-1.3-3.1 3-6.4 1.3Z" fill="#fb879b"/>
-    <circle cx="57.4" cy="40.6" r=".78" fill="#147baa" opacity=".5"/>
+    <g fill="#314e5b" opacity=".54">
+      <rect x="34.7" y="26.2" width="1.65" height="1.5" rx=".1"/>
+      <rect x="26.3" y="31.2" width="1.5" height="1.6" rx=".1"/>
+      <rect x="35.3" y="34.2" width="1.45" height="1.4" rx=".1"/>
+      <rect x="30.9" y="39" width="1.65" height="1.4" rx=".1"/>
+    </g>
   </g>
 </svg>
