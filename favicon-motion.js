@@ -1,109 +1,97 @@
-/* Animated hammerhead shark favicon. Static PNG is always the fallback. */
+/* Animated hammerhead favicon: swimming in a circle, with a moving tail. */
 (() => {
-  'use strict';
-
+  "use strict";
   const icon = document.querySelector('link[rel="icon"][data-favicon-motion]');
-  if (!icon || !window.matchMedia) return;
-
-  const original = icon.getAttribute('href');
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const blocked = () =>
-    document.hidden || reduced.matches || navigator.connection?.saveData === true;
-
-  const frameCount = 36;
-  const frameDelay = 90;
+  if (!icon || !window.matchMedia || !window.fetch || !window.DOMParser) return;
+  const original = icon.getAttribute("href");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const blocked = () => document.hidden || reduced.matches || navigator.connection?.saveData === true;
+  const frameCount = 54;
+  const frameDelay = 105;
   let frames = [];
-  let position = 0;
   let timer = null;
+  let index = 0;
   let preparing = false;
-  let ready = false;
   let disposed = false;
 
   function stop() {
     if (timer !== null) window.clearTimeout(timer);
     timer = null;
-    position = 0;
-    icon.setAttribute('href', original);
+    index = 0;
+    if (icon.getAttribute("href") !== original) icon.setAttribute("href", original);
   }
 
   function tick() {
-    if (disposed || blocked()) {
-      stop();
-      return;
-    }
-    if (position >= frames.length) {
-      icon.setAttribute('href', original);
-      position = 0;
-      timer = window.setTimeout(tick, 2200);
-      return;
-    }
-    icon.setAttribute('href', frames[position]);
-    position += 1;
+    if (disposed || blocked()) { stop(); return; }
+    icon.setAttribute("href", frames[index]);
+    index = (index + 1) % frames.length;
     timer = window.setTimeout(tick, frameDelay);
   }
 
   function play() {
-    if (disposed || blocked() || !ready) return;
+    if (disposed || blocked() || frames.length !== frameCount) return;
     stop();
-    timer = window.setTimeout(tick, 130);
+    tick();
   }
 
-  async function prepare() {
-    if (disposed || blocked() || preparing || ready) return;
+  async function createFrames() {
+    if (preparing || disposed || blocked()) return;
     preparing = true;
     try {
-      const image = new Image();
-      image.decoding = 'async';
-      image.src = original;
-      await image.decode();
-      if (disposed) return;
-
-      const canvas = document.createElement('canvas');
+      const response = await fetch(original, { cache: "force-cache" });
+      if (!response.ok) throw new Error("Favicon unavailable");
+      const source = new DOMParser().parseFromString(await response.text(), "image/svg+xml");
+      if (source.querySelector("parsererror")) throw new Error("Invalid favicon SVG");
+      const canvas = document.createElement("canvas");
       canvas.width = 96;
       canvas.height = 96;
-      const context = canvas.getContext('2d', { alpha: true });
-      if (!context) throw new Error('Canvas unavailable');
-
-      const nextFrames = [];
+      const ctx = canvas.getContext("2d", { alpha: true });
+      if (!ctx || !canvas.toDataURL) throw new Error("Canvas unavailable");
+      const next = [];
       for (let i = 0; i < frameCount; i += 1) {
-        const t = (2 * Math.PI * i) / frameCount;
-        const wave = Math.sin(t);
-        context.clearRect(0, 0, 96, 96);
-        context.save();
-        context.translate(48 + wave * 1.7, 48 + Math.cos(t) * 0.8);
-        context.rotate((Math.PI / 180) * (Math.sin(t - 0.5) * 4));
-        const size = 1.015 + 0.015 * Math.cos(t);
-        context.scale(size, size);
-        context.drawImage(image, -48, -48, 96, 96);
-        context.restore();
-        nextFrames.push(canvas.toDataURL('image/png'));
+        if (disposed || blocked()) return;
+        const t = (i / frameCount) * Math.PI * 2;
+        const svg = source.documentElement.cloneNode(true);
+        const shark = svg.querySelector("#shark");
+        const tail = svg.querySelector("#tail");
+        if (!shark || !tail) throw new Error("Missing hammerhead shape");
+        const dx = (6 * Math.sin(t)).toFixed(3);
+        const dy = (-6 * Math.cos(t)).toFixed(3);
+        const heading = (90 + (t * 180) / Math.PI).toFixed(3);
+        shark.setAttribute("transform",
+          "translate(" + dx + " " + dy + ") rotate(" + heading +
+          " 32 32) translate(32 32) scale(.78) translate(-32 -32)");
+        tail.setAttribute("transform",
+          "rotate(" + (11 * Math.sin(t * 6)).toFixed(2) + " 32 48)");
+        const serialized = new XMLSerializer().serializeToString(svg);
+        const frame = await new Promise((resolve, reject) => {
+          const image = new Image();
+          image.onload = () => {
+            ctx.clearRect(0, 0, 96, 96);
+            ctx.drawImage(image, 0, 0, 96, 96);
+            resolve(canvas.toDataURL("image/png"));
+          };
+          image.onerror = () => reject(new Error("Cannot render favicon frame"));
+          image.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(serialized);
+        });
+        next.push(frame);
       }
-      frames = nextFrames;
-      ready = true;
+      frames = next;
       play();
-    } catch {
-      stop();
-    } finally {
-      preparing = false;
-    }
+    } catch { stop(); }
+    finally { preparing = false; }
   }
 
   function sync() {
     if (blocked()) stop();
-    else if (ready) play();
-    else prepare();
+    else if (frames.length === frameCount) play();
+    else createFrames();
   }
 
-  document.addEventListener('visibilitychange', sync);
-  reduced.addEventListener?.('change', sync);
-  window.addEventListener('pagehide', () => {
-    disposed = true;
-    stop();
-  });
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', prepare, { once: true });
-  } else {
-    prepare();
-  }
+  document.addEventListener("visibilitychange", sync);
+  reduced.addEventListener?.("change", sync);
+  window.addEventListener("pagehide", () => { disposed = true; stop(); });
+  if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", createFrames, { once: true });
+  else createFrames();
 })();
