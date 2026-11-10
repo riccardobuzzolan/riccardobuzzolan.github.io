@@ -85,90 +85,112 @@
 }
 
 
-/* Desk lamp navigation, based on the reference: visible feature below hero. */
+/* Lamp showcase: diffused volumetric light with a warm focus and soft shadow. */
 .lamp-showcase {
   position: relative;
+  isolation: isolate;
   max-width: 1160px;
   min-height: 345px;
   margin: clamp(28px, 4vw, 58px) auto;
-  border: 1px solid #e7e2eb;
-  border-radius: 22px;
   overflow: hidden;
-  background: linear-gradient(110deg, #fdfcff 0%, #faf8fd 65%, #f4f0fa 100%);
-  isolation: isolate;
+  border: 1px solid #e4dce9;
+  border-radius: 22px;
+  background:
+    radial-gradient(ellipse at 79% 13%, rgba(255, 255, 255, .74), transparent 45%),
+    linear-gradient(112deg, #eae1ee 0%, #f0eaf3 51%, #e9e1ed 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .76),
+    0 16px 42px rgba(67, 49, 80, .055);
 }
-.lamp-showcase-label {
-  position: relative;
-  z-index: 2;
-  margin: 0;
-  padding: 25px 36px 0;
-  color: #706778;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: .04em;
+.lamp-showcase::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: auto 0 0;
+  height: 36%;
+  pointer-events: none;
+  background: linear-gradient(0deg, rgba(68, 48, 81, .045), transparent);
 }
 .lamp-showcase-links {
   position: relative;
   z-index: 2;
-  width: min(43%, 410px);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
-  padding: 20px 36px 30px;
+  justify-content: center;
+  gap: 5px;
+  width: min(44%, 430px);
+  min-height: 345px;
+  padding: 25px 36px;
+  box-sizing: border-box;
 }
 .lamp-showcase-links a {
+  position: relative;
   display: inline-flex;
   align-items: center;
   min-height: 49px;
-  padding: 5px 17px;
-  border-radius: 13px;
-  color: #89818d;
+  padding: 6px 16px;
+  border-radius: 12px;
+  color: #75697c;
   font-size: clamp(18px, 2vw, 26px);
   font-weight: 650;
-  line-height: 1.25;
   letter-spacing: -.04em;
+  line-height: 1.25;
   text-decoration: none;
-  transition: background .3s ease, color .3s ease, transform .3s ease, box-shadow .3s ease;
+  transition:
+    color 240ms ease,
+    background 260ms ease,
+    text-shadow 260ms ease,
+    transform 420ms cubic-bezier(.2, .7, .2, 1);
 }
 .lamp-showcase-links a:hover,
-.lamp-showcase-links a:focus-visible,
-.lamp-showcase-links a.is-lit {
-  background: #fff;
-  color: #241a2d;
-  transform: translateX(5px);
-  box-shadow: 0 4px 22px rgba(93,56,118,.10);
+.lamp-showcase-links a.is-lit,
+.lamp-showcase-links a:focus-visible {
+  color: #281c30;
+  background: linear-gradient(90deg, rgba(255, 255, 255, .42), rgba(255, 255, 255, 0));
+  text-shadow: 0 0 18px rgba(255, 252, 229, .9);
+  transform: translateX(6px);
+}
+.lamp-showcase-links a:focus-visible {
+  outline: 2px solid #83679c;
+  outline-offset: 2px;
 }
 .lamp-showcase-illustration {
   position: absolute;
+  z-index: 1;
   inset: 0;
   width: 100%;
   height: 100%;
   overflow: visible;
   pointer-events: none;
-  z-index: 1;
 }
-.lamp-showcase-ray {
-  opacity: .9;
-  transition: d .55s cubic-bezier(.2,.7,.2,1);
-}
-.lamp-showcase svg .lamp-metal {
-  stroke: #47404d;
-  stroke-width: 17;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  fill: none;
+.lamp-showcase-ray,
+.lamp-showcase-illustration [data-lamp-haze],
+.lamp-showcase-illustration [data-lamp-core] {
+  pointer-events: none;
 }
 @media (max-width: 1200px) {
   .lamp-showcase { margin-inline: 20px; }
 }
 @media (max-width: 620px) {
-  .lamp-showcase { min-height: 315px; margin: 24px 14px 38px; border-radius: 18px; }
-  .lamp-showcase-label { padding: 22px 20px 0; }
-  .lamp-showcase-links { width: 65%; padding: 22px 15px 22px 14px; gap: 2px; }
-  .lamp-showcase-links a { font-size: 18px; min-height: 44px; padding-inline: 11px; }
-  .lamp-showcase-illustration { opacity: .65; transform: translateX(12%); transform-origin: right center; }
+  .lamp-showcase {
+    min-height: 315px;
+    margin: 24px 14px 38px;
+    border-radius: 18px;
+  }
+  .lamp-showcase-links {
+    width: 64%;
+    min-height: 315px;
+    gap: 3px;
+    padding: 20px 12px;
+  }
+  .lamp-showcase-links a {
+    min-height: 44px;
+    padding: 5px 9px;
+    font-size: 18px;
+  }
+  .lamp-showcase-illustration { opacity: .77; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .lamp-showcase-links a, .lamp-showcase-ray { transition: none !important; }
+  .lamp-showcase-links a { transition: none !important; }
 }
